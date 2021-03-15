@@ -7,6 +7,10 @@ app.get('/', (request, response)=> {
     return response.json({message : "Entrega certa!"});
 })
 
+app.get('/teste', (request, response)=> {
+    return response.json({message : "Entrega testada!"});
+})
+
 app.listen(port, ()=> {
     console.log('Server is running!!!');
 });
