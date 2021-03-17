@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 require("reflect-metadata");
+require('dotenv/config');
 var database_1 = __importDefault(require("./database"));
 database_1.default();
 var app = express_1.default();
@@ -23,8 +24,11 @@ app.get('/ler', function (request, response) {
         database: process.env.DB_NAME,
         password: process.env.DB_PASSWORD,
         port: Number(process.env.DB_PORT),
+        ssl: {
+            rejectUnauthorized: false,
+        }
     });
-    pool.query('SELECT * FROM atores', function (error, results) {
+    pool.query('SELECT * FROM tbl_autores', function (error, results) {
         if (error) {
             throw error;
         }

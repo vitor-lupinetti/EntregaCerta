@@ -1,6 +1,7 @@
 import express from 'express';
 import "reflect-metadata";
 import { getConnection, QueryBuilder } from "typeorm";
+require('dotenv/config');
 
 import createConnection from "./database";
 import { Ator } from "./models/Ator";
@@ -9,6 +10,7 @@ createConnection();
 
 const app = express();
 const port = process.env.PORT || 3333;
+
 
 app.get('/', (request, response) => {
     return response.json({ message: "Entrega certa!" });
@@ -26,9 +28,12 @@ app.get('/ler', (request, response) => {
         database: process.env.DB_NAME,
         password: process.env.DB_PASSWORD,
         port: Number(process.env.DB_PORT),
+        ssl:{
+            rejectUnauthorized: false,
+        }
     })
 
-    pool.query('SELECT * FROM atores', (error, results) => {
+    pool.query('SELECT * FROM tbl_autores', (error: any, results: { rows: any; }) => {
         if (error) {
             throw error
         }
