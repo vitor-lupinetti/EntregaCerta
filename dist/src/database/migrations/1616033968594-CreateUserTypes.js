@@ -1,15 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -46,35 +35,59 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var path_1 = __importDefault(require("path"));
+exports.CreateUserTypes1616033968594 = void 0;
 var typeorm_1 = require("typeorm");
-exports.default = (function () { return __awaiter(void 0, void 0, void 0, function () {
-    var ormconfig;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                ormconfig = {
-                    type: "sqlite",
-                    database: path_1.default.resolve("database.sqlite"),
-                    entities: [
-                        path_1.default.resolve("..", "models", "*.ts")
-                    ],
-                    migrations: [
-                        path_1.default.resolve("migrations", "*.ts")
-                    ],
-                    cli: {
-                        migrationsDir: path_1.default.resolve("migrations")
-                    }
-                };
-                if (process.env.ENV === "prod") {
-                    ormconfig = __assign(__assign({}, ormconfig), { type: "postgres", database: process.env.DB_NAME, host: process.env.DB_HOST, port: Number(process.env.DB_PORT), username: process.env.DB_USER, password: process.env.DB_PASSWORD });
+var uuid_1 = require("uuid");
+var CreateUserTypes1616033968594 = /** @class */ (function () {
+    function CreateUserTypes1616033968594() {
+        this.tableName = "tbUserTypes";
+    }
+    CreateUserTypes1616033968594.prototype.up = function (queryRunner) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, queryRunner.createTable(new typeorm_1.Table({
+                            name: this.tableName,
+                            columns: [
+                                {
+                                    name: "id",
+                                    type: "varchar",
+                                    isPrimary: true
+                                },
+                                {
+                                    name: "description",
+                                    type: "varchar"
+                                }
+                            ]
+                        }))];
+                    case 1:
+                        _a.sent();
+                        return [4 /*yield*/, queryRunner.query("INSERT INTO \"tbUserTypes\" " +
+                                "VALUES " +
+                                ("    ('" + uuid_1.v4() + "', 'ADM'),") +
+                                ("    ('" + uuid_1.v4() + "', 'Buyer'),") +
+                                ("    ('" + uuid_1.v4() + "', 'E-commerce'),") +
+                                ("    ('" + uuid_1.v4() + "', 'Receiver');"))];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/];
                 }
-                return [4 /*yield*/, typeorm_1.createConnection(ormconfig)];
-            case 1: return [2 /*return*/, _a.sent()];
-        }
-    });
-}); });
+            });
+        });
+    };
+    CreateUserTypes1616033968594.prototype.down = function (queryRunner) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, queryRunner.dropTable(this.tableName)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return CreateUserTypes1616033968594;
+}());
+exports.CreateUserTypes1616033968594 = CreateUserTypes1616033968594;

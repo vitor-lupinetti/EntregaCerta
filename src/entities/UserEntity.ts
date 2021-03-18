@@ -13,7 +13,7 @@ class UserEntity {
 
     @ManyToOne(() => UserTypeEntity)
     @JoinColumn({ name: "idUserType" })
-    userTypeEntity: UserTypeEntity = new UserTypeEntity();
+    userTypeEntity: UserTypeEntity;
 
     @Column()
     password: string = "";

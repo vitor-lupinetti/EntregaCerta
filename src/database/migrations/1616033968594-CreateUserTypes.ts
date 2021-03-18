@@ -22,8 +22,9 @@ export class CreateUserTypes1616033968594 implements MigrationInterface {
             })
         );
 
+
         await queryRunner.query(
-            `INSERT INTO ${this.tableName} (id, description) ` +
+            `INSERT INTO "tbUserTypes" ` +
             `VALUES ` +
             `    ('${uuid()}', 'ADM'),` +
             `    ('${uuid()}', 'Buyer'),` +

@@ -1,4 +1,6 @@
-let ormConfig = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var ormConfig = {
     entities: [
         "./src/entities/*.ts"
     ],
@@ -8,9 +10,7 @@ let ormConfig = {
     cli: {
         "migrationsDir": "./src/database/migrations"
     },
-    
 };
-
 if (process.env.ENV === "prod") {
     ormConfig = Object.assign(ormConfig, {
         type: "postgres",
@@ -22,11 +22,11 @@ if (process.env.ENV === "prod") {
             }
         }
     });
-} else {
+}
+else {
     ormConfig = Object.assign(ormConfig, {
         type: "sqlite",
         database: "./src/database/database.sqlite"
     });
 }
-
-export default ormConfig;
+exports.default = ormConfig;
