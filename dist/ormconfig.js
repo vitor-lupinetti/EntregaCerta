@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var ormConfig = {
     entities: [
         "./src/entities/*.ts"
@@ -29,4 +28,4 @@ else {
         database: "./src/database/database.sqlite"
     });
 }
-exports.default = ormConfig;
+module.exports = ormConfig;

@@ -29,4 +29,4 @@ if (process.env.ENV === "prod") {
     });
 }
 
-export default ormConfig;
+module.exports = ormConfig;

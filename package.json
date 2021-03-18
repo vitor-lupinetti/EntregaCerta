@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "build": "rm -drf ./dist && tsc",
-    "start": "node dist/server.js",
+    "start": "node dist/src/server.js",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
   },
   "dependencies": {
