@@ -6,14 +6,14 @@ import { UserTypeEntity } from "./UserTypeEntity";
 @Entity("tbUsers")
 class UserEntity {
     @PrimaryColumn()
-    readonly id: string = "";
+    readonly id?: string = "";
 
     @Column()
     idUserType: string = "";
 
     @ManyToOne(() => UserTypeEntity)
     @JoinColumn({ name: "idUserType" })
-    userTypeEntity: UserTypeEntity;
+    userTypeEntity?: UserTypeEntity;
 
     @Column()
     password: string = "";
