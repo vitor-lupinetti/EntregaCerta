@@ -1,8 +1,7 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
-import { v4 as uuid } from "uuid";
 
-export class CreateUserTypes1616033968594 implements MigrationInterface {
-    private tableName = "tbUserTypes";
+export class CreateNeighborhoods1616123988493 implements MigrationInterface {
+    private tableName = "tbNeighborhoods";
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
@@ -15,20 +14,11 @@ export class CreateUserTypes1616033968594 implements MigrationInterface {
                         isPrimary: true
                     },
                     {
-                        name: "description",
+                        name: "name",
                         type: "varchar"
                     }
                 ]
             })
-        );
-
-        await queryRunner.query(
-            `INSERT INTO "${this.tableName}" ` +
-            `VALUES ` +
-            `    ('${uuid()}', 'ADM'),` +
-            `    ('${uuid()}', 'Buyer'),` +
-            `    ('${uuid()}', 'E-commerce'),` +
-            `    ('${uuid()}', 'Receiver');`
         );
     }
 

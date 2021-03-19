@@ -5,7 +5,7 @@ import { GenericService } from "./Service";
 
 class UserService extends GenericService<UserEntity>{
     private userRepository: Repository<UserEntity>;
-    constructor(repo: Repository<UserEntity>){
+    constructor(repo: Repository<UserEntity>) {
         super(repo);
         this.userRepository = repo;
     }

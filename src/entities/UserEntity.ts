@@ -1,13 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
-import { v4 as uuid } from "uuid";
+import { Column, Entity as EntityORM, JoinColumn, ManyToOne } from "typeorm";
 
+import { Entity } from "./Entity";
 import { UserTypeEntity } from "./UserTypeEntity";
 
-@Entity("tbUsers")
-class UserEntity {
-    @PrimaryColumn()
-    readonly id?: string = "";
-
+@EntityORM("tbUsers")
+class UserEntity extends Entity {
     @Column()
     idUserType: string = "";
 
@@ -20,12 +17,6 @@ class UserEntity {
 
     @Column()
     user: string = "";
-
-    constructor() {
-        if (!this.id) {
-            this.id = uuid();
-        }
-    }
 }
 
 export { UserEntity };

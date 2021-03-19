@@ -1,8 +1,7 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
-import { v4 as uuid } from "uuid";
 
-export class CreateUsers1616039746168 implements MigrationInterface {
-    private tableName = "tbUsers";
+export class CreateOtherContacts1616124816348 implements MigrationInterface {
+    private tableName = "tbOtherContacts";
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
@@ -15,27 +14,35 @@ export class CreateUsers1616039746168 implements MigrationInterface {
                         isPrimary: true
                     },
                     {
-                        name: "idUserType",
+                        name: "idCustomer",
                         type: "uuid"
                     },
                     {
-                        name: "password",
-                        type: "varchar"
-                    },
-                    {
-                        name: "user",
-                        type: "varchar"
+                        name: "idOtherCustomer",
+                        type: "uuid"
                     }
                 ],
                 foreignKeys: [
                     {
-                        name: "fk_tbUserTypes",
-                        referencedTableName: "tbUserTypes",
+                        name: "fk_tbCustomers_customer",
+                        referencedTableName: "tbCustomers",
                         referencedColumnNames: [
                             "id"
                         ],
                         columnNames: [
-                            "idUserType"
+                            "idCustomer"
+                        ],
+                        onDelete: "CASCADE",
+                        onUpdate: "CASCADE"
+                    },
+                    {
+                        name: "fk_tbCustomers_otherCustomer",
+                        referencedTableName: "tbCustomers",
+                        referencedColumnNames: [
+                            "id"
+                        ],
+                        columnNames: [
+                            "idOtherCustomer"
                         ],
                         onDelete: "CASCADE",
                         onUpdate: "CASCADE"

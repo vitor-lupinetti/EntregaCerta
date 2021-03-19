@@ -1,19 +1,11 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
-import { v4 as uuid } from "uuid";
+import { Column, Entity as EntityORM } from "typeorm";
 
-@Entity("tbUserTypes")
-class UserTypeEntity {
-    @PrimaryColumn()
-    readonly id: string = "";
+import { Entity } from "./Entity";
 
+@EntityORM("tbUserTypes")
+class UserTypeEntity extends Entity {
     @Column()
     description: string = "";
-
-    constructor() {
-        if (!this.id) {
-            this.id = uuid();
-        }
-    }
 }
 
 export { UserTypeEntity };

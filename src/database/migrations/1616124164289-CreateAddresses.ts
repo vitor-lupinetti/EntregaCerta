@@ -1,8 +1,7 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
-import { v4 as uuid } from "uuid";
 
-export class CreateUsers1616039746168 implements MigrationInterface {
-    private tableName = "tbUsers";
+export class CreateAddresses1616124164289 implements MigrationInterface {
+    private tableName = "tbAddresses";
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
@@ -15,27 +14,27 @@ export class CreateUsers1616039746168 implements MigrationInterface {
                         isPrimary: true
                     },
                     {
-                        name: "idUserType",
+                        name: "idNeighborhood",
                         type: "uuid"
                     },
                     {
-                        name: "password",
+                        name: "cep",
                         type: "varchar"
                     },
                     {
-                        name: "user",
+                        name: "street",
                         type: "varchar"
                     }
                 ],
                 foreignKeys: [
                     {
-                        name: "fk_tbUserTypes",
-                        referencedTableName: "tbUserTypes",
+                        name: "fk_tbNeighborhoods",
+                        referencedTableName: "tbNeighborhoods",
                         referencedColumnNames: [
                             "id"
                         ],
                         columnNames: [
-                            "idUserType"
+                            "idNeighborhood"
                         ],
                         onDelete: "CASCADE",
                         onUpdate: "CASCADE"

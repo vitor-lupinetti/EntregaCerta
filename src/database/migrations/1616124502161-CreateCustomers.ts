@@ -1,8 +1,7 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
-import { v4 as uuid } from "uuid";
 
-export class CreateUsers1616039746168 implements MigrationInterface {
-    private tableName = "tbUsers";
+export class CreateCustomers1616124502161 implements MigrationInterface {
+    private tableName = "tbCustomers";
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
@@ -15,27 +14,49 @@ export class CreateUsers1616039746168 implements MigrationInterface {
                         isPrimary: true
                     },
                     {
-                        name: "idUserType",
+                        name: "idAddress",
                         type: "uuid"
                     },
                     {
-                        name: "password",
+                        name: "complement",
+                        type: "varchar",
+                        isNullable: true
+                    },
+                    {
+                        name: "contactNumber",
                         type: "varchar"
                     },
                     {
-                        name: "user",
+                        name: "email",
+                        type: "varchar",
+                        isNullable: true
+                    },
+                    {
+                        name: "hasWhatsApp",
+                        type: "char"
+                    },
+                    {
+                        name: "homeNUmber",
+                        type: "varchar"
+                    },
+                    {
+                        name: "name",
+                        type: "varchar"
+                    },
+                    {
+                        name: "photo",
                         type: "varchar"
                     }
                 ],
                 foreignKeys: [
                     {
-                        name: "fk_tbUserTypes",
-                        referencedTableName: "tbUserTypes",
+                        name: "fk_tbAddresses",
+                        referencedTableName: "tbAddresses",
                         referencedColumnNames: [
                             "id"
                         ],
                         columnNames: [
-                            "idUserType"
+                            "idAddress"
                         ],
                         onDelete: "CASCADE",
                         onUpdate: "CASCADE"
