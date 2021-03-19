@@ -104,3 +104,6 @@ typings/
 .tern-port
 
 src/database/*.sqlite
+
+.bundle
+.DS_Store
