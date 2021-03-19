@@ -27,7 +27,7 @@ class UserController{
         const userRepository = getRepository(UserEntity);
         const userService = new UserService(userRepository);
 
-        let users = await userService.list();
+        let users = await userService.list({relations: ["userTypeEntity"]});
         return response.status(200).json(users);
         
     };

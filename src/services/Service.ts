@@ -1,4 +1,4 @@
-import { Repository } from "typeorm"
+import { FindOneOptions, Repository } from "typeorm"
 
 export class GenericService<T> {
     private repository: Repository<T>;
@@ -7,8 +7,8 @@ export class GenericService<T> {
        this.repository = repo;
     }
 
-    public async list(): Promise<T[]> {
-        return await this.repository.find();
+    public async list(relation?: FindOneOptions<T>): Promise<T[]> {
+        return await this.repository.find(relation);
     }
 
     public async create(entity: T): Promise<T>{

@@ -10,9 +10,6 @@ class UserService extends GenericService<UserEntity>{
         this.userRepository = repo;
     }
 
-    list(): Promise<UserEntity[]>{
-        return this.userRepository.find({relations: ["userTypeEntity"]});
-    }
 }
 
 export default UserService;
