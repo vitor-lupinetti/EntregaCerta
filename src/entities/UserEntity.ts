@@ -13,7 +13,7 @@ class UserEntity extends Entity {
     userTypeEntity?: UserTypeEntity;
 
     @Column()
-    password: string = "";
+    password?: string = "";
 
     @Column()
     user: string = "";

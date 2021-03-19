@@ -1,7 +1,7 @@
 import { FindOneOptions, Repository } from "typeorm"
 
 export class GenericService<T> {
-    private repository: Repository<T>;
+    protected repository: Repository<T>;
 
     constructor(repo: Repository<T>) {
         this.repository = repo;
@@ -17,5 +17,9 @@ export class GenericService<T> {
         await this.repository.save(entityCreated);
 
         return entityCreated;
+    }
+
+    public async findOne(options?: FindOneOptions<T>):Promise<T>{
+        return (await this.repository.find(options))[0];
     }
 }
