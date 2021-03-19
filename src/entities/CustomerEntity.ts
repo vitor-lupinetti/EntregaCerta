@@ -8,7 +8,7 @@ import { UserEntity } from "./UserEntity";
 class CustomerEntity extends Entity {
     @OneToOne(() => UserEntity)
     @JoinColumn({ name: "id" })
-    userEntity?: UserEntity = new UserEntity();
+    userEntity?: UserEntity;
 
     @Column()
     idAddress: string = "";

@@ -16,7 +16,6 @@ async function validateUserFields(user: UserEntity): Promise<void>{
     })
     
     await schema.validate(user,{abortEarly: true})
-    
 }
 
 async function verifyUserExists(service:UserService, username: string): Promise<void>{

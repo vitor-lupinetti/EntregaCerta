@@ -1,7 +1,7 @@
 import { FindOneOptions, Repository } from "typeorm";
 import { UserEntity } from "../entities/UserEntity";
 import { GenericService } from "./Service";
-import { hash } from 'bcryptjs';
+import { hash, compare } from 'bcryptjs';
 import { validateUser } from './validations/UserValidations';
 
 class UserService extends GenericService<UserEntity>{
@@ -28,6 +28,27 @@ class UserService extends GenericService<UserEntity>{
         });
 
         return usersWithoutPass;
+    }
+
+    public async findOne(options?: FindOneOptions<UserEntity>): Promise<UserEntity>{
+        const user = await super.findOne(options);
+        if(user){
+            return this.getUserWithoutPassword(user);
+        }
+
+        return user;
+    }
+
+    public async authenticateUser(username:string, password:string){
+        const user = await super.findOne({where:{user:username}});
+        let passwordMatched;
+        if(user){
+             passwordMatched = await compare(password, user.password || "");
+        }
+        if(!user || !passwordMatched){
+            throw new Error("Usuário/senha incorretos");
+        }
+        return user;
     }
 
     private async getUserWithoutPassword(entity: UserEntity){

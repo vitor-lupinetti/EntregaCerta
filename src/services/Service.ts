@@ -22,4 +22,5 @@ export class GenericService<T> {
     public async findOne(options?: FindOneOptions<T>):Promise<T>{
         return (await this.repository.find(options))[0];
     }
+
 }
