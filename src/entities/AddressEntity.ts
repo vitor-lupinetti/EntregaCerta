@@ -6,11 +6,11 @@ import { NeighborhoodEntity } from "./NeighborhoodEntity";
 @EntityORM("tbAddresses")
 class AddressEntity extends Entity {
     @Column()
-    idNeighborhood: string = "";
+    idNeighborhood?: string = "";
 
     @ManyToOne(() => NeighborhoodEntity)
     @JoinColumn({ name: "idNeighborhood" })
-    NeighborhoodEntity?: NeighborhoodEntity;
+    neighborhoodEntity?: NeighborhoodEntity;
 
     @Column()
     cep: string = "";

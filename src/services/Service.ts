@@ -1,10 +1,14 @@
-import { FindOneOptions, Repository } from "typeorm"
+import { FindOneOptions, Repository } from "typeorm";
+
+import { Validation } from "./validations/Validation";
 
 export class GenericService<T> {
     protected repository: Repository<T>;
+    protected validation: Validation<T>;
 
-    constructor(repo: Repository<T>) {
+    constructor(repo: Repository<T>, validation: Validation<T>) {
         this.repository = repo;
+        this.validation = validation;
     }
 
     public async list(options?: FindOneOptions<T>): Promise<T[]> {
@@ -12,6 +16,8 @@ export class GenericService<T> {
     }
 
     public async create(entity: T): Promise<T> {
+        await this.validation.validate(this, entity);
+
         const entityCreated = this.repository.create(entity);
 
         await this.repository.save(entityCreated);
@@ -19,8 +25,7 @@ export class GenericService<T> {
         return entityCreated;
     }
 
-    public async findOne(options?: FindOneOptions<T>):Promise<T>{
+    public async findOne(options?: FindOneOptions<T>): Promise<T> {
         return (await this.repository.find(options))[0];
     }
-
 }

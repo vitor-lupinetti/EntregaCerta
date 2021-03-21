@@ -7,8 +7,7 @@ let ormConfig = {
     ],
     cli: {
         "migrationsDir": "./src/database/migrations"
-    },
-    
+    }
 };
 
 if (process.env.ENV === "prod") {

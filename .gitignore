@@ -104,6 +104,9 @@ typings/
 .tern-port
 
 src/database/*.sqlite
+uploads/*
 
 .bundle
 .DS_Store
+
+!uploads/.gitkeep

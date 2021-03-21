@@ -11,11 +11,11 @@ class CustomerEntity extends Entity {
     userEntity?: UserEntity;
 
     @Column()
-    idAddress: string = "";
+    idAddress?: string = "";
 
     @ManyToOne(() => AddressEntity)
     @JoinColumn({ name: "idAddress" })
-    AddressEntity?: AddressEntity;
+    addressEntity?: AddressEntity;
 
     @Column()
     complement?: string = "";
