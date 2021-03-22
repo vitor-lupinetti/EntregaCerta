@@ -35,6 +35,7 @@ class UserService extends GenericService<UserEntity>{
         const customerCreated = await customerService.create(customer);
 
         await this.repository.save(userCreated);
+        return customerCreated;
     }
 
     public async list(options?: FindOneOptions<UserEntity>): Promise<UserEntity[]> {
