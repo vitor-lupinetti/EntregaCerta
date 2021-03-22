@@ -19,20 +19,18 @@ export class CustomerValidation extends Validation<CustomerEntity> {
         /**
          * email é preenchido E igual ao informado
          * OU contactNumber igual ao informado
-         * OU name igual ao informado
          * 
          * Não funciona direito busca email
          */
         const customerFind = await service.findOne({
             where: [
                 { email: Not("") && customer.email },
-                { contactNumber: customer.contactNumber },
-                { name: customer.name }
+                { contactNumber: customer.contactNumber }
             ]
         });
 
         if (customerFind) {
-            throw new Error("Já existe um reggistro que possua mesmo e-mail, númeor de contato ou nome");
+            throw new Error("Já existe um registro que possua mesmo e-mail, ou número de contato.");
         }
     }
 }

@@ -63,12 +63,14 @@ export class CustomerController {
                 customerToCreate.addressEntity = addressCreated;
             }
 
-            const userCreated = await userService.create(customerToCreate.userEntity);
+            const customerCreated = await userService.createCustomer(customerToCreate);
 
-            customerToCreate.id = userCreated.id;
-            customerToCreate.userEntity = userCreated;
+            // const userCreated = await userService.create(customerToCreate.userEntity);
 
-            const customerCreated = await customerService.create(customerToCreate);
+            // customerToCreate.id = userCreated.id;
+            // customerToCreate.userEntity = userCreated;
+
+            // const customerCreated = await customerService.create(customerToCreate);
 
             return response.status(201).json(customerCreated);
         } catch (err) {
