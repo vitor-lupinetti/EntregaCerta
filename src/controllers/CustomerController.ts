@@ -3,16 +3,9 @@ import fs from "fs";
 import path from "path";
 import { getConnection, getRepository } from "typeorm";
 
-import { AddressEntity } from "../entities/AddressEntity";
 import { CustomerEntity } from "../entities/CustomerEntity";
-import { NeighborhoodEntity } from "../entities/NeighborhoodEntity";
-import { UserEntity } from "../entities/UserEntity";
-import { UserTypeEntity } from "../entities/UserTypeEntity";
-import { AddressService } from "../services/AddressService";
 import { CustomerService } from "../services/CustomerService";
-import { NeighborhoodService } from "../services/NeighborhoodService";
-import UserService from "../services/UserService";
-import UserTypeService from "../services/UserTypeService";
+
 
 export class CustomerController {
     async create(request: Request, response: Response) {
@@ -61,5 +54,17 @@ export class CustomerController {
         const customers = await customerService.list({relations: ["userEntity", "addressEntity","userEntity.userTypeEntity", "addressEntity.neighborhoodEntity"]});
 
         return response.json(customers);
+    }
+
+    async findCustomerById(request:Request, response:Response){
+        const {id} = request.params;
+
+        const customerService = new CustomerService(getRepository(CustomerEntity));
+        const customer = await customerService.findOne({where:{id:id}, relations:["userEntity", "addressEntity","userEntity.userTypeEntity", "addressEntity.neighborhoodEntity"]});
+
+        if(customer){
+            return response.json(customer);
+        }
+        return response.status(404).json({message: "Usuário não encontrado"})
     }
 }

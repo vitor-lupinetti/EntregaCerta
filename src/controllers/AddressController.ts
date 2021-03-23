@@ -21,11 +21,11 @@ export class AddressController {
     }
 
     async list(request: Request, response: Response) {
-        const userRepository = getRepository(AddressEntity);
-        const userService = new AddressService(userRepository);
+        const addressRepository = getRepository(AddressEntity);
+        const addressService = new AddressService(addressRepository);
 
-        let neighborhoods = await userService.list();
+        let addresses = await addressService.list();
 
-        return response.status(200).json(neighborhoods);
+        return response.status(200).json(addresses);
     };
 }

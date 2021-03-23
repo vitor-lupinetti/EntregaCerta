@@ -37,6 +37,8 @@ class CustomerEntity extends Entity {
 
     @Column()
     photo: string = "";
+
+    photo_url?:string="";
 }
 
 export { CustomerEntity };

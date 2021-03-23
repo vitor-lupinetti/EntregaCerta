@@ -1,4 +1,4 @@
-import { getConnection, getRepository, Repository } from "typeorm";
+import { FindOneOptions, getConnection, getRepository, Repository } from "typeorm";
 import { AddressEntity } from "../entities/AddressEntity";
 
 import { CustomerEntity } from "../entities/CustomerEntity";
@@ -88,5 +88,23 @@ export class CustomerService extends GenericService<CustomerEntity>{
 
         const customerCreated = await customerService.create(customerToCreate);
         return customerCreated;
+    }
+
+    public async list(options?: FindOneOptions<CustomerEntity>): Promise<CustomerEntity[]>{
+        const customers = await super.list(options);
+
+        customers.forEach(customer => {
+            customer.photo_url =`http://localhost:3333/uploads/${customer.photo}`
+        });
+
+        return customers;
+    }
+
+    public async findOne(options?: FindOneOptions<CustomerEntity>): Promise<CustomerEntity> {
+        const customer = await super.findOne(options);
+
+        customer.photo_url = `http://localhost:3333/uploads/${customer.photo}`;
+
+        return customer;
     }
 }
