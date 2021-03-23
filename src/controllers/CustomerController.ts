@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import fs from "fs";
 import path from "path";
-import { getRepository } from "typeorm";
+import { getConnection, getRepository } from "typeorm";
 
 import { AddressEntity } from "../entities/AddressEntity";
 import { CustomerEntity } from "../entities/CustomerEntity";
@@ -16,18 +16,7 @@ import UserTypeService from "../services/UserTypeService";
 
 export class CustomerController {
     async create(request: Request, response: Response) {
-        const userTypeRepository = getRepository(UserTypeEntity);
-        const userTypeService = new UserTypeService(userTypeRepository);
-
-        const neighborhoodRepository = getRepository(NeighborhoodEntity);
-        const neighborhoodService = new NeighborhoodService(neighborhoodRepository);
-
-        const addressRepository = getRepository(AddressEntity);
-        const addressService = new AddressService(addressRepository);
-
-        const userRepository = getRepository(UserEntity);
-        const userService = new UserService(userRepository);
-
+       
         const customerRepository = getRepository(CustomerEntity);
         const customerService = new CustomerService(customerRepository);
 
@@ -41,37 +30,18 @@ export class CustomerController {
         // Campos UserEntity
         const { password, user } = request.body;
 
-        const userType: UserTypeEntity = await userTypeService.findOne({ where: { description: "Buyer" } });
 
+        const connection = getConnection();
+        const queryRunner = connection.createQueryRunner();
+        await queryRunner.connect();
+        await queryRunner.startTransaction();
         try {
-            const customerToCreate: CustomerEntity = { complement, contactNumber, email, hasWhatsApp, homeNumber, name, photo };
-            customerToCreate.addressEntity = { cep, street };
-            customerToCreate.addressEntity.neighborhoodEntity = { name: neighborhood };
-            customerToCreate.userEntity = { idUserType: userType.id || "", password, user };
+           
+            const customerCreated = await customerService.createCustomerWithRelations({complement, 
+                contactNumber, email, hasWhatsApp, homeNumber, name, photo, cep,
+                neighborhood,password,street,user});
 
-            const neighborhoodCreated = await neighborhoodService.create(customerToCreate.addressEntity.neighborhoodEntity);
-
-            if (neighborhoodCreated) {
-                customerToCreate.addressEntity.idNeighborhood = neighborhoodCreated.id;
-                customerToCreate.addressEntity.neighborhoodEntity = neighborhoodCreated;
-            }
-
-            const addressCreated = await addressService.create(customerToCreate.addressEntity);
-
-            if (addressCreated) {
-                customerToCreate.idAddress = addressCreated.id;
-                customerToCreate.addressEntity = addressCreated;
-            }
-
-            const customerCreated = await userService.createCustomer(customerToCreate);
-
-            // const userCreated = await userService.create(customerToCreate.userEntity);
-
-            // customerToCreate.id = userCreated.id;
-            // customerToCreate.userEntity = userCreated;
-
-            // const customerCreated = await customerService.create(customerToCreate);
-
+            await queryRunner.commitTransaction();
             return response.status(201).json(customerCreated);
         } catch (err) {
             /**
@@ -79,8 +49,17 @@ export class CustomerController {
              * Faz nada caso de erro (callback vazio)
              */
             fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo), () => { });
-
+            await queryRunner.rollbackTransaction();
             return response.status(400).json({ error: err.message });
         }
+    }
+
+    async list(request: Request, response:Response){
+        const customerRepository = getRepository(CustomerEntity);
+        const customerService = new CustomerService(customerRepository);
+
+        const customers = await customerService.list({relations: ["userEntity", "addressEntity","userEntity.userTypeEntity", "addressEntity.neighborhoodEntity"]});
+
+        return response.json(customers);
     }
 }

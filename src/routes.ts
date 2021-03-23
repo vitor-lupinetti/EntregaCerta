@@ -29,6 +29,7 @@ router.get("/addresses/", addressController.list);
 router.post("/addresses/", addressController.create);
 
 router.post("/customers/", multer(multerConfig).single("photo"), customerController.create);
+router.get("/customers/", customerController.list);
 
 router.get("/user-types", userTypeController.list);
 

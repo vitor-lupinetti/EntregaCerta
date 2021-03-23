@@ -20,23 +20,11 @@ class UserService extends GenericService<UserEntity>{
 
         const entityCreated = this.repository.create(entity);
 
-        // await this.repository.save(entityCreated);
+        await this.repository.save(entityCreated);
 
-        // return this.getUserWithoutPassword(entityCreated);
-        return entityCreated;
+        return this.getUserWithoutPassword(entityCreated);
     }
 
-    public async createCustomer(customer:CustomerEntity){
-        const userCreated = await this.create(customer.userEntity || new UserEntity());
-        
-        const customerRepository = getRepository(CustomerEntity);
-        const customerService = new CustomerService(customerRepository);
-
-        const customerCreated = await customerService.create(customer);
-
-        await this.repository.save(userCreated);
-        return customerCreated;
-    }
 
     public async list(options?: FindOneOptions<UserEntity>): Promise<UserEntity[]> {
         const users = await super.list(options);
