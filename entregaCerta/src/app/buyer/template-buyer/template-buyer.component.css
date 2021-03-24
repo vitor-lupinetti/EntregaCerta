@@ -1,0 +1,25 @@
+.header{
+    background-color: #33d9b2;
+}
+
+.title{
+    margin-left: 15px;
+    font-size: 1.5rem;
+}
+
+.spacer{
+    flex: 1 1 auto;
+}
+
+.sidenav{
+    background-color: #218c74;
+    width: 150px;
+}
+
+.sidenav a{
+    color: #FFF;
+}
+
+.sidenav i {
+    padding-right: 10px;
+}

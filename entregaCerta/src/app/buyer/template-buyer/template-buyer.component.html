@@ -1,0 +1,37 @@
+<mat-toolbar class="header">
+    <button mat-icon-button>
+        <mat-icon>menu</mat-icon>
+    </button>
+   
+    <span class="title">Entrega Certa</span>
+    
+    <span class="spacer"></span>
+</mat-toolbar>
+<mat-sidenav-container class="container">
+    <mat-sidenav class="sidenav" mode="side" opened fixedInViewport="true"
+    fixedTopGap="64">
+        <mat-nav-list class="nav-list">
+            <a mat-list-item  routerLink="homeBuyer">
+                <i class="material-icons">
+                    home
+                </i>
+                Início
+            </a>
+            <a mat-list-item  routerLink="teste">
+                <i class="material-icons">
+                    warning
+                </i>
+                teste
+            </a>
+            <a mat-list-item  >
+                <i class="material-icons">
+                    logout
+                </i>
+                Sair
+            </a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="content">
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
