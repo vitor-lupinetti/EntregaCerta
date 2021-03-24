@@ -50,9 +50,9 @@ export class CustomerService extends GenericService<CustomerEntity>{
         const customerService = new CustomerService(customerRepository);
 
         const userType: UserTypeEntity = await userTypeService.findOne({ where: { description: "Buyer" } });
-
         const { complement, contactNumber, email, hasWhatsApp, homeNumber, name } = model;
         const photo = model.photo;
+
         // Campos AddressEntity
         const { cep, street } = model;
         // Campos NeighborhoodEntity
@@ -85,8 +85,7 @@ export class CustomerService extends GenericService<CustomerEntity>{
 
         customerToCreate.id = userCreated.id;
         customerToCreate.userEntity = userCreated;
-
-        const customerCreated = await customerService.create(customerToCreate);
+        const customerCreated = await super.create(customerToCreate);
         return customerCreated;
     }
 
@@ -102,8 +101,9 @@ export class CustomerService extends GenericService<CustomerEntity>{
 
     public async findOne(options?: FindOneOptions<CustomerEntity>): Promise<CustomerEntity> {
         const customer = await super.findOne(options);
-
-        customer.photo_url = `http://localhost:3333/uploads/${customer.photo}`;
+        if(customer){
+            customer.photo_url = `http://localhost:3333/uploads/${customer.photo}`;
+        }
 
         return customer;
     }

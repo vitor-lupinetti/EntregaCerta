@@ -1,0 +1,164 @@
+{
+    "openapi":"3.0.0",
+    "info": {
+        "title" : "Api Documentation",
+        "description": "This is an Api made on FTT classes",
+        "version" : "1.0.0"
+    },
+    "paths":{
+        "/customers":{
+            "post":{
+                "tags":["Customer"],
+                "summary": "Cria um cliente na aplicação",
+                "requestBody":{
+                    "content":{
+                        "multipart/form-data":{
+                            "schema": { 
+                                "type": "object",
+                                "properties":{
+                                    "cep": {
+                                        "type": "string"
+                                    },
+                                    "street": {
+                                        "type": "string"
+                                    },
+                                    "complement": {
+                                        "type": "string"
+                                    },
+                                    "neighborhood": {
+                                        "type": "string"
+                                    },
+                                    "contactNumber": {
+                                        "type": "string"
+                                    },
+                                    "hasWhatsApp": {
+                                        "type": "string"
+                                    },
+                                    "homeNumber": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "user": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    
+                                    "photo":{
+                                        "type": "file"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description": "created"
+                    },
+                    "400":{
+                        "description": "error"
+                    }
+                }
+            },
+            "get":{
+                "tags":["Customer"],
+                "summary": "Lista todos os clientes da aplicação",
+                "responses":{
+                    "200":{
+                        "description": "sucess"
+                    }
+                }
+            }
+        },
+        "/customers/{id}":{
+            "get":{
+                "tags":["Customer"],
+                "summary": "Lista um cliente específico da aplicação",
+                "parameters": [
+                    {
+                      "in": "path",
+                      "name": "id",
+                      "type": "string",
+                      "required": true
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description": "sucess"
+                    }
+                }
+            }
+        },
+        "/user-types":{
+            "get":{
+                "tags":["Tipos usuário"],
+                "summary": "Lista os tipos de usuário da aplicação",
+                "responses":{
+                    "200":{
+                        "description": "sucess"
+                    }
+                }
+            }
+        },
+        "/addresses":{
+            "get":{
+                "tags":["Endereços"],
+                "summary": "Lista os endereços da aplicação",
+                "responses":{
+                    "200":{
+                        "description": "sucess"
+                    }
+                }
+            }
+        },
+        "/neighborhoods":{
+            "get":{
+                "tags":["Bairros"],
+                "summary": "Lista os bairros da aplicação",
+                "responses":{
+                    "200":{
+                        "description": "sucess"
+                    }
+                }
+            }
+        },
+        "/login":{
+            "post":{
+                "tags":["Login"],
+                "summary": "Realiza login na aplicação",
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema": { 
+                                "type": "object",
+                                "properties":{
+                                    "user": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description": "success"
+                    },
+                    "400":{
+                        "description": "error"
+                    }
+                }
+            }
+        }
+    }
+}

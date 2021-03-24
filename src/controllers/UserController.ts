@@ -50,7 +50,7 @@ class UserController {
 
         try {
             const userAuthenticated = await userService.authenticateUser(user, password);
-            return response.status(201).json(userAuthenticated);
+            return response.status(200).json(userAuthenticated);
         } catch (err) {
             return response.status(400).json({ error: err.message });
         }

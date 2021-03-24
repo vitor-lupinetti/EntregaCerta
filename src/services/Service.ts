@@ -17,7 +17,6 @@ export class GenericService<T> {
 
     public async create(entity: T): Promise<T> {
         await this.validation.validate(this, entity);
-
         const entityCreated = this.repository.create(entity);
 
         await this.repository.save(entityCreated);

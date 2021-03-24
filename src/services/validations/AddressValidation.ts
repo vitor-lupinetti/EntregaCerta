@@ -23,7 +23,7 @@ export class AddressValidation extends Validation<AddressEntity> {
     protected async verifyIfExists(service: AddressService, address: AddressEntity): Promise<void> {
         const addressFound = await service.findOne({
             where: [
-                { cep: address.cep },
+                { cep: address.cep, },
                 { street: address.street }
             ]
         });

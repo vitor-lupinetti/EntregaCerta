@@ -23,13 +23,12 @@ export class CustomerController {
         // Campos UserEntity
         const { password, user } = request.body;
 
-
+        
         const connection = getConnection();
         const queryRunner = connection.createQueryRunner();
         await queryRunner.connect();
         await queryRunner.startTransaction();
         try {
-           
             const customerCreated = await customerService.createCustomerWithRelations({complement, 
                 contactNumber, email, hasWhatsApp, homeNumber, name, photo, cep,
                 neighborhood,password,street,user});
@@ -43,6 +42,8 @@ export class CustomerController {
              */
             fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo), () => { });
             await queryRunner.rollbackTransaction();
+            console.log(err.message)
+
             return response.status(400).json({ error: err.message });
         }
     }
@@ -59,6 +60,7 @@ export class CustomerController {
     async findCustomerById(request:Request, response:Response){
         const {id} = request.params;
 
+        console.log(id);
         const customerService = new CustomerService(getRepository(CustomerEntity));
         const customer = await customerService.findOne({where:{id:id}, relations:["userEntity", "addressEntity","userEntity.userTypeEntity", "addressEntity.neighborhoodEntity"]});
 
