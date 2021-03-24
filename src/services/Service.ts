@@ -20,11 +20,16 @@ export class GenericService<T> {
         const entityCreated = this.repository.create(entity);
 
         await this.repository.save(entityCreated);
-
         return entityCreated;
     }
 
     public async findOne(options?: FindOneOptions<T>): Promise<T> {
         return (await this.repository.find(options))[0];
+    }
+
+    public async update(entity:T):Promise<T>{
+        await this.repository.save(entity);
+
+        return entity;
     }
 }

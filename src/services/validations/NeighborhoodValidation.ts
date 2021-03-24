@@ -7,7 +7,7 @@ import { Validation } from "./Validation";
 export class NeighborhoodValidation extends Validation<NeighborhoodEntity> {
     protected async validateFields(neighborhood: NeighborhoodEntity): Promise<void> {
         const schema = yup.object().shape({
-            name: yup.string().max(20, "Bairro com mais de 20 caracteres").required("Bairro obrigatório")
+            name: yup.string().trim().max(20, "Bairro com mais de 20 caracteres").required("Bairro obrigatório")
         });
 
         await schema.validate(neighborhood, this.validateOptions);

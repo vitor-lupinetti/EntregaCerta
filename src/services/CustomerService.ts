@@ -27,6 +27,18 @@ interface CustomerRelationsDTO{
     user:string,
 }
 
+interface CustomerRelationsUpdateDTO{
+    complement: string, 
+    contactNumber: string, 
+    email: string, 
+    hasWhatsApp:string, 
+    homeNumber:string, 
+    cep:string, 
+    street:string,
+    neighborhood:string,
+    id:string
+}
+
 export class CustomerService extends GenericService<CustomerEntity>{
     constructor(repo: Repository<CustomerEntity>) {
         super(repo, new CustomerValidation());
@@ -106,5 +118,31 @@ export class CustomerService extends GenericService<CustomerEntity>{
         }
 
         return customer;
+    }
+
+
+
+    public async updateCustomer(model:CustomerRelationsUpdateDTO):Promise<CustomerEntity>{
+        let customerFound = await this.findOne({where:{id : model.id}, relations: ["userEntity", "addressEntity","userEntity.userTypeEntity", "addressEntity.neighborhoodEntity"]}); 
+        customerFound.addressEntity!.cep = model.cep;
+        customerFound.addressEntity!.street = model.street;
+        customerFound.addressEntity!.neighborhoodEntity!.name = model.neighborhood;
+        customerFound.complement = model.complement;
+        customerFound.contactNumber = model.contactNumber;
+        customerFound.email = model.email;
+        customerFound.hasWhatsApp = model.hasWhatsApp;
+        customerFound.homeNumber = model.homeNumber;
+        
+
+        let customValidation = new CustomerValidation();
+        await customValidation.validateOnUpdate(this,customerFound);
+
+        const id = String(model.id);
+        delete customerFound.photo_url;
+        await this.repository.update(id,customerFound);
+        await this.repository.save(customerFound);
+
+        customerFound.photo_url =`http://localhost:3333/uploads/${customerFound.photo}`
+        return customerFound;
     }
 }

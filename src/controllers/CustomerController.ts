@@ -42,9 +42,7 @@ export class CustomerController {
              */
             fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo), () => { });
             await queryRunner.rollbackTransaction();
-            console.log(err.message)
-
-            return response.status(400).json({ error: err.message });
+            return response.status(400).json({ error: err.errors || err.message  });
         }
     }
 
@@ -68,5 +66,20 @@ export class CustomerController {
             return response.json(customer);
         }
         return response.status(404).json({message: "Usuário não encontrado"})
+    }
+
+    async update(request:Request, response:Response){
+       
+        const {id, complement, contactNumber, email, hasWhatsApp, homeNumber, cep, street,neighborhood} = request.body;
+        
+        const customerService = new CustomerService(getRepository(CustomerEntity));
+
+        try{
+            const customerUpdated = await customerService.updateCustomer({cep,complement,contactNumber,email,hasWhatsApp,homeNumber,id,neighborhood,street});
+            return response.status(201).json(customerUpdated);
+        }
+        catch (err) {
+            return response.status(400).json({ error: err.errors || err.message  });
+        }
     }
 }

@@ -75,6 +75,56 @@
                         "description": "sucess"
                     }
                 }
+            },
+            "put":{
+                "tags":["Customer"],
+                "summary": "Altera um cliente da aplicação",
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema": { 
+                                "type": "object",
+                                "properties":{
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "complement": {
+                                        "type": "string"
+                                    },
+                                    "contactNumber": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "homeNumber": {
+                                        "type": "string"
+                                    },
+                                    "hasWhatsApp": {
+                                        "type": "string"
+                                    },
+                                    "cep": {
+                                        "type": "string"
+                                    },
+                                    "street": {
+                                        "type": "string"
+                                    },
+                                    "neighborhood": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description": "updated"
+                    },
+                    "400":{
+                        "description": "error"
+                    }
+                }
             }
         },
         "/customers/{id}":{

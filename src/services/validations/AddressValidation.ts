@@ -10,9 +10,9 @@ import { Validation } from "./Validation";
 export class AddressValidation extends Validation<AddressEntity> {
     protected async validateFields(address: AddressEntity): Promise<void> {
         const schema = yup.object().shape({
-            idNeighborhood: yup.string().required("Bairro obrigatório"),
-            cep: yup.string().matches(/^\d{8}$/, "CEP no formato incorreto"),
-            street: yup.string().max(100, "Rua com mais de 100 caracteres").required("Rua obrigatória")
+            idNeighborhood: yup.string().trim().required("Bairro obrigatório"),
+            cep: yup.string().trim().matches(/^\d{8}$/, "CEP no formato incorreto"),
+            street: yup.string().trim().max(100, "Rua com mais de 100 caracteres").required("Rua obrigatória")
         });
 
         await schema.validate(address, this.validateOptions);
@@ -23,8 +23,7 @@ export class AddressValidation extends Validation<AddressEntity> {
     protected async verifyIfExists(service: AddressService, address: AddressEntity): Promise<void> {
         const addressFound = await service.findOne({
             where: [
-                { cep: address.cep, },
-                { street: address.street }
+                { cep: address.cep, street: address.street },
             ]
         });
 

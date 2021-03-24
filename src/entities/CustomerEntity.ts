@@ -1,4 +1,4 @@
-import { Column, Entity as EntityORM, JoinColumn, ManyToOne, OneToOne } from "typeorm";
+import { Column, Entity as EntityORM, JoinColumn, ManyToOne, OneToOne  } from "typeorm";
 import { AddressEntity } from "./AddressEntity";
 
 import { Entity } from "./Entity";

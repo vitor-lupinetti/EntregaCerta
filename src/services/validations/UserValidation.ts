@@ -15,9 +15,9 @@ export class UserValidation extends Validation<UserEntity> {
 
     protected async validateFields(user: UserEntity): Promise<void> {
         const schema = yup.object().shape({
-            user: yup.string().required("Usuário inválido"),
-            idUserType: yup.string().required("Tipo do usuário inválido"),
-            password: yup.string().min(5).required("Senha inválida."),
+            user: yup.string().trim().required("Usuário inválido"),
+            idUserType: yup.string().trim().required("Tipo do usuário inválido"),
+            password: yup.string().trim().min(5).required("Senha inválida."),
         })
 
         await schema.validate(user, this.validateOptions)
