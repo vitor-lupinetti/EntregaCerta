@@ -1,0 +1,27 @@
+<mat-card class="card">
+
+    <mat-card-title class="title">Login</mat-card-title>
+
+    <form>
+        <mat-form-field class="input">
+
+            <input  matInput placeholder="Nome" [(ngModel)]="name" name="name">
+            
+        </mat-form-field>
+
+        <mat-form-field class="input">
+
+            <input matInput placeholder="Senha" [(ngModel)]="password" name="password">
+
+        </mat-form-field>
+    </form>
+
+
+    <button mat-raised-button (click)="login()" color="primary">
+        Salvar
+    </button>
+    
+    <a (click)="create()" >
+        Criar conta
+    </a>
+</mat-card>
