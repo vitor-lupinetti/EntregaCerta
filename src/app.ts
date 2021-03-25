@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import "express-async-errors";
 import "reflect-metadata";
 require('dotenv/config');
+import cors from 'cors';
 
 import "./database";
 import { router } from './routes';
@@ -12,6 +13,7 @@ import { AppError } from './errors/AppError';
 import { ValidationError } from 'yup';
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 app.use(router);
