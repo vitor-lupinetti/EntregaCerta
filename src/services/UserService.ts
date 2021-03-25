@@ -45,7 +45,7 @@ class UserService extends GenericService<UserEntity>{
     }
 
     public async authenticateUser(username: string, password: string) {
-        const user = await super.findOne({ where: { user: username } });
+        const user = await super.findOne({ where: { user: username }, relations: ["userTypeEntity"] });
         let passwordMatched;
         if (user) {
             passwordMatched = await compare(password, user.password || "");
