@@ -17,8 +17,6 @@ export class NeighborhoodValidation extends Validation<NeighborhoodEntity> {
         const neighborhoodFound = await service.findOne({ where: { name: neighborhood.name } });
 
         if (neighborhoodFound) {
-            // throw new Error("Bairro já existente");
-
             neighborhood.id = neighborhoodFound.id;
         }
     }

@@ -23,13 +23,11 @@ router.get("/users/:username", userController.getUserByUsername);
 router.post("/login", userController.authenticateUser);
 
 router.get("/neighborhoods/", neighborhoodController.list);
-router.post("/neighborhoods/", neighborhoodController.create);
 
 router.get("/addresses/", addressController.list);
-router.post("/addresses/", addressController.create);
 
 router.post("/customers/", multer(multerConfig).single("photo"), customerController.create);
-router.put("/customers/", customerController.update);
+router.put("/customers/", multer(multerConfig).single("photo"), customerController.update);
 router.get("/customers/", customerController.list);
 router.get("/customers/:id", customerController.findCustomerById);
 

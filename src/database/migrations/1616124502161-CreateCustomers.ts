@@ -50,6 +50,18 @@ export class CreateCustomers1616124502161 implements MigrationInterface {
                 ],
                 foreignKeys: [
                     {
+                        name: "fk_tbUsers",
+                        referencedTableName: "tbUsers",
+                        referencedColumnNames: [
+                            "id"
+                        ],
+                        columnNames: [
+                            "id"
+                        ],
+                        onDelete: "CASCADE",
+                        onUpdate: "CASCADE"
+                    },
+                    {
                         name: "fk_tbAddresses",
                         referencedTableName: "tbAddresses",
                         referencedColumnNames: [

@@ -1,15 +1,13 @@
-import { FindOneOptions, getRepository, Repository } from "typeorm";
+import { FindOneOptions, getRepository } from "typeorm";
 
 import { UserEntity } from "../entities/UserEntity";
 import { GenericService } from "./Service";
 import { hash, compare } from 'bcryptjs';
 import { UserValidation } from "./validations/UserValidation";
-import { CustomerEntity } from "../entities/CustomerEntity";
-import { CustomerService } from "./CustomerService";
 
 class UserService extends GenericService<UserEntity>{
-    constructor(repo: Repository<UserEntity>) {
-        super(repo, new UserValidation());
+    constructor() {
+        super(getRepository(UserEntity), new UserValidation());
     }
 
     public async create(entity: UserEntity): Promise<UserEntity> {
@@ -24,7 +22,6 @@ class UserService extends GenericService<UserEntity>{
 
         return this.getUserWithoutPassword(entityCreated);
     }
-
 
     public async list(options?: FindOneOptions<UserEntity>): Promise<UserEntity[]> {
         const users = await super.list(options);
@@ -63,7 +60,6 @@ class UserService extends GenericService<UserEntity>{
         delete entity.password;
         return entity;
     }
-
 }
 
 export default UserService;

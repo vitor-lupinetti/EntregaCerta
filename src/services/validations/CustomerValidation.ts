@@ -1,7 +1,8 @@
-import { Not } from "typeorm";
+import { FindConditions, Not } from "typeorm";
 import * as yup from "yup";
 
 import { CustomerEntity } from "../../entities/CustomerEntity";
+import { AppError } from "../../errors/AppError";
 import { CustomerService } from "../CustomerService";
 import { Validation } from "./Validation";
 
@@ -9,11 +10,12 @@ export class CustomerValidation extends Validation<CustomerEntity> {
     protected async validateFields(customer: CustomerEntity): Promise<void> {
         const schema = yup.object().shape({
             complement: yup.string().trim().max(100, "Complemento com mais de 100 caracteres"),
-            contactNumber: yup.string().trim().required("Número de contato obrigatório").matches(/^\d{10,11}$/, "Número de contato no formato incorreto"),
+            contactNumber: yup.string().trim().matches(/^\d{10,11}$/, "Número de contato no formato incorreto"),
             homeNumber: yup.string().trim().required("Número da casa obrigatório"),
             email: yup.string().trim().email("E-mail em formato inválido"),
             hasWhatsApp: yup.string().trim().max(1).required("Informe se possue whats"),
-            name:yup.string().trim().required("Informe o seu nome"),
+            name: yup.string().trim().required("Informe o seu nome"),
+            photo: yup.string().required("Foto obrigatória")
         });
 
         await schema.validate(customer, this.validateOptions);
@@ -22,17 +24,19 @@ export class CustomerValidation extends Validation<CustomerEntity> {
     protected async validateFieldsUpdate(customer: CustomerEntity): Promise<void> {
         const schema = yup.object().shape({
             complement: yup.string().trim().max(100, "Complemento com mais de 100 caracteres"),
-            contactNumber: yup.string().trim().required("Número de contato obrigatório").matches(/^\d{10,11}$/, "Número de contato no formato incorreto"),
+            contactNumber: yup.string().trim().matches(/^\d{10,11}$/, "Número de contato no formato incorreto"),
             homeNumber: yup.string().trim().required("Número da casa obrigatório"),
             email: yup.string().trim().email("E-mail em formato inválido"),
             hasWhatsApp: yup.string().trim().max(1).required("Informe se possue whats"),
-            name:yup.string().trim().required("Informe o seu nome"),
-            addressEntity:yup.object().shape({
-                cep:yup.string().trim().matches(/^\d{8}$/, "CEP no formato incorreto"),
-                street:yup.string().trim().required("Rua não pode ser vazia"),
-                neighborhoodEntity:yup.object().shape({name:yup.string().trim().required("Nome do bairro não pode ser vazio")})}),
+            name: yup.string().trim().required("Informe o seu nome"),
+            //addressEntity: yup.object().shape({
+            //    cep: yup.string().trim().matches(/^\d{8}$/, "CEP no formato incorreto"),
+            //    street: yup.string().trim().required("Rua não pode ser vazia"),
+            //    neighborhoodEntity: yup.object().shape({ name: yup.string().trim().required("Nome do bairro não pode ser vazio") })
+            //}),
 
         });
+
         await schema.validate(customer, this.validateOptions);
     }
 
@@ -46,7 +50,7 @@ export class CustomerValidation extends Validation<CustomerEntity> {
 
         let customerFind;
 
-        if(customer.email){
+        if (customer.email) {
             customerFind = await service.findOne({
                 where: [
                     { email: Not("") && customer.email },
@@ -54,7 +58,7 @@ export class CustomerValidation extends Validation<CustomerEntity> {
                 ]
             });
         }
-        else{
+        else {
             customerFind = await service.findOne({
                 where: [
                     { contactNumber: customer.contactNumber }
@@ -62,41 +66,43 @@ export class CustomerValidation extends Validation<CustomerEntity> {
             });
         }
 
-        
-
         if (customerFind) {
-            throw new Error("Já existe um registro que possua mesmo e-mail, ou número de contato.");
+            throw new AppError("Já existe um registro que possua mesmo e-mail, ou número de contato.");
         }
     }
 
     protected async verifyIfExistsForUpdate(service: CustomerService, customer: CustomerEntity): Promise<void> {
-       
-
         let customerFind;
+        let whereConditions: FindConditions<CustomerEntity> = {
+            id: Not(customer.id)
+        };
 
-        if(customer.email){
+        if (customer.email) {
             customerFind = await service.findOne({
-                where: [
-                    { email: Not("") && customer.email },
-                ]
+                where: {
+                    ...whereConditions,
+                    email: customer.email
+                }
             });
-            if (customerFind && customerFind.id != customer.id) {
-                throw new Error("Já existe um registro que possua mesmo e-mail.");
+
+            if (customerFind) {
+                throw new AppError("Já existe um registro que possua mesmo e-mail.");
             }
         }
-        
-        customerFind = await service.findOne({
-            where: [
-                { contactNumber: customer.contactNumber }
-            ]
-        });
-        if (customerFind && customerFind.id != customer.id) {
-            throw new Error("Já existe um registro que possua mesmo número de contato.");
-        }
 
+        customerFind = await service.findOne({
+            where: {
+                ...whereConditions,
+                contactNumber: customer.contactNumber
+            }
+        });
+
+        if (customerFind) {
+            throw new AppError("Já existe um registro que possua mesmo número de contato.");
+        }
     }
 
-    public async validateOnUpdate(service: CustomerService,customer:CustomerEntity){
+    public async validateOnUpdate(service: CustomerService, customer: CustomerEntity) {
         await this.validateFieldsUpdate(customer);
         await this.verifyIfExistsForUpdate(service, customer);
     }

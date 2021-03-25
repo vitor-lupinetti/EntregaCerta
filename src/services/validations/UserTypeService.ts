@@ -1,6 +1,7 @@
 import * as yup from "yup"
 
 import { UserTypeEntity } from "../../entities/UserTypeEntity"
+import { AppError } from "../../errors/AppError";
 import UserTypeService from "../UserTypeService";
 import { Validation } from "./Validation";
 
@@ -17,7 +18,7 @@ export class UserTypeValidation extends Validation<UserTypeEntity> {
         const userTypeFind = await service.findOne({ where: { description: userType.description } });
 
         if (userTypeFind) {
-            throw new Error("Tipo de usuário já existente");
+            throw new AppError("Tipo de usuário já existente");
         }
     }
 }
