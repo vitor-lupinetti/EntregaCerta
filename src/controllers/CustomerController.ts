@@ -60,7 +60,6 @@ export class CustomerController {
     async findCustomerById(request: Request, response: Response) {
         const { id } = request.params;
 
-        console.log(id);
         const customerService = new CustomerService();
         const customer = await customerService.findOne({ where: { id: id }, relations: ["userEntity", "addressEntity", "userEntity.userTypeEntity", "addressEntity.neighborhoodEntity"] });
 
