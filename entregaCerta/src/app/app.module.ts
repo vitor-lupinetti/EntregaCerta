@@ -1,3 +1,4 @@
+import { AuthService } from './authentication/login/auth.service';
 import { BuyerModule } from './buyer/buyer.module';
 
 import { NgModule } from '@angular/core';
@@ -18,6 +19,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {  MatInputModule } from '@angular/material/input';
 import { LoginComponent } from './authentication/login/login.component';
 import {FormsModule} from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -26,8 +28,6 @@ import {FormsModule} from '@angular/forms';
   declarations: [
     AppComponent,
     LoginComponent,
-    
-    
     
   ],
   imports: [
@@ -44,9 +44,10 @@ import {FormsModule} from '@angular/forms';
     MatInputModule,
     FormsModule,
     BuyerModule,
+    HttpClientModule,
   
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

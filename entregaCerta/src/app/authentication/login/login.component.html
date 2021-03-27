@@ -5,7 +5,7 @@
     <form>
         <mat-form-field class="input">
 
-            <input  matInput placeholder="Nome" [(ngModel)]="name" name="name">
+            <input  matInput placeholder="Nome" [(ngModel)]="user" name="name">
             
         </mat-form-field>
 
@@ -14,14 +14,14 @@
             <input matInput placeholder="Senha" [(ngModel)]="password" name="password">
 
         </mat-form-field>
+        
+        <button mat-raised-button (click)="login()" color="primary">
+            Salvar
+        </button>
+
+        <a (click)="create()" >
+            Criar conta
+        </a>
     </form>
 
-
-    <button mat-raised-button (click)="login()" color="primary">
-        Salvar
-    </button>
-    
-    <a (click)="create()" >
-        Criar conta
-    </a>
 </mat-card>
