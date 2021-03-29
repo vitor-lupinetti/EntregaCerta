@@ -18,7 +18,7 @@ export class UserRegisterComponent implements OnInit,UserRegister {
 
   constructor(private account: UserRegisterService) { }
   name: string;
-  photo: string;
+  photo: File;
   email: string;
   contactNumber: string;
   hasWhatsApp: string;
@@ -30,11 +30,16 @@ export class UserRegisterComponent implements OnInit,UserRegister {
   password: string;
   user: string;
 
+  handleFileInput(files: FileList) {
+    this.photo = files.item(0);
+  }
+
   ngOnInit(): void {
   }
 
   send():void{
     
+    console.log(this.name);
     this.account.register({name: this.name, photo: this.photo, email: this.email, contactNumber: this.contactNumber,
       hasWhatsApp: this.hasWhatsApp, cep:this.cep, street:this.street, homeNumber:this.homeNumber, complement:this.complement,
       neighborhood:this.neighborhood, password:this.password, user:this.user})

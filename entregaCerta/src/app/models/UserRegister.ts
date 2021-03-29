@@ -1,7 +1,7 @@
 export interface UserRegister{
     
    name:string;
-   photo:string;
+   photo:File;
    email: string;
    contactNumber:string;
    hasWhatsApp:string;

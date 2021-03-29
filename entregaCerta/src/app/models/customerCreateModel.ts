@@ -1,6 +1,6 @@
 export interface customerCreateModel {
   name: string;
-  photo: string;
+  photo: File;
   email: string;
   contactNumber: string;
   hasWhatsApp: string;

@@ -11,7 +11,7 @@
 
         
         <div>
-            <input  placeholder="Imagem" [(ngModel)]="photo" name="photo" type="file">
+            <input  placeholder="Imagem" [(ngModel)]="photo" name="photo" (change)="handleFileInput($event.target.files)" type="file">
         </div>
             
         <mat-form-field class="input">
