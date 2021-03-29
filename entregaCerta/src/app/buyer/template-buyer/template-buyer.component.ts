@@ -12,4 +12,5 @@ export class TemplateBuyerComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
 }

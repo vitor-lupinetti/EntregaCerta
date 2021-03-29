@@ -16,10 +16,9 @@
 }
 
 form{
+    overflow:auto;
+    box-sizing: border-box;
     
-    display:flex;
-    flex-direction:column;
-    margin-top: 60px;
 }
 
 button{
@@ -37,4 +36,11 @@ button{
 
 a{
     cursor:pointer;
+}
+
+span{
+    box-sizing: border-box;
+    display:flex;
+    flex-direction:column;
+    margin-top: 60px;
 }

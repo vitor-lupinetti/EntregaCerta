@@ -1,9 +1,18 @@
 import { AddressModel } from './addressModel';
-import { UserEntity } from './userModel';
+import { UserModel } from './userModel';
+
 
 export interface CustomerModel {
     id: string;
     idAddress: string;
-    userEntity: UserEntity;
+    complement:string;
+    contactNumber:string;
+    email:string;
+    hasWhatsApp:string;
+    homeNumber:string;
+    name:string;
+    photo:string;
+    token:string;
+    userEntity: UserModel;
     addressEntity:AddressModel;
 }

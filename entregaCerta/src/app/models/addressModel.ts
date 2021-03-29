@@ -1,5 +1,6 @@
 import { NeighborhoodModel } from "./neighborhoodModel";
 
+
 export interface AddressModel{
     cep:string;
     id:string;

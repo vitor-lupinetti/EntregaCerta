@@ -3,13 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from './user';
+import { CustomerModel } from 'src/app/models/customerModel';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  logged:boolean = false;
+  private logged:boolean = false;
+  userType: string;
 
   constructor(private router: Router, private http : HttpClient) { }
 
@@ -22,7 +24,9 @@ export class AuthService {
               .subscribe(
                 result => { 
                   this.customer = result;
-                  console.log(this.customer)
+                  console.log(JSON.stringify(this.customer) + "resultModel" );
+                  
+                  this.userType = this.customer.customer.userEntity.userTypeEntity.description;
                   if(this.customer.customer.userEntity.userTypeEntity.description == "Buyer"){
                     this.logged = true;
                     this.router.navigate(['buyer/homeBuyer']);
@@ -38,5 +42,14 @@ export class AuthService {
                   }
                 }
               )
+              
   }
+
+  userData(): CustomerModel{
+    return this.customer.customer
+  }
+  userAuth() : boolean{
+    return this.logged;
+  }
+  
 }

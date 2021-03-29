@@ -26,10 +26,11 @@ export class LoginComponent implements OnInit {
     this.userModel.password = this.password;
     this.authService.sendLogin(this.userModel);
     
+    
   }
 
   create(): void{
-    
+    this.router.navigate(['register-buyer']);
 
   }
 
