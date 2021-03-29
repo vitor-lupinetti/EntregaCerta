@@ -1,3 +1,4 @@
+import { UserDataService } from './services/userAccount/user-data.service';
 
 import { UserTypeModel } from './models/userTypeModel';
 import { UserModel } from 'src/app/models/userModel';
@@ -5,7 +6,7 @@ import { ResultModel } from 'src/app/models/resultModel';
 import { NeighborhoodModel } from './models/neighborhoodModel';
 import { CustomerModel } from 'src/app/models/customerModel';
 import { AddressModel } from 'src/app/models/addressModel';
-import { UserRegisterService} from './services/userRegister.service';
+import { UserRegisterService} from './services/userAccount/userRegister.service';
 import { AuthService } from './authentication/login/auth.service';
 
 import { NgModule } from '@angular/core';
@@ -34,6 +35,7 @@ import { TestComponent } from './buyer/view-buyer/test/test.component';
 import { RouteGuard } from './authentication/guards/route-guard';
 import { UserUpdateComponent } from './views/userAccount/user-update/user-update.component';
 import { UserRegisterComponent } from './views/userAccount/user-register/user-register.component';
+import { UserUpdateService } from './services/userAccount/user-update.service';
 
 
 
@@ -78,7 +80,7 @@ import { UserRegisterComponent } from './views/userAccount/user-register/user-re
     //     FormsModule,
   
   ],
-  providers: [AuthService,UserRegisterService, RouteGuard],
+  providers: [AuthService,UserRegisterService, RouteGuard, UserUpdateService, UserDataService],
 
   bootstrap: [AppComponent]
 })

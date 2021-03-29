@@ -9,7 +9,7 @@ import { UserModel } from 'src/app/models/userModel';
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.css']
 })
-export class TestComponent implements OnInit, ResultModel {
+export class TestComponent implements OnInit {
 
   constructor() { }
   customer: CustomerModel;

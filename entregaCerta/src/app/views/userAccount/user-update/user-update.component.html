@@ -1,1 +1,75 @@
 
+<mat-card class="card">
+
+    <mat-card-title class="title">Atualização</mat-card-title>
+
+    <hr>
+
+    <form>
+        <mat-form-field class="input">
+
+            <input placeholder="Nome" [(ngModel)]="name" name="name" matInput>
+            
+        </mat-form-field>
+
+        
+        <div>
+            <img id="image" alt="Imagem perfil">
+            <input  placeholder="Imagem" [(ngModel)]="photo" name="photo" (change)="handleFileInput($event.target.files)" type="file" >
+        </div>
+            
+        <mat-form-field class="input">
+
+            <input  matInput placeholder="Email" [(ngModel)]="email" name="email" type="email">
+            
+        </mat-form-field>
+
+        <mat-form-field class="input">
+
+            <input matInput  name="contactNumber" placeholder="Número de contato" [(ngModel)]="contactNumber" type="contactNumber">
+
+        </mat-form-field>
+
+        <mat-form-field class="input">
+
+            <input matInput  name="hasWhatsApp" placeholder="Possui Whatsspap" [(ngModel)]="hasWhatsApp" type="hasWhatsApp">
+
+        </mat-form-field>
+
+        <mat-form-field class="input">
+
+            <input matInput  name="cep" placeholder="CEP" [(ngModel)]="cep" type="cep">
+
+        </mat-form-field>
+
+        <mat-form-field class="input">
+
+            <input matInput  name="street" placeholder="Rua" [(ngModel)]="street" type="street">
+
+        </mat-form-field>
+
+        <mat-form-field class="input">
+
+            <input matInput  name="homeNumber" placeholder="Número de moradia" [(ngModel)]="homeNumber" type="number">
+
+        </mat-form-field>
+
+        <mat-form-field class="input">
+
+            <input matInput  name="complement" placeholder="Complemento" [(ngModel)]="complement" type="text">
+
+        </mat-form-field>
+
+        <mat-form-field class="input">
+
+            <input matInput  name="neighborhood" placeholder="Bairro" [(ngModel)]="neighborhood" type="neighborhood">
+
+        </mat-form-field>
+       
+        <button mat-raised-button (click)="send()" color="primary">
+            Atualizar
+        </button>
+
+    </form>
+
+</mat-card>

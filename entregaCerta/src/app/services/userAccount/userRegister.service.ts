@@ -1,7 +1,9 @@
-import { AuthService } from '../authentication/login/auth.service';
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import { customerCreateModel } from '../models/customerCreateModel';
+import { AuthService } from 'src/app/authentication/login/auth.service';
+import { customerCreateModel } from 'src/app/models/customerCreateModel';
+
 
 
 
@@ -14,15 +16,10 @@ export class UserRegisterService implements OnInit {
    
   }
 
-  userType: string;
-
   ngOnInit(): void {
-      this.userType = this.authService.userType;
+      
   }
-
-
-
-
+  
   name: string;
   photo: File;
   email: string;

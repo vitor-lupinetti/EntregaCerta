@@ -1,8 +1,10 @@
+import { NeighborhoodModel } from 'src/app/models/neighborhoodModel';
 import { AddressModel } from './addressModel';
 import { UserModel } from './userModel';
+import { UserTypeModel } from './userTypeModel';
 
 
-export interface CustomerModel {
+export interface CustomerModel extends UserModel, AddressModel{
     id: string;
     idAddress: string;
     complement:string;
@@ -12,6 +14,7 @@ export interface CustomerModel {
     homeNumber:string;
     name:string;
     photo:string;
+    photo_url:string;
     token:string;
     userEntity: UserModel;
     addressEntity:AddressModel;

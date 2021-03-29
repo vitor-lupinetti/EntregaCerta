@@ -1,3 +1,4 @@
+import { UserDataService } from './../../services/userAccount/user-data.service';
 import { ResultModel } from '../../models/resultModel';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -13,7 +14,7 @@ export class AuthService {
   private logged:boolean = false;
   userType: string;
 
-  constructor(private router: Router, private http : HttpClient) { }
+  constructor(private router: Router, private http : HttpClient, private data:UserDataService) { }
 
   private urlLogin: string = "http://localhost:3333/login"
 
@@ -24,12 +25,13 @@ export class AuthService {
               .subscribe(
                 result => { 
                   this.customer = result;
-                  console.log(JSON.stringify(this.customer) + "resultModel" );
+                  console.log(this.customer );
                   
                   this.userType = this.customer.customer.userEntity.userTypeEntity.description;
                   if(this.customer.customer.userEntity.userTypeEntity.description == "Buyer"){
                     this.logged = true;
                     this.router.navigate(['buyer/homeBuyer']);
+                    this.data.userData(this.customer);
                     
                   }
                   else{
@@ -42,16 +44,10 @@ export class AuthService {
                   }
                 }
               )
-              
   }
 
-  userData(): CustomerModel{
-    return this.customer.customer
-  }
   userAuth() : boolean{
     return this.logged;
   }
 
-  
-  
 }

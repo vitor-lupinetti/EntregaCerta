@@ -1,12 +1,14 @@
-<mat-toolbar class="header">
-    <button mat-icon-button>
-        <mat-icon>menu</mat-icon>
-    </button>
-   
-    <span class="title">Entrega Certa</span>
+<span class="fixed">
+    <mat-toolbar class="header">
+        <button mat-icon-button>
+            <mat-icon color="white">menu</mat-icon>
+        </button>
     
-    <span class="spacer"></span>
-</mat-toolbar>
+        <span class="title">Entrega Certa</span>
+        
+        <span class="spacer"></span>
+    </mat-toolbar>
+</span>
 <mat-sidenav-container class="container">
     <mat-sidenav class="sidenav" mode="side" opened fixedInViewport="true"
     fixedTopGap="64">
@@ -26,7 +28,7 @@
 
             <a mat-list-item  routerLink="user-update">
                 <i class="material-icons">
-                    spin
+                    update
                 </i>
                 atualizar 
             </a>

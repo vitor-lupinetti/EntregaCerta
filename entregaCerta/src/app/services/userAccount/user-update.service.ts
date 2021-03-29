@@ -1,0 +1,84 @@
+import { UserUpdateComponent } from './../../views/userAccount/user-update/user-update.component';
+import { UserDataService } from './user-data.service';
+import { ResultModel } from 'src/app/models/resultModel';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { customerCreateModel } from 'src/app/models/customerCreateModel';
+import { CustomerModel } from 'src/app/models/customerModel';
+import { Router } from '@angular/router';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserUpdateService {
+
+  constructor(private http: HttpClient, private userData: UserDataService, private route:Router) { }
+
+  userUpdateComponent: UserUpdateComponent;
+  name: string;
+  photo: File;
+  email: string;
+  contactNumber: string;
+  hasWhatsApp: string;
+  cep: string;
+  street: string;
+  homeNumber: string;
+  complement: string;
+  neighborhood: string;
+
+  url = "http://localhost:3333/customers";
+ 
+  data = <ResultModel>{};
+  customer: CustomerModel;
+    update(customerToCreate: customerCreateModel){
+      const formData: FormData = new FormData();
+      formData.append('name', customerToCreate.name);
+      formData.append('email', customerToCreate.email);
+      formData.append('contactNumber', customerToCreate.contactNumber);
+      formData.append('hasWhatsApp', customerToCreate.hasWhatsApp);
+      formData.append('cep', customerToCreate.cep);
+      formData.append('id', customerToCreate.id);
+      formData.append('street', customerToCreate.street);
+      formData.append('homeNumber', customerToCreate.homeNumber);
+      formData.append('complement', customerToCreate.complement);
+      formData.append('neighborhood', customerToCreate.neighborhood);
+      if(customerToCreate.photo){
+        console.log(customerToCreate.photo_url);
+        formData.append('photo', customerToCreate.photo, customerToCreate.photo.name);
+      }
+      
+
+      this.http.put<CustomerModel>(this.url, formData)
+              .subscribe(
+                result => { 
+                  this.customer = result;
+                  console.log(result);
+                 if(result){
+                   this.setUpdate(this.customer);
+                   this.route.navigate(['buyer/homeBuyer']);
+                 }
+                },
+                error => {
+                  if(error.status == 400) {
+                    console.log(error);
+                  }
+                }
+              )
+  }
+
+  setUpdate(obj: CustomerModel){
+    this.data.customer = obj;
+    this.userData.setUserData(this.data);
+    //  this.data = this.userData.getUserData();
+    //  this.data.customer.name = customerToCreate.name;
+    //  this.data.customer.email = customerToCreate.email;
+    //  this.data.customer.contactNumber = customerToCreate.contactNumber;
+    //  this.data.customer.hasWhatsApp = customerToCreate.hasWhatsApp;
+    //  this.data.customer.addressEntity.cep = customerToCreate.cep;
+    //  this.data.customer.addressEntity.street = customerToCreate.street;
+    //  this.data.customer.homeNumber = customerToCreate.homeNumber;
+    //  this.data.customer.complement = customerToCreate.complement;
+    //  this.data.customer.addressEntity.neighborhoodEntity.name = customerToCreate.neighborhood;
+     
+  }
+}

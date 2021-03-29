@@ -1,7 +1,8 @@
+
 import { NeighborhoodModel } from "./neighborhoodModel";
 
 
-export interface AddressModel{
+export interface AddressModel extends NeighborhoodModel{
     cep:string;
     id:string;
     idNeighborhood:string;

@@ -9,6 +9,8 @@ export interface customerCreateModel {
   homeNumber: string;
   complement: string;
   neighborhood: string;
-  password: string;
-  user: string;
+  password?: string;
+  user?: string;
+  photo_url?:string;
+  id?:string;
 }

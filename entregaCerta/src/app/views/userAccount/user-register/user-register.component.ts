@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CustomerModel } from 'src/app/models/customerModel';
 import { ResultModel } from './../../../models/resultModel';
 import { UserModel } from './../../../models/userModel';
-import { UserRegisterService } from '../../../services/userRegister.service';
+import { UserRegisterService } from '../../../services/userAccount/userRegister.service';
 import { AddressModel } from 'src/app/models/addressModel';
 import { NeighborhoodModel } from 'src/app/models/neighborhoodModel';
 import { UserRegister } from 'src/app/models/UserRegister';
