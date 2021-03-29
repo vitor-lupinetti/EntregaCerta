@@ -7,6 +7,7 @@ import { AddressModel } from 'src/app/models/addressModel';
 import { NeighborhoodModel } from 'src/app/models/neighborhoodModel';
 import { UserRegister } from 'src/app/models/UserRegister';
 import { registerLocaleData } from '@angular/common';
+import { customerCreateModel } from 'src/app/models/customerCreateModel';
 
 @Component({
   selector: 'app-user-register',
@@ -34,9 +35,9 @@ export class UserRegisterComponent implements OnInit,UserRegister {
 
   send():void{
     
-    this.account.register({name, photo, this.email,this.contactNumber,
-     this.hasWhatsApp, this.cep, this.street, this.homeNumber, this.complement,
-     this.neighborhood, this.password, this.user})
+    this.account.register({name: this.name, photo: this.photo, email: this.email, contactNumber: this.contactNumber,
+      hasWhatsApp: this.hasWhatsApp, cep:this.cep, street:this.street, homeNumber:this.homeNumber, complement:this.complement,
+      neighborhood:this.neighborhood, password:this.password, user:this.user})
    }
  
    cancel():void{

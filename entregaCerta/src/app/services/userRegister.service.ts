@@ -1,6 +1,7 @@
 import { AuthService } from '../authentication/login/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
+import { customerCreateModel } from '../models/customerCreateModel';
 
 
 
@@ -20,10 +21,10 @@ export class UserRegisterService implements OnInit {
   }
 
   url: string = "http://localhost:3333/customers";
-  register( user){
+  register(customerToCreate: customerCreateModel){
  
-    console.log(user + "usuario?");
-    this.http.post(this.url, user)
+    console.log(customerToCreate + "usuario?");
+    this.http.post(this.url, customerToCreate)
               .subscribe(
                 result => { 
                  if(result== 201){
