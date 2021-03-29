@@ -1,3 +1,4 @@
+import { AuthService } from './../../authentication/login/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,10 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TemplateBuyerComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService:AuthService) { }
 
   ngOnInit(): void {
   }
-
+  exit(){
+   
+  }
 
 }

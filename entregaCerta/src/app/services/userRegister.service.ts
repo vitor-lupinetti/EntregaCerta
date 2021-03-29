@@ -23,7 +23,7 @@ export class UserRegisterService implements OnInit {
   url: string = "http://localhost:3333/customers";
   register(customerToCreate: customerCreateModel){
  
-    console.log(customerToCreate + "usuario?");
+    console.log(customerToCreate.neighborhood + "usuario?");
     this.http.post(this.url, customerToCreate)
               .subscribe(
                 result => { 

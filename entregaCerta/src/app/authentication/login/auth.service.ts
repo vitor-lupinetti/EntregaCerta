@@ -51,5 +51,7 @@ export class AuthService {
   userAuth() : boolean{
     return this.logged;
   }
+
+  
   
 }

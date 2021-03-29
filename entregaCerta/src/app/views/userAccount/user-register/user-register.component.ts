@@ -40,8 +40,6 @@ export class UserRegisterComponent implements OnInit,UserRegister {
       neighborhood:this.neighborhood, password:this.password, user:this.user})
    }
  
-   cancel():void{
-     
-   }
+   
 
 }

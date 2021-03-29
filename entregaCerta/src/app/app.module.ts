@@ -31,7 +31,6 @@ import { BuyerComponent } from './buyer/buyer.component';
 import { TemplateBuyerComponent } from './buyer/template-buyer/template-buyer.component';
 import { HomeBuyerComponent } from './buyer/view-buyer/home-buyer/home-buyer.component';
 import { TestComponent } from './buyer/view-buyer/test/test.component';
-import { RegisterBuyerComponent } from './buyer/view-buyer/register-buyer/register-buyer.component';
 import { RouteGuard } from './authentication/guards/route-guard';
 import { UserUpdateComponent } from './views/userAccount/user-update/user-update.component';
 import { UserRegisterComponent } from './views/userAccount/user-register/user-register.component';
@@ -48,8 +47,7 @@ import { UserRegisterComponent } from './views/userAccount/user-register/user-re
     BuyerComponent, 
     TemplateBuyerComponent, 
     HomeBuyerComponent, 
-    TestComponent, 
-    RegisterBuyerComponent, 
+    TestComponent,  
     UserUpdateComponent, UserRegisterComponent,
     
     

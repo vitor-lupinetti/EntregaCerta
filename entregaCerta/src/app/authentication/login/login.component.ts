@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
   }
 
   create(): void{
-    this.router.navigate(['register-buyer']);
+    this.router.navigate(['user-register']);
 
   }
 

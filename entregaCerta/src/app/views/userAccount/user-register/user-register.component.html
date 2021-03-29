@@ -5,12 +5,12 @@
     <form>
         <mat-form-field class="input">
 
-            <input placeholder="Nome" [(ngModel)]="userData.name" name="name" matInput>
+            <input placeholder="Nome" [(ngModel)]="name" name="name" matInput>
             
         </mat-form-field>
 
         
-        <!-- <div>
+        <div>
             <input  placeholder="Imagem" [(ngModel)]="photo" name="photo" type="file">
         </div>
             
@@ -72,7 +72,7 @@
 
             <input matInput  name="password" placeholder="Senha" [(ngModel)]="password" type="password">
 
-        </mat-form-field> -->
+        </mat-form-field>
        
         <button mat-raised-button (click)="send()" color="primary">
             Cadastar
