@@ -16,7 +16,7 @@ export class UserUpdateComponent implements OnInit {
   img;
   ngOnInit(): void {
     this.img = document.getElementById("image");
-     this.setInput();
+    this.setInput();
   }
    id:string;
    data: ResultModel;
@@ -38,7 +38,10 @@ export class UserUpdateComponent implements OnInit {
 
 
     setInput(){
+      console.log("classe update:");
+      console.log(this.userData.getUserData());
       this.data = this.userData.getUserData();
+      console.log(this.data.customer.name);
       this.name = this.data.customer.name;
       this.photo_url = this.data.customer.photo_url;
       this.img.setAttribute("src",this.photo_url);
@@ -54,30 +57,13 @@ export class UserUpdateComponent implements OnInit {
       this.id = this.data.customer.id;
     }
 
-    
-
-    
-
-    // getInput(){
-    //   this.data.customer.name = this.name;
-    //   this.data.customer.photo_url = this.photo_url;
-    //   this.data.customer.email = this.email;
-    //   this.data.customer.contactNumber = this.contactNumber;
-    //   this.data.customer.hasWhatsApp = this.hasWhatsApp;
-    //   this.data.customer.addressEntity.cep = this.cep;
-    //   this.data.customer.addressEntity.street = this.street;
-    //   this.data.customer.homeNumber = this.homeNumber;
-    //   this.data.customer.complement = this.complement;
-    //   this.data.customer.addressEntity.neighborhoodEntity.name = this.neighborhood
-       
-    // }
   send(){
       this.account.update(
         {name: this.name, photo: this.photo, email: this.email, contactNumber: this.contactNumber,
           hasWhatsApp: this.hasWhatsApp, cep:this.cep, street:this.street, homeNumber:this.homeNumber, complement:this.complement,
           neighborhood:this.neighborhood, id: this.id}
       );
-      // this.getInput();
+      
     
   }
 

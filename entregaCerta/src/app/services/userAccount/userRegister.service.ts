@@ -4,21 +4,14 @@ import { Injectable, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/authentication/login/auth.service';
 import { customerCreateModel } from 'src/app/models/customerCreateModel';
 
-
-
-
 @Injectable({
   providedIn: 'root'
 })
 export class UserRegisterService implements OnInit {
 
-  constructor(private http :HttpClient,private authService: AuthService) { 
-   
-  }
+  constructor(private http :HttpClient,private authService: AuthService) {}
 
-  ngOnInit(): void {
-      
-  }
+  ngOnInit(): void {}
   
   name: string;
   photo: File;
@@ -63,7 +56,7 @@ export class UserRegisterService implements OnInit {
                 },
                 error => {
                   if(error.status == 400) {
-                    console.log(error);
+                    console.log(error.error.error);
                   }
                 }
               )

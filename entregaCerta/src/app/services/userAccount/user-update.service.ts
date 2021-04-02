@@ -14,7 +14,6 @@ export class UserUpdateService {
 
   constructor(private http: HttpClient, private userData: UserDataService, private route:Router) { }
 
-  userUpdateComponent: UserUpdateComponent;
   name: string;
   photo: File;
   email: string;
@@ -29,6 +28,7 @@ export class UserUpdateService {
   url = "http://localhost:3333/customers";
  
   data = <ResultModel>{};
+
   customer: CustomerModel;
     update(customerToCreate: customerCreateModel){
       const formData: FormData = new FormData();
@@ -43,7 +43,7 @@ export class UserUpdateService {
       formData.append('complement', customerToCreate.complement);
       formData.append('neighborhood', customerToCreate.neighborhood);
       if(customerToCreate.photo){
-        console.log(customerToCreate.photo_url);
+
         formData.append('photo', customerToCreate.photo, customerToCreate.photo.name);
       }
       
@@ -68,17 +68,12 @@ export class UserUpdateService {
 
   setUpdate(obj: CustomerModel){
     this.data.customer = obj;
-    this.userData.setUserData(this.data);
-    //  this.data = this.userData.getUserData();
-    //  this.data.customer.name = customerToCreate.name;
-    //  this.data.customer.email = customerToCreate.email;
-    //  this.data.customer.contactNumber = customerToCreate.contactNumber;
-    //  this.data.customer.hasWhatsApp = customerToCreate.hasWhatsApp;
-    //  this.data.customer.addressEntity.cep = customerToCreate.cep;
-    //  this.data.customer.addressEntity.street = customerToCreate.street;
-    //  this.data.customer.homeNumber = customerToCreate.homeNumber;
-    //  this.data.customer.complement = customerToCreate.complement;
-    //  this.data.customer.addressEntity.neighborhoodEntity.name = customerToCreate.neighborhood;
-     
+    let token = this.userData.getUserData();
+    this.data.token = token.token
+    this.userData.setUserData(this.data); 
+    let updateObj = JSON.stringify(this.data);
+    console.log("Class Update Service");
+    console.log(this.data);
+    localStorage.setItem("data",updateObj);
   }
 }

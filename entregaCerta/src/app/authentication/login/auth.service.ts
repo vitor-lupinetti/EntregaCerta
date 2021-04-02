@@ -28,10 +28,12 @@ export class AuthService {
                   console.log(this.customer );
                   
                   this.userType = this.customer.customer.userEntity.userTypeEntity.description;
-                  if(this.customer.customer.userEntity.userTypeEntity.description == "Buyer"){
+                  
+                  if(this.userType == "Buyer"){
                     this.logged = true;
                     this.router.navigate(['buyer/homeBuyer']);
-                    this.data.userData(this.customer);
+                    this.data.setUserData(this.customer);
+                    this.setLocalStorage();
                     
                   }
                   else{
@@ -48,6 +50,17 @@ export class AuthService {
 
   userAuth() : boolean{
     return this.logged;
+  }
+
+  setLog(on){
+    this.logged = on;
+  }
+
+  setLocalStorage(){
+    // localStorage.setItem("on",this.customer.customer.id);
+    let objJson = JSON.stringify(this.customer)
+    localStorage.setItem("data", objJson);
+    console.log( "Na classe auth o objeto é armazenado " + localStorage.getItem("data"));
   }
 
 }

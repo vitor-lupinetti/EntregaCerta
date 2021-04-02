@@ -8,15 +8,15 @@ export class UserDataService {
 
   constructor() { }
 
-  data: ResultModel;
+  private data: ResultModel;
 
-  userData(userData:ResultModel){
-    this.data = userData;
-  }
+  // userData(userData:ResultModel){
+  //   this.data = userData;
+  // }
 
-  setUserData(dataUpdate: ResultModel){
-    this.data = dataUpdate;
-    console.log(this.data)
+  setUserData(data: ResultModel){
+    this.data = data;
+    console.log(this.data + "setUserData")
   }
 
   getUserData(): ResultModel{
