@@ -3,6 +3,14 @@
     <mat-card-title class="title">Cadastro</mat-card-title>
 
     <form>
+
+        <div class="foto-container">
+            <div class="img-container">
+                <img src="../../../../assets/default-user.png" id="image" alt="Imagem perfil" width="250" height="200">
+            </div>
+            <input id="input-foto" class="input" placeholder="Imagem" [(ngModel)]="photo" name="photo" (change)="handleFileInput($event.target.files)" type="file" >
+        </div>
+
         <mat-form-field class="input">
 
             <input placeholder="Nome" [(ngModel)]="name" name="name" matInput type="text">
@@ -10,9 +18,7 @@
         </mat-form-field>
 
         
-        <div>
-            <input class=image placeholder="Imagem" [(ngModel)]="photo" name="photo" (change)="handleFileInput($event.target.files)" type="file">
-        </div>
+       
             
         <mat-form-field class="input">
 
@@ -74,9 +80,11 @@
 
         </mat-form-field>
        
-        <button mat-raised-button (click)="send()" color="primary">
-            Cadastar
-        </button>
+        <div class="btn-container">
+            <button mat-raised-button (click)="send()" color="primary">
+                Cadastrar
+            </button>
+       </div>
 
     </form>
 

@@ -45,7 +45,6 @@ export class UserUpdateService {
       formData.append('complement', customerToCreate.complement);
       formData.append('neighborhood', customerToCreate.neighborhood);
       if(customerToCreate.photo){
-
         formData.append('photo', customerToCreate.photo, customerToCreate.photo.name);
       }
       
@@ -65,6 +64,7 @@ export class UserUpdateService {
                     console.log(error.error.error[0]);
                     this.message.showMessage(error.error.error[0]);
                   }
+                  console.log(error)
                 }
               )
   }

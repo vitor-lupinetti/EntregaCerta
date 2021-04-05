@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  api_url: 'https://entregacerta.herokuapp.com'
+  // api_url: 'https://entregacerta.herokuapp.com'
+  api_url: 'http://localhost:3333'
 };
 
 /*

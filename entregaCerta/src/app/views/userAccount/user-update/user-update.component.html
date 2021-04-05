@@ -6,6 +6,15 @@
     <hr>
 
     <form>
+
+        <div class="foto-container">
+            <div class="img-container">
+                <img id="image" alt="Imagem perfil" width="250" height="200">
+            </div>
+            <input class="input" placeholder="Imagem" [(ngModel)]="photo" name="photo" (change)="handleFileInput($event.target.files)" type="file" >
+        </div>
+
+
         <mat-form-field class="input">
 
             <input placeholder="Nome" [(ngModel)]="name" name="name" matInput  type="text">
@@ -13,10 +22,7 @@
         </mat-form-field>
 
         
-        <div>
-            <img id="image" alt="Imagem perfil">
-            <input  class="file" placeholder="Imagem" [(ngModel)]="photo" name="photo" (change)="handleFileInput($event.target.files)" type="file" >
-        </div>
+       
             
         <mat-form-field class="input">
 
@@ -65,11 +71,12 @@
             <input matInput  name="neighborhood" placeholder="Bairro" [(ngModel)]="neighborhood" type="text">
 
         </mat-form-field>
-       
-        <button mat-raised-button (click)="send()" color="primary">
-            Atualizar
-        </button>
-
+       <div class="btn-container">
+            <button mat-raised-button (click)="send()" color="primary">
+                Atualizar
+            </button>
+       </div>
+        
     </form>
 
 </mat-card>

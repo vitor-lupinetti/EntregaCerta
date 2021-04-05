@@ -9,7 +9,7 @@ import { UserRegister } from 'src/app/models/UserRegister';
   styleUrls: ['./user-register.component.css']
 })
 export class UserRegisterComponent implements OnInit,UserRegister {
-
+  img;
   constructor(private account: UserRegisterService) { }
   name: string;
   photo: File;
@@ -26,9 +26,15 @@ export class UserRegisterComponent implements OnInit,UserRegister {
 
   handleFileInput(files: FileList) {
     this.photo = files.item(0);
+    let reader = new FileReader();
+    reader.readAsDataURL(this.photo);
+      reader.onload = () => {
+        this.img.setAttribute("src",reader.result);
+      };
   }
 
   ngOnInit(): void {
+    this.img = document.getElementById("image");
   }
 
   send():void{
