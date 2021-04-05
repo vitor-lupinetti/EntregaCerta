@@ -154,7 +154,7 @@ export class CustomerService extends GenericService<CustomerEntity>{
 
         delete customerFound.photo_url;
 
-        await this.repository.update(id, customerFound);
+        // await this.repository.update(id, customerFound);
         await this.repository.save(customerFound);
 
         customerFound.photo_url = `${process.env.APP_URL}:${process.env.PORT}/uploads/${photo}`;
