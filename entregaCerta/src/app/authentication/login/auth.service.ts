@@ -19,7 +19,7 @@ export class AuthService {
   constructor(private router: Router, private http : HttpClient, private data:UserDataService, private message:MessagesService) { }
 
   private urlLogin: string = `${environment.api_url}/login`
-  // private urlLogin: string = "http://localhost:3333/login"
+ 
 
   private customer: ResultModel 
   sendLogin(user: Sigin){
@@ -33,10 +33,11 @@ export class AuthService {
                   this.userType = this.customer.customer.userEntity.userTypeEntity.description;
                   
                   if(this.userType == "Buyer"){
-                    this.logged = true;
-                    this.router.navigate(['buyer/homeBuyer']);
+                    this.setLog(true);
                     this.data.setUserData(this.customer);
                     this.setLocalStorage();
+          
+                    this.router.navigate(['buyer/user-update']);
                     
                   }
                   else{

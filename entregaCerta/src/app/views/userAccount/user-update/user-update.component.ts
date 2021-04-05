@@ -31,7 +31,13 @@ export class UserUpdateComponent implements OnInit {
    photo: File;
 
    handleFileInput(files: FileList) {
+    // this.photo = files.item(0);
     this.photo = files.item(0);
+    let reader = new FileReader();
+    reader.readAsDataURL(this.photo);
+      reader.onload = () => {
+        this.img.setAttribute("src",reader.result);
+      };
   }
 
 
@@ -40,6 +46,7 @@ export class UserUpdateComponent implements OnInit {
       this.name = this.data.customer.name;
       this.photo_url = this.data.customer.photo_url;
       this.img.setAttribute("src",this.photo_url);
+      console.log("src"+ this.photo_url);
       this.email = this.data.customer.email;
       this.contactNumber = this.data.customer.contactNumber;
       this.hasWhatsApp = this.data.customer.hasWhatsApp;

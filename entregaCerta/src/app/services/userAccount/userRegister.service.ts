@@ -4,29 +4,17 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { customerCreateModel } from 'src/app/models/customerCreateModel';
 import { environment } from 'src/environments/environment';
+import { AuthService } from 'src/app/authentication/login/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserRegisterService implements OnInit {
 
-  constructor(private http :HttpClient, private router:Router, private message:MessagesService) {}
+  constructor(private http :HttpClient, private router:Router, private message:MessagesService, private authService:AuthService) {}
 
   ngOnInit(): void {}
   
-  name: string;
-  photo: File;
-  email: string;
-  contactNumber: string;
-  hasWhatsApp: string;
-  cep: string;
-  street: string;
-  homeNumber: string;
-  complement: string;
-  neighborhood: string;
-  password: string;
-  user: string;
-
 
   url = `${environment.api_url}/customers`;
   register(customerToCreate: customerCreateModel){
@@ -53,9 +41,11 @@ export class UserRegisterService implements OnInit {
               .subscribe(
                 result => { 
                  if(result){
-                   console.log(result);
+                   console.log(result + "1");
                    this.message.showMessage("Usuário criado");
-                  this.router.navigate(['']);
+                  
+                   this.authService.sendLogin({user: customerToCreate.user , password: customerToCreate.password});
+                 
 
                  }
                 },

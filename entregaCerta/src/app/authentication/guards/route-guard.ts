@@ -33,6 +33,7 @@ export class RouteGuard implements CanActivate{
     let data: ResultModel;
     
     if(localStorage.getItem("data") != undefined && !this.authService.userAuth()){
+      console.log("chegou");
       data = JSON.parse(localStorage.getItem("data"));
       this.userData.setUserData(data);
       this.authService.setLog(true);
