@@ -44,7 +44,6 @@ export class CustomerController {
              */
             fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo), () => { });
             await queryRunner.rollbackTransaction();
-
             return response.status(400).json({ error: err.errors || err.message });
         }
     }

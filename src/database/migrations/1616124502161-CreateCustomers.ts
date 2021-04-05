@@ -36,7 +36,7 @@ export class CreateCustomers1616124502161 implements MigrationInterface {
                         type: "char"
                     },
                     {
-                        name: "homeNUmber",
+                        name: "homeNumber",
                         type: "varchar"
                     },
                     {

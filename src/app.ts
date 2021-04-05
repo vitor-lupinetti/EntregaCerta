@@ -25,6 +25,7 @@ app.use((error: Error, request: Request, response: Response, _next: NextFunction
     if (error instanceof AppError) {
         statusCode = error.statusCode;
         errorMessage = error.message;
+
     } else if (error instanceof ValidationError) {
         statusCode = 400;
         errorMessage = error.errors;
