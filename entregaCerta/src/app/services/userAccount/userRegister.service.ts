@@ -3,6 +3,7 @@ import { MessagesService } from './../messages.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { customerCreateModel } from 'src/app/models/customerCreateModel';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class UserRegisterService implements OnInit {
   user: string;
 
 
-  url: string = "http://localhost:3333/customers";
+  url = `${environment.api_url}/customers`;
   register(customerToCreate: customerCreateModel){
  
 

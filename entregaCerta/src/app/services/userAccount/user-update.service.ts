@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import { customerCreateModel } from 'src/app/models/customerCreateModel';
 import { CustomerModel } from 'src/app/models/customerModel';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class UserUpdateService {
   complement: string;
   neighborhood: string;
 
-  url = "http://localhost:3333/customers";
+  url = `${environment.api_url}/customers`;
  
   data = <ResultModel>{};
 
