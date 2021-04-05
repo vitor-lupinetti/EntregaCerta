@@ -4,9 +4,15 @@
     left:50%;
     transform: translate(-50%, -50%);
     margin: auto;
-    text-align: center;
     width: 70%;
     height: 80%;
+    overflow:auto;
+}
+
+.title{
+    text-align:center;
+    padding-top: 5px;
+    font-size: 2rem;
 }
 
 form{
@@ -25,7 +31,14 @@ button{
     margin-bottom: 20px;
 }
 
+.image{
+    
+    margin-left: 20%;
+    margin-bottom: 5px;
+}
+
 .input{
     margin: auto;
-   width:60%;
+    margin-bottom:8px;
+    width:60%;
 }

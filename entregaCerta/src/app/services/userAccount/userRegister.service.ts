@@ -1,7 +1,7 @@
-
+import { Router } from '@angular/router';
+import { MessagesService } from './../messages.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/authentication/login/auth.service';
 import { customerCreateModel } from 'src/app/models/customerCreateModel';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { customerCreateModel } from 'src/app/models/customerCreateModel';
 })
 export class UserRegisterService implements OnInit {
 
-  constructor(private http :HttpClient,private authService: AuthService) {}
+  constructor(private http :HttpClient, private router:Router, private message:MessagesService) {}
 
   ngOnInit(): void {}
   
@@ -30,7 +30,6 @@ export class UserRegisterService implements OnInit {
   url: string = "http://localhost:3333/customers";
   register(customerToCreate: customerCreateModel){
  
-    console.log(customerToCreate);
 
       const formData: FormData = new FormData();
       formData.append('name', customerToCreate.name);
@@ -44,19 +43,25 @@ export class UserRegisterService implements OnInit {
       formData.append('neighborhood', customerToCreate.neighborhood);
       formData.append('password', customerToCreate.password);
       formData.append('user', customerToCreate.user);
-      formData.append('photo', customerToCreate.photo, customerToCreate.photo.name);
+      if(customerToCreate.photo){
+        formData.append('photo', customerToCreate.photo, customerToCreate.photo.name);
+      }
+      
 
     this.http.post(this.url, formData)
               .subscribe(
                 result => { 
-                  console.log(result);
-                 if(result== 201){
-                   console.log("criado");
+                 if(result){
+                   console.log(result);
+                   this.message.showMessage("Usuário criado");
+                  this.router.navigate(['']);
+
                  }
                 },
                 error => {
                   if(error.status == 400) {
-                    console.log(error.error.error);
+                    console.log(error.error);
+                    this.message.showMessage(error.error.error[0]);
                   }
                 }
               )

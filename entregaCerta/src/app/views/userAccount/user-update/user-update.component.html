@@ -8,14 +8,14 @@
     <form>
         <mat-form-field class="input">
 
-            <input placeholder="Nome" [(ngModel)]="name" name="name" matInput>
+            <input placeholder="Nome" [(ngModel)]="name" name="name" matInput  type="text">
             
         </mat-form-field>
 
         
         <div>
             <img id="image" alt="Imagem perfil">
-            <input  placeholder="Imagem" [(ngModel)]="photo" name="photo" (change)="handleFileInput($event.target.files)" type="file" >
+            <input  class="file" placeholder="Imagem" [(ngModel)]="photo" name="photo" (change)="handleFileInput($event.target.files)" type="file" >
         </div>
             
         <mat-form-field class="input">
@@ -26,31 +26,31 @@
 
         <mat-form-field class="input">
 
-            <input matInput  name="contactNumber" placeholder="Número de contato" [(ngModel)]="contactNumber" type="contactNumber">
+            <input matInput  name="contactNumber" placeholder="Número de contato" [(ngModel)]="contactNumber" type="text">
 
         </mat-form-field>
 
         <mat-form-field class="input">
 
-            <input matInput  name="hasWhatsApp" placeholder="Possui Whatsspap" [(ngModel)]="hasWhatsApp" type="hasWhatsApp">
+            <input matInput  name="hasWhatsApp" placeholder="Possui Whatsspap" [(ngModel)]="hasWhatsApp" type="text">
 
         </mat-form-field>
 
         <mat-form-field class="input">
 
-            <input matInput  name="cep" placeholder="CEP" [(ngModel)]="cep" type="cep">
+            <input matInput  name="cep" placeholder="CEP" [(ngModel)]="cep" type="text">
 
         </mat-form-field>
 
         <mat-form-field class="input">
 
-            <input matInput  name="street" placeholder="Rua" [(ngModel)]="street" type="street">
+            <input matInput  name="street" placeholder="Rua" [(ngModel)]="street" type="text">
 
         </mat-form-field>
 
         <mat-form-field class="input">
 
-            <input matInput  name="homeNumber" placeholder="Número de moradia" [(ngModel)]="homeNumber" type="number">
+            <input matInput  name="homeNumber" placeholder="Número de moradia" [(ngModel)]="homeNumber" type="text">
 
         </mat-form-field>
 
@@ -62,7 +62,7 @@
 
         <mat-form-field class="input">
 
-            <input matInput  name="neighborhood" placeholder="Bairro" [(ngModel)]="neighborhood" type="neighborhood">
+            <input matInput  name="neighborhood" placeholder="Bairro" [(ngModel)]="neighborhood" type="text">
 
         </mat-form-field>
        

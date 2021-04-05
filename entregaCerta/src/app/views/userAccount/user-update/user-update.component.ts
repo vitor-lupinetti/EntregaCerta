@@ -1,8 +1,6 @@
 import { UserDataService } from './../../../services/userAccount/user-data.service';
 import { ResultModel } from 'src/app/models/resultModel';
-import { AuthService } from './../../../authentication/login/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { CustomerModel } from 'src/app/models/customerModel';
 import { UserUpdateService } from 'src/app/services/userAccount/user-update.service';
 
 @Component({
@@ -12,7 +10,7 @@ import { UserUpdateService } from 'src/app/services/userAccount/user-update.serv
 })
 export class UserUpdateComponent implements OnInit {
 
-  constructor(private auth: AuthService, private account: UserUpdateService, private userData: UserDataService) { }
+  constructor(private account: UserUpdateService, private userData: UserDataService) { }
   img;
   ngOnInit(): void {
     this.img = document.getElementById("image");
@@ -38,10 +36,7 @@ export class UserUpdateComponent implements OnInit {
 
 
     setInput(){
-      console.log("classe update:");
-      console.log(this.userData.getUserData());
       this.data = this.userData.getUserData();
-      console.log(this.data.customer.name);
       this.name = this.data.customer.name;
       this.photo_url = this.data.customer.photo_url;
       this.img.setAttribute("src",this.photo_url);

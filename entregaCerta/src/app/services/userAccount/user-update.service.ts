@@ -1,3 +1,4 @@
+import { MessagesService } from './../messages.service';
 import { UserUpdateComponent } from './../../views/userAccount/user-update/user-update.component';
 import { UserDataService } from './user-data.service';
 import { ResultModel } from 'src/app/models/resultModel';
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class UserUpdateService {
 
-  constructor(private http: HttpClient, private userData: UserDataService, private route:Router) { }
+  constructor(private http: HttpClient, private userData: UserDataService, private route:Router, private message:MessagesService) { }
 
   name: string;
   photo: File;
@@ -52,15 +53,16 @@ export class UserUpdateService {
               .subscribe(
                 result => { 
                   this.customer = result;
-                  console.log(result);
                  if(result){
                    this.setUpdate(this.customer);
+                   this.message.showMessage("Usuário atualizado");
                    this.route.navigate(['buyer/homeBuyer']);
                  }
                 },
                 error => {
                   if(error.status == 400) {
-                    console.log(error);
+                    console.log(error.error.error[0]);
+                    this.message.showMessage(error.error.error[0]);
                   }
                 }
               )
@@ -72,8 +74,6 @@ export class UserUpdateService {
     this.data.token = token.token
     this.userData.setUserData(this.data); 
     let updateObj = JSON.stringify(this.data);
-    console.log("Class Update Service");
-    console.log(this.data);
     localStorage.setItem("data",updateObj);
   }
 }

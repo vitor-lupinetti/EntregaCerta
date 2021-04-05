@@ -3,8 +3,8 @@
     margin: auto;
     text-align: center;
     width: 70%;
-    max-height: 30%;
-    overflow-y:scroll;
+    min-height: 30%;
+   
 
 }
 
@@ -35,8 +35,24 @@ button{
    width:60%;
 }
 
+div{
+    position: relative;
+    /* display:inline-block; */
+    /* max-width:60%; */
+    min-width:60%;
+    height:180px;
+    margin:0;
+    margin:auto;
+}
+
 img{
-    max-width: 100px;
-    border: 1px solid gray;
+    position:absolute;
+    left:0px;
+    width: 100px;
+    border: 1px solid rgb(177, 177, 177);    
+}
+
+.file{
+    float:right;
 }
 

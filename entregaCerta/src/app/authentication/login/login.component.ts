@@ -1,7 +1,7 @@
 import { AuthService } from './auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from './user';
+import { Sigin } from '../../models/sigin';
 
 @Component({
   selector: 'app-login',
@@ -9,8 +9,6 @@ import { User } from './user';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
- userModel:User = new User();
 
   
   user: string = '';
@@ -23,10 +21,8 @@ export class LoginComponent implements OnInit {
   }
 
   login():void{
-    this.userModel.user = this.user;
-    this.userModel.password = this.password;
-    this.authService.sendLogin(this.userModel);
     
+    this.authService.sendLogin({user:this.user, password: this.password});
     
   }
 

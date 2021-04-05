@@ -23,7 +23,8 @@ import { RouteGuard } from './authentication/guards/route-guard';
 import { UserUpdateComponent } from './views/userAccount/user-update/user-update.component';
 import { UserRegisterComponent } from './views/userAccount/user-register/user-register.component';
 import { UserUpdateService } from './services/userAccount/user-update.service';
-import { UserSearchService } from './services/userAccount/user-search.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MessagesService } from './services/messages.service';
 
 
 
@@ -55,6 +56,7 @@ import { UserSearchService } from './services/userAccount/user-search.service';
     MatInputModule,
     FormsModule,
     HttpClientModule,
+    MatSnackBarModule,
 
     // MatToolbarModule,
     //     MatIconModule,
@@ -67,7 +69,11 @@ import { UserSearchService } from './services/userAccount/user-search.service';
     //     FormsModule,
   
   ],
-  providers: [AuthService,UserRegisterService, RouteGuard, UserUpdateService, UserDataService, UserSearchService],
+  providers: [AuthService,
+              UserRegisterService, 
+              RouteGuard, UserUpdateService,
+              UserDataService,
+              MessagesService,],
 
   bootstrap: [AppComponent]
 })

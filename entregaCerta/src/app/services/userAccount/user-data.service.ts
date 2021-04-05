@@ -10,18 +10,12 @@ export class UserDataService {
 
   private data: ResultModel;
 
-  // userData(userData:ResultModel){
-  //   this.data = userData;
-  // }
 
   setUserData(data: ResultModel){
     this.data = data;
-    console.log(this.data + "setUserData")
   }
 
   getUserData(): ResultModel{
-    console.log(this.data);
     return this.data;
-    
   }
 }

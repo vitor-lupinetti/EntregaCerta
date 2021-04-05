@@ -1,10 +1,11 @@
+import { MessagesService } from './../../services/messages.service';
 import { UserDataService } from './../../services/userAccount/user-data.service';
 import { ResultModel } from '../../models/resultModel';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from './user';
-import { CustomerModel } from 'src/app/models/customerModel';
+import { Sigin } from '../../models/sigin';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +15,12 @@ export class AuthService {
   private logged:boolean = false;
   userType: string;
 
-  constructor(private router: Router, private http : HttpClient, private data:UserDataService) { }
+  constructor(private router: Router, private http : HttpClient, private data:UserDataService, private message:MessagesService) { }
 
   private urlLogin: string = "http://localhost:3333/login"
 
   private customer: ResultModel 
-  sendLogin(user: User){
+  sendLogin(user: Sigin){
 
     this.http.post<ResultModel>(this.urlLogin, user)
               .subscribe(
@@ -43,6 +44,7 @@ export class AuthService {
                 error => {
                   if(error.status == 500) {
                     console.log(error);
+                    this.message.showMessage(error.error.error);
                   }
                 }
               )
@@ -57,10 +59,8 @@ export class AuthService {
   }
 
   setLocalStorage(){
-    // localStorage.setItem("on",this.customer.customer.id);
     let objJson = JSON.stringify(this.customer)
     localStorage.setItem("data", objJson);
-    console.log( "Na classe auth o objeto é armazenado " + localStorage.getItem("data"));
   }
 
 }
