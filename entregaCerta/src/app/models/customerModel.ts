@@ -14,6 +14,7 @@ export interface CustomerModel extends UserModel, AddressModel{
     homeNumber:string;
     name:string;
     photo:string;
+    photoMimeType: string;
     photo_url:string;
     token:string;
     userEntity: UserModel;
