@@ -18,7 +18,7 @@ interface CustomerRelationsDTO {
     hasWhatsApp: string,
     homeNumber: string,
     name: string,
-    photo: string,
+    photo: Express.Multer.File,
     cep: string,
     street: string,
     neighborhood: string,
@@ -37,7 +37,7 @@ interface CustomerRelationsUpdateDTO {
     street: string,
     name: string,
     neighborhood: string,
-    photo: string
+    photo: Express.Multer.File
 }
 
 export class CustomerService extends GenericService<CustomerEntity>{
@@ -64,8 +64,10 @@ export class CustomerService extends GenericService<CustomerEntity>{
         const { neighborhood } = model;
         // Campos UserEntity
         const { password, user } = model;
+        const photoData = fs.readFileSync(photo.path);
+        const photoEncoded = photoData.toString('base64');
 
-        const customerToCreate: CustomerEntity = { complement, contactNumber, email, hasWhatsApp, homeNumber, name, photo };
+        const customerToCreate: CustomerEntity = { complement, contactNumber, email, hasWhatsApp, homeNumber, name, photo: photoEncoded, photoMimeType:photo.mimetype };
         customerToCreate.addressEntity = { cep, street };
         customerToCreate.addressEntity.neighborhoodEntity = { name: neighborhood };
         customerToCreate.userEntity = { idUserType: userType.id || "", password, user };
@@ -125,14 +127,16 @@ export class CustomerService extends GenericService<CustomerEntity>{
         const { neighborhood } = model;
 
         let customerFound = await this.findOne({ where: { id }, relations: ["userEntity", "addressEntity", "userEntity.userTypeEntity", "addressEntity.neighborhoodEntity"] });
-
+        let photoEncoded;
         if (photo) {
             fs.unlink(path.resolve(__dirname, "..", "..", "uploads", customerFound.photo), () => { });
+            const photoData = fs.readFileSync(photo.path);
+            photoEncoded = photoData.toString('base64');
         } else {
-            photo = customerFound.photo;
+            photoEncoded = customerFound.photo;
         }
 
-        customerFound = { ...customerFound, complement, contactNumber, email, hasWhatsApp, homeNumber, name, photo };
+        customerFound = { ...customerFound, complement, contactNumber, email, hasWhatsApp, homeNumber, name, photo: photoEncoded };
         customerFound.addressEntity = { cep, street };
         customerFound.addressEntity.neighborhoodEntity = { name: neighborhood };
 
@@ -161,4 +165,6 @@ export class CustomerService extends GenericService<CustomerEntity>{
 
         return customerFound;
     }
+
+    
 }

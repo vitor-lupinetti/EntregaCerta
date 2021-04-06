@@ -10,7 +10,8 @@ export class CustomerController {
     async create(request: Request, response: Response) {
         // Campos CustomerEntity
         const { complement, contactNumber, email, hasWhatsApp, homeNumber, name } = request.body;
-        const photo = request?.file?.filename || "";
+        // const photo = request?.file?.filename || "";
+        const photo = request?.file;
         // Campos AddressEntity
         const { cep, street } = request.body;
         // Campos NeighborhoodEntity
@@ -23,8 +24,9 @@ export class CustomerController {
         const queryRunner = connection.createQueryRunner();
 
         try {
+           
             const customerService = new CustomerService();
-
+            console.log("comecou")
             await queryRunner.connect();
             await queryRunner.startTransaction();
 
@@ -33,6 +35,7 @@ export class CustomerController {
                 contactNumber, email, hasWhatsApp, homeNumber, name, photo, cep,
                 neighborhood, password, street, user
             });
+            console.log("acabou certo")
 
             await queryRunner.commitTransaction();
 
@@ -42,8 +45,9 @@ export class CustomerController {
              * Apaga imagem quando não cadastrar
              * Faz nada caso de erro (callback vazio)
              */
-            fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo), () => { });
+            // fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo), () => { });
             await queryRunner.rollbackTransaction();
+            console.log("acabou errado")
             return response.status(400).json({ error: err.errors || err.message });
         }
     }
@@ -72,7 +76,7 @@ export class CustomerController {
     async update(request: Request, response: Response) {
         // Campos CustomerEntity
         const { id, complement, contactNumber, email, hasWhatsApp, homeNumber, name } = request.body;
-        const photo = request?.file?.filename;
+        const photo = request?.file;
         // Campos AddressEntity
         const { cep, street } = request.body;
         // Campos NeighborhoodEntity

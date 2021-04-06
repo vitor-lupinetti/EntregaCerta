@@ -37,6 +37,8 @@ class CustomerEntity extends Entity {
 
     @Column()
     photo: string = "";
+    @Column()
+    photoMimeType: string = "";
 
     photo_url?:string="";
 }
