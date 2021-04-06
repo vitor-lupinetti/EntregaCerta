@@ -8,6 +8,7 @@ import { sign } from 'jsonwebtoken';
 import { request } from "express";
 import { CustomerEntity } from "../entities/CustomerEntity";
 import { CustomerService } from "./CustomerService";
+import { AppError } from "../errors/AppError";
 
 
 interface UserTokenDTO{
@@ -75,6 +76,22 @@ class UserService extends GenericService<UserEntity>{
         return customerWithToken;
     }
 
+    public async changeUserType(user: string, userTypeId: string){
+        const userFound = await this.findOne({where:{user}});
+
+        if(!userFound){
+            throw new AppError('Usuário não encontrado', 404);
+        }
+
+        await (this.validation as UserValidation).validateChangeUserType(userTypeId);
+
+        userFound.idUserType = userTypeId;
+        await super.update(userFound);
+
+        return userFound;
+    }
+    
+
     private generateTokenForUser(user: UserEntity):UserTokenDTO{
         const secret = process.env.JWT_SECRET || ' ';
         
@@ -113,6 +130,8 @@ class UserService extends GenericService<UserEntity>{
         delete entity.password;
         return entity;
     }
+
+   
 }
 
 export default UserService;

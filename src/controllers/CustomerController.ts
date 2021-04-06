@@ -4,6 +4,7 @@ import path from "path";
 import { getConnection } from "typeorm";
 
 import { CustomerService } from "../services/CustomerService";
+import UserService from "../services/UserService";
 
 
 export class CustomerController {
@@ -87,5 +88,15 @@ export class CustomerController {
         const customerUpdated = await customerService.updateCustomer({ id, cep, complement, contactNumber, email, hasWhatsApp, homeNumber, name, neighborhood, photo, street });
 
         return response.status(201).json(customerUpdated);
+    }
+
+    async changeUserTypeOfCustomer(request: Request, response: Response){
+        const { user, userTypeId } = request.body;
+
+        const userService = new UserService();
+
+        const userUpdated = await userService.changeUserType(user, userTypeId);
+
+        return response.status(200).json(userUpdated);
     }
 }

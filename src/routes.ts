@@ -7,6 +7,7 @@ import { CustomerController } from "./controllers/CustomerController";
 import { NeighborhoodController } from "./controllers/NeighborhoodController";
 import UserController from "./controllers/UserController";
 import UserTypeController from "./controllers/UserTypeController";
+import { ensureAuthenticated } from "./middlewares/EnsureAuthenticated";
 
 const router = Router();
 
@@ -28,6 +29,7 @@ router.get("/addresses/", addressController.list);
 
 router.post("/customers/", multer(multerConfig).single("photo"), customerController.create);
 router.put("/customers/", multer(multerConfig).single("photo"), customerController.update);
+router.put("/customers/user/usertype",ensureAuthenticated, customerController.changeUserTypeOfCustomer);
 router.get("/customers/", customerController.list);
 router.get("/customers/:id", customerController.findCustomerById);
 

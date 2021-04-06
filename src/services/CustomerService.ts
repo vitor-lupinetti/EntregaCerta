@@ -3,6 +3,7 @@ import path from "path";
 import { FindOneOptions, getRepository } from "typeorm";
 
 import { CustomerEntity } from "../entities/CustomerEntity";
+import { UserEntity } from "../entities/UserEntity";
 import { UserTypeEntity } from "../entities/UserTypeEntity";
 import { AddressService } from "./AddressService";
 import { NeighborhoodService } from "./NeighborhoodService";
@@ -166,5 +167,6 @@ export class CustomerService extends GenericService<CustomerEntity>{
         return customerFound;
     }
 
+    
     
 }

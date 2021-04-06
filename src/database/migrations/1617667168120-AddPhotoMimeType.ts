@@ -6,12 +6,12 @@ export class AddPhotoMimeType1617667168120 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.addColumn("tbCustomers", new TableColumn({
             name: this.columnName,
-            type: "string",
+            type: "varchar",
         }));
 
         await queryRunner.addColumn("tbDeliveryPhotos", new TableColumn({
             name: this.columnName,
-            type: "string",
+            type: "varchar",
         }));
     }
 

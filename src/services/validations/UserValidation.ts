@@ -40,5 +40,14 @@ export class UserValidation extends Validation<UserEntity> {
         if (!userTypeFound) {
             throw new AppError("Tipo de usuário não encontrado");
         }
+
+        return userTypeFound;
+    }
+
+    public async validateChangeUserType(idUserType: string){
+        const userType = await this.verifyUserTypeExists(idUserType);
+        if(userType.description == "ADM" || userType.description == "E-commerce"){
+            throw new AppError("Você só pode alterar entre comprador ou recebedor", 403);
+        }
     }
 }
