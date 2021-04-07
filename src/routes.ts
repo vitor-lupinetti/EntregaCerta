@@ -4,6 +4,7 @@ import multer from "multer";
 import multerConfig from "./config/multer";
 import { AddressController } from "./controllers/AddressController";
 import { CustomerController } from "./controllers/CustomerController";
+import DeliveryController from "./controllers/DeliveryController";
 import { NeighborhoodController } from "./controllers/NeighborhoodController";
 import UserController from "./controllers/UserController";
 import UserTypeController from "./controllers/UserTypeController";
@@ -16,6 +17,7 @@ const neighborhoodController = new NeighborhoodController();
 const addressController = new AddressController();
 const customerController = new CustomerController();
 const userTypeController = new UserTypeController();
+const deliveryController = new DeliveryController();
 
 router.post("/users/", userController.create);
 router.get("/users/", userController.list);
@@ -34,5 +36,7 @@ router.get("/customers/", customerController.list);
 router.get("/customers/:id", customerController.findCustomerById);
 
 router.get("/user-types", userTypeController.list);
+
+router.post("/delivery", deliveryController.create);
 
 export { router };

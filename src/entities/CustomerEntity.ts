@@ -36,7 +36,7 @@ class CustomerEntity extends Entity {
     name: string = "";
 
     @Column()
-    photo: string = "";
+    photo?: string = "";
     @Column()
     photoMimeType: string = "";
 

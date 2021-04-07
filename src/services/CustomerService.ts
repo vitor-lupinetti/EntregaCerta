@@ -101,7 +101,7 @@ export class CustomerService extends GenericService<CustomerEntity>{
         const customers = await super.list(options);
 
         customers.forEach(customer => {
-            customer.photo_url = `${process.env.APP_URL}:${process.env.PORT}/uploads/${customer.photo}`
+            delete customer.photo;
         });
 
         return customers;

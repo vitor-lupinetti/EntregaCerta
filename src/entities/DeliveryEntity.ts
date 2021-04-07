@@ -27,13 +27,13 @@ class DeliveryEntity extends Entity {
     purchaseDate: Date;
 
     @Column()
-    receiptDate: Date;
+    receiptDate?: Date;
 
     @Column()
-    receptionTime: Date;
+    receptionTime?: Date;
 
     @OneToMany(() => DeliveryPhotoEntity, photo => photo.idDelivery)
-    photos: Array<DeliveryPhotoEntity>
+    photos?: Array<DeliveryPhotoEntity>
 }
 
 export { DeliveryEntity };

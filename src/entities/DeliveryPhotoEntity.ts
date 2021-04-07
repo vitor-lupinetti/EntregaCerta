@@ -13,7 +13,10 @@ class DeliveryPhotoEntity extends Entity {
     deliveryEntity?: DeliveryEntity;
 
     @Column()
-    name: number;
+    name: string;
+
+    @Column()
+    photoMimeType:string;
 }
 
 export { DeliveryPhotoEntity };
