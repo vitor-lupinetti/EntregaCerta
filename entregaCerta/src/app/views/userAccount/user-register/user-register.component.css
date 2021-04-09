@@ -50,6 +50,16 @@ button{
     margin-bottom: 5px;
 } */
 
+ .whatsApp{
+    margin-left: 0px;
+    float:left;
+} 
+#containerWhatsApp{
+    width: 60%;
+    padding-top: 1%;
+    padding-bottom: 3%;
+}
+
 .foto-container{
     display: flex;
     flex-direction: column;

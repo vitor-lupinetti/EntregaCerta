@@ -34,6 +34,20 @@ button{
     width:60%;
 }
 
+.whatsApp{
+    
+    margin-left: 0px;
+    float:left;
+}
+
+#containerWhatsApp{
+   
+    width: 60%;
+    padding-top: 1%;
+    padding-bottom: 3%;
+    
+}
+
 /* div{
     position: relative;
 
@@ -63,6 +77,7 @@ img{
     /* border-radius: 50%; */
     border: 1px solid rgb(177, 177, 177);
 }
+
 
 .btn-container{
     display: flex;

@@ -14,6 +14,7 @@ export class UserUpdateComponent implements OnInit {
   img;
   ngOnInit(): void {
     this.img = document.getElementById("image");
+
     this.setInput();
   }
    id:string;
@@ -22,7 +23,8 @@ export class UserUpdateComponent implements OnInit {
    photo_url:string;
    email: string;
    contactNumber:string;
-   hasWhatsApp:string;
+   hasWhatsAppBoolean:boolean;
+   hasWhatsApp: string;
    cep:string;
    street: string;
    homeNumber:string;
@@ -48,7 +50,7 @@ export class UserUpdateComponent implements OnInit {
       this.img.setAttribute("src",`data:${this.data.customer.photoMimeType};base64,${this.data.customer.photo}`);
       this.email = this.data.customer.email;
       this.contactNumber = this.data.customer.contactNumber;
-      this.hasWhatsApp = this.data.customer.hasWhatsApp;
+      this.setHasWhatsAppBoolean();
       this.cep = this.data.customer.addressEntity.cep;
       this.street = this.data.customer.addressEntity.street;
       this.homeNumber = this.data.customer.homeNumber;
@@ -58,7 +60,27 @@ export class UserUpdateComponent implements OnInit {
       this.id = this.data.customer.id;
     }
 
+    setHasWhatsAppBoolean(){
+       if(this.data.customer.hasWhatsApp == "1"){
+          this.hasWhatsAppBoolean = true;
+       }
+       else{
+        this.hasWhatsAppBoolean = false;
+       }
+    }
+
+    setHasWhatsApp(){
+      if(this.hasWhatsAppBoolean){
+        this.hasWhatsApp = "1"
+      }
+      else{
+        this.hasWhatsApp = "0";
+      }
+    }
+
   send(){
+
+    this.setHasWhatsApp();
       this.account.update(
         {name: this.name, photo: this.photo, email: this.email, contactNumber: this.contactNumber,
           hasWhatsApp: this.hasWhatsApp, cep:this.cep, street:this.street, homeNumber:this.homeNumber, complement:this.complement,

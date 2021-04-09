@@ -55,6 +55,7 @@ export class UserUpdateService {
                   this.customer = result;
                  if(result){
                    this.setUpdate(this.customer);
+                   console.log(result);
                    this.message.showMessage("Usuário atualizado");
                    this.route.navigate(['buyer/homeBuyer']);
                  }

@@ -21,9 +21,6 @@
             
         </mat-form-field>
 
-        
-       
-            
         <mat-form-field class="input">
 
             <input  matInput placeholder="Email" [(ngModel)]="email" name="email" type="email">
@@ -36,11 +33,11 @@
 
         </mat-form-field>
 
-        <mat-form-field class="input">
+        <div id="containerWhatsApp">
 
-            <input matInput  name="hasWhatsApp" placeholder="Possui Whatsspap" [(ngModel)]="hasWhatsApp" type="text">
+            <input name="hasWhatsApp" class="whatsApp" [(ngModel)]="hasWhatsAppBoolean" type="checkbox"><label class="whatsApp">Has WhatsApp</label> 
 
-        </mat-form-field>
+        </div>
 
         <mat-form-field class="input">
 

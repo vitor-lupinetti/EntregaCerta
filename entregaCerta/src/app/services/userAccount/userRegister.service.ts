@@ -33,6 +33,7 @@ export class UserRegisterService implements OnInit {
       formData.append('password', customerToCreate.password);
       formData.append('user', customerToCreate.user);
       if(customerToCreate.photo){
+        console.log(customerToCreate.photo);
         formData.append('photo', customerToCreate.photo, customerToCreate.photo.name);
       }
       
@@ -51,7 +52,7 @@ export class UserRegisterService implements OnInit {
                 },
                 error => {
                   if(error.status == 400) {
-                    console.log(error.error);
+                    console.log(error);
                     this.message.showMessage(error.error.error[0]);
                   }
                 }

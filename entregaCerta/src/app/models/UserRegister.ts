@@ -4,7 +4,7 @@ export interface UserRegister{
    photo:File;
    email: string;
    contactNumber:string;
-   hasWhatsApp:string;
+   hasWhatsAppBoolean:boolean;
    cep:string;
    street: string;
    homeNumber:string;
