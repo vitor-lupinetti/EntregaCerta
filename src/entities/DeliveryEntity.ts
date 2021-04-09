@@ -24,6 +24,9 @@ class DeliveryEntity extends Entity {
     amountPackaging: number;
 
     @Column()
+    description: string;
+
+    @Column()
     purchaseDate: Date;
 
     @Column()

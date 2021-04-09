@@ -38,5 +38,6 @@ router.get("/customers/:id", customerController.findCustomerById);
 router.get("/user-types", userTypeController.list);
 
 router.post("/delivery", deliveryController.create);
+router.put("/delivery", deliveryController.update);
 
 export { router };
