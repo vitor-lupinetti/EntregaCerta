@@ -1,27 +1,26 @@
 <div class="container">
     <h1 class="title">Login</h1>
     <form>
-        <span>
-            <mat-form-field class="input">
+        <!-- <span> -->
+        <mat-form-field class="input">
 
-                <input  matInput placeholder="Nome" [(ngModel)]="user" name="name">
-                
-            </mat-form-field>
+            <input matInput placeholder="Nome" [(ngModel)]="user" name="name" />
 
-            <mat-form-field class="input">
+        </mat-form-field>
 
-                <input matInput [(ngModel)]="password" name="password" placeholder="Senha" type="password">
+        <mat-form-field class="input">
 
-            </mat-form-field>
-            
-            <button mat-raised-button (click)="login()" color="primary">
-                Entrar
-            </button>
+            <input matInput [(ngModel)]="password" name="password" placeholder="Senha" type="password" />
 
-            <a (click)="create()" >
-                Novo Usuário
-            </a>
-        </span>
+        </mat-form-field>
+
+        <button mat-raised-button (click)="login()" color="primary">
+            Entrar
+        </button>
+
+        <a (click)="create()">
+            Novo Usuário
+        </a>
+        <!-- </span> -->
     </form>
 </div>
-
