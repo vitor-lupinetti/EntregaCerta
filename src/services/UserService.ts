@@ -1,29 +1,28 @@
-import { FindOneOptions, getRepository } from "typeorm";
+import { FindOneOptions, getCustomRepository } from "typeorm";
 
 import { UserEntity } from "../entities/UserEntity";
 import { GenericService } from "./Service";
 import { hash, compare } from 'bcryptjs';
 import { UserValidation } from "./validations/UserValidation";
 import { sign } from 'jsonwebtoken';
-import { request } from "express";
 import { CustomerEntity } from "../entities/CustomerEntity";
 import { CustomerService } from "./CustomerService";
 import { AppError } from "../errors/AppError";
+import { UserRepository } from "../repositories/UserRepository";
 
-
-interface UserTokenDTO{
-    user:UserEntity,
+interface UserTokenDTO {
+    user: UserEntity,
     token: string
 }
 
-interface CustomerTokenDTO{
+interface CustomerTokenDTO {
     customer: CustomerEntity,
     token: string
 }
 
 class UserService extends GenericService<UserEntity>{
     constructor() {
-        super(getRepository(UserEntity), new UserValidation());
+        super(getCustomRepository(UserRepository), new UserValidation());
     }
 
     public async create(entity: UserEntity): Promise<UserEntity> {
@@ -60,7 +59,7 @@ class UserService extends GenericService<UserEntity>{
         return user;
     }
 
-    public async authenticateUser(username: string, password: string):Promise<CustomerTokenDTO> {
+    public async authenticateUser(username: string, password: string): Promise<CustomerTokenDTO> {
         const user = await super.findOne({ where: { user: username }, relations: ["userTypeEntity"] });
         let passwordMatched;
         if (user) {
@@ -70,16 +69,16 @@ class UserService extends GenericService<UserEntity>{
             throw new Error("Usuário/senha incorretos");
         }
 
-        const userWithToken:UserTokenDTO = this.generateTokenForUser(user);
-        const customerWithToken:CustomerTokenDTO = await this.returnCustomerWithToken(userWithToken);
+        const userWithToken: UserTokenDTO = this.generateTokenForUser(user);
+        const customerWithToken: CustomerTokenDTO = await this.returnCustomerWithToken(userWithToken);
 
         return customerWithToken;
     }
 
-    public async changeUserType(user: string, userTypeId: string){
-        const userFound = await this.findOne({where:{user}});
+    public async changeUserType(user: string, userTypeId: string) {
+        const userFound = await this.findOne({ where: { user } });
 
-        if(!userFound){
+        if (!userFound) {
             throw new AppError('Usuário não encontrado', 404);
         }
 
@@ -90,12 +89,11 @@ class UserService extends GenericService<UserEntity>{
 
         return userFound;
     }
-    
 
-    private generateTokenForUser(user: UserEntity):UserTokenDTO{
+    private generateTokenForUser(user: UserEntity): UserTokenDTO {
         const secret = process.env.JWT_SECRET || ' ';
-        
-        const token = sign({}, secret,{
+
+        const token = sign({}, secret, {
             subject: user.id,
             expiresIn: '1d',
         });
@@ -109,11 +107,11 @@ class UserService extends GenericService<UserEntity>{
         return userWithToken;
     }
 
-    private async returnCustomerWithToken(user: UserTokenDTO): Promise<CustomerTokenDTO>{
+    private async returnCustomerWithToken(user: UserTokenDTO): Promise<CustomerTokenDTO> {
 
         const customerService = new CustomerService();
 
-        const customer = await customerService.findOne({where: {id: user.user.id}, relations:["userEntity", "addressEntity", "userEntity.userTypeEntity", "addressEntity.neighborhoodEntity"]})
+        const customer = await customerService.findOne({ where: { id: user.user.id }, relations: ["userEntity", "addressEntity", "userEntity.userTypeEntity", "addressEntity.neighborhoodEntity"] })
 
         const customerWithToken: CustomerTokenDTO = {
             customer,
@@ -131,7 +129,7 @@ class UserService extends GenericService<UserEntity>{
         return entity;
     }
 
-   
+
 }
 
 export default UserService;

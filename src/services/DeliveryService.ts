@@ -1,26 +1,28 @@
-import { getRepository } from "typeorm";
+import { getCustomRepository } from "typeorm";
+
 import { DeliveryEntity } from "../entities/DeliveryEntity";
 import { AppError } from "../errors/AppError";
+import { DeliveryRepository } from "../repositories/DeliveryRepository";
 import { GenericService } from "./Service";
 import { DeliveryValidation } from "./validations/DeliveryValidation";
 
-interface DeliveryUpdateDTO{
-    receiptDate:string,
-    receiptTime:string,
-    id:string,
+interface DeliveryUpdateDTO {
+    receiptDate: string,
+    receiptTime: string,
+    id: string,
     amountPackaging: number
 }
 
 class DeliveryService extends GenericService<DeliveryEntity>{
     constructor() {
-        super(getRepository(DeliveryEntity), new DeliveryValidation());
+        super(getCustomRepository(DeliveryRepository), new DeliveryValidation());
     }
 
-    public async updateDelivery(model:DeliveryUpdateDTO){
+    public async updateDelivery(model: DeliveryUpdateDTO) {
 
-        const deliveryFound = await super.findOne({where:{id: model.id}})
+        const deliveryFound = await super.findOne({ where: { id: model.id } })
 
-        if(!deliveryFound){
+        if (!deliveryFound) {
             throw new AppError("Entrega não encontrada", 404);
         }
 
@@ -32,7 +34,7 @@ class DeliveryService extends GenericService<DeliveryEntity>{
 
         return await super.update(deliveryFound);
     }
-    
+
 }
 
 export default DeliveryService;

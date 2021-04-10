@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import fs from "fs";
 import path from "path";
-import { getConnection } from "typeorm";
 
 import { CustomerService } from "../services/CustomerService";
 import UserService from "../services/UserService";
@@ -20,35 +19,36 @@ export class CustomerController {
         // Campos UserEntity
         const { password, user } = request.body;
 
-        const connection = getConnection();
-
-        const queryRunner = connection.createQueryRunner();
-
         try {
-           
             const customerService = new CustomerService();
-            console.log("comecou")
-            await queryRunner.connect();
-            await queryRunner.startTransaction();
 
             const customerCreated = await customerService.createCustomerWithRelations({
                 complement,
                 contactNumber, email, hasWhatsApp, homeNumber, name, photo, cep,
                 neighborhood, password, street, user
             });
-            console.log("acabou certo")
 
-            await queryRunner.commitTransaction();
+            /**
+             * Apaga imagem salva no servidor
+             * Faz nada caso de erro (callback vazio)
+             */
+            fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo?.filename), () => { });
 
             return response.status(201).json(customerCreated);
         } catch (err) {
+            const userService = new UserService();
+            const userCreated = await userService.findOne({ where: { user } });
+
+            if (userCreated) {
+                userService.delete(userCreated.id || "");
+            }
+
             /**
-             * Apaga imagem quando não cadastrar
+             * Apaga imagem salva no servidor
              * Faz nada caso de erro (callback vazio)
              */
-            // fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo), () => { });
-            await queryRunner.rollbackTransaction();
-            console.log("acabou errado")
+            fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo?.filename), () => { });
+
             return response.status(400).json({ error: err.errors || err.message });
         }
     }
@@ -90,7 +90,7 @@ export class CustomerController {
         return response.status(201).json(customerUpdated);
     }
 
-    async changeUserTypeOfCustomer(request: Request, response: Response){
+    async changeUserTypeOfCustomer(request: Request, response: Response) {
         const { user, userTypeId } = request.body;
 
         const userService = new UserService();

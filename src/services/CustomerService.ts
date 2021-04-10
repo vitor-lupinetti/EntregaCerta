@@ -1,10 +1,10 @@
 import fs from "fs";
 import path from "path";
-import { FindOneOptions, getRepository } from "typeorm";
+import { FindOneOptions, getCustomRepository } from "typeorm";
 
 import { CustomerEntity } from "../entities/CustomerEntity";
-import { UserEntity } from "../entities/UserEntity";
 import { UserTypeEntity } from "../entities/UserTypeEntity";
+import { CustomerRepository } from "../repositories/CustomerRepository";
 import { AddressService } from "./AddressService";
 import { NeighborhoodService } from "./NeighborhoodService";
 import { GenericService } from "./Service";
@@ -43,7 +43,7 @@ interface CustomerRelationsUpdateDTO {
 
 export class CustomerService extends GenericService<CustomerEntity>{
     constructor() {
-        super(getRepository(CustomerEntity), new CustomerValidation());
+        super(getCustomRepository(CustomerRepository), new CustomerValidation());
     }
 
     public async createCustomerWithRelations(model: CustomerRelationsDTO) {
@@ -68,7 +68,7 @@ export class CustomerService extends GenericService<CustomerEntity>{
         const photoData = fs.readFileSync(photo.path);
         const photoEncoded = photoData.toString('base64');
 
-        const customerToCreate: CustomerEntity = { complement, contactNumber, email, hasWhatsApp, homeNumber, name, photo: photoEncoded, photoMimeType:photo.mimetype };
+        const customerToCreate: CustomerEntity = { complement, contactNumber, email, hasWhatsApp, homeNumber, name, photo: photoEncoded, photoMimeType: photo.mimetype };
         customerToCreate.addressEntity = { cep, street };
         customerToCreate.addressEntity.neighborhoodEntity = { name: neighborhood };
         customerToCreate.userEntity = { idUserType: userType.id || "", password, user };
@@ -130,7 +130,7 @@ export class CustomerService extends GenericService<CustomerEntity>{
         let customerFound = await this.findOne({ where: { id }, relations: ["userEntity", "addressEntity", "userEntity.userTypeEntity", "addressEntity.neighborhoodEntity"] });
         let photoEncoded;
         if (photo) {
-            fs.unlink(path.resolve(__dirname, "..", "..", "uploads", customerFound.photo), () => { });
+            fs.unlink(path.resolve(__dirname, "..", "..", "uploads", customerFound.photo || ""), () => { });
             const photoData = fs.readFileSync(photo.path);
             photoEncoded = photoData.toString('base64');
         } else {
@@ -166,7 +166,4 @@ export class CustomerService extends GenericService<CustomerEntity>{
 
         return customerFound;
     }
-
-    
-    
 }

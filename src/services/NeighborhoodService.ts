@@ -1,11 +1,12 @@
-import { getRepository } from "typeorm";
+import { getCustomRepository } from "typeorm";
 
 import { NeighborhoodEntity } from "../entities/NeighborhoodEntity";
+import { NeighborhoodRepository } from "../repositories/NeighborhoodRepository";
 import { GenericService } from "./Service";
 import { NeighborhoodValidation } from "./validations/NeighborhoodValidation";
 
 export class NeighborhoodService extends GenericService<NeighborhoodEntity>{
     constructor() {
-        super(getRepository(NeighborhoodEntity), new NeighborhoodValidation());
+        super(getCustomRepository(NeighborhoodRepository), new NeighborhoodValidation());
     }
 }
