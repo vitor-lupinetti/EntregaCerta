@@ -52,8 +52,8 @@ export class UserRegisterService implements OnInit {
                 },
                 error => {
                   if(error.status == 400) {
-                    console.log(error);
-                    this.message.showMessage(error.error.error[0]);
+                    console.log(error.error);
+                    this.message.showMessageError(error.error.error);
                   }
                 }
               )

@@ -55,9 +55,18 @@ export class UserRegisterComponent implements OnInit,UserRegister {
   send():void{
     
     this.sethasWhatsApp();
-    this.account.register({name: this.name, photo: this.photo, email: this.email, contactNumber: this.contactNumber,
-      hasWhatsApp: this.hasWhatsApp, cep:this.cep, street:this.street, homeNumber:this.homeNumber, complement:this.complement,
-      neighborhood:this.neighborhood, password:this.password, user:this.user})
+    this.account.register({name: this.name || "",
+                          photo: this.photo,
+                          email: this.email || "",
+                          contactNumber: this.contactNumber,
+                          hasWhatsApp: this.hasWhatsApp || "",
+                          cep:this.cep,
+                          street:this.street || "",
+                          homeNumber:this.homeNumber || "",
+                          complement:this.complement || "",
+                          neighborhood:this.neighborhood || "",
+                          password:this.password || "",
+                          user:this.user || ""})
    }
  
    

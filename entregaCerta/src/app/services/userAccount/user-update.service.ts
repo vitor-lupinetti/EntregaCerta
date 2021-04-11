@@ -57,13 +57,13 @@ export class UserUpdateService {
                    this.setUpdate(this.customer);
                    console.log(result);
                    this.message.showMessage("Usuário atualizado");
-                   this.route.navigate(['buyer/homeBuyer']);
+                  //  this.route.navigate(['buyer/homeBuyer']);
                  }
                 },
                 error => {
                   if(error.status == 400) {
-                    console.log(error.error.error[0]);
-                    this.message.showMessage(error.error.error[0]);
+                    console.log(error.error);
+                    this.message.showMessageError(error.error.error);
                   }
                   console.log(error)
                 }

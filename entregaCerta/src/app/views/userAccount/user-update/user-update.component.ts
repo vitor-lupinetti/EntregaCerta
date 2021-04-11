@@ -82,9 +82,17 @@ export class UserUpdateComponent implements OnInit {
 
     this.setHasWhatsApp();
       this.account.update(
-        {name: this.name, photo: this.photo, email: this.email, contactNumber: this.contactNumber,
-          hasWhatsApp: this.hasWhatsApp, cep:this.cep, street:this.street, homeNumber:this.homeNumber, complement:this.complement,
-          neighborhood:this.neighborhood, id: this.id}
+        {name: this.name || "",
+         photo: this.photo,
+         email: this.email || "",
+         contactNumber: this.contactNumber,
+         hasWhatsApp: this.hasWhatsApp || "",
+         cep:this.cep ,
+         street:this.street || "",
+         homeNumber:this.homeNumber || "",
+         complement:this.complement || "",
+         neighborhood:this.neighborhood || "",
+         id: this.id || ""}
       );
       
     
