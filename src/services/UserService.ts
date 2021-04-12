@@ -26,7 +26,7 @@ class UserService extends GenericService<UserEntity>{
     }
 
     public async create(entity: UserEntity): Promise<UserEntity> {
-        await this.validation.validate(this, entity);
+        await this.validation.validateCreate(this, entity);
 
         const hashedPassword = await hash(entity.password || "", 8);
         entity.password = hashedPassword;
@@ -128,8 +128,6 @@ class UserService extends GenericService<UserEntity>{
         delete entity.password;
         return entity;
     }
-
-
 }
 
 export default UserService;

@@ -4,6 +4,7 @@ import { FindOneOptions, getCustomRepository } from "typeorm";
 
 import { CustomerEntity } from "../entities/CustomerEntity";
 import { UserTypeEntity } from "../entities/UserTypeEntity";
+import { AppError } from "../errors/AppError";
 import { CustomerRepository } from "../repositories/CustomerRepository";
 import { AddressService } from "./AddressService";
 import { NeighborhoodService } from "./NeighborhoodService";
@@ -47,13 +48,10 @@ export class CustomerService extends GenericService<CustomerEntity>{
     }
 
     public async createCustomerWithRelations(model: CustomerRelationsDTO) {
-        const userTypeService = new UserTypeService();
-
-        const neighborhoodService = new NeighborhoodService();
-
         const addressService = new AddressService();
-
+        const neighborhoodService = new NeighborhoodService();
         const userService = new UserService();
+        const userTypeService = new UserTypeService();
 
         const userType: UserTypeEntity = await userTypeService.findOne({ where: { description: "Buyer" } });
 
@@ -65,10 +63,18 @@ export class CustomerService extends GenericService<CustomerEntity>{
         const { neighborhood } = model;
         // Campos UserEntity
         const { password, user } = model;
-        const photoData = fs.readFileSync(photo.path);
-        const photoEncoded = photoData.toString('base64');
 
-        const customerToCreate: CustomerEntity = { complement, contactNumber, email, hasWhatsApp, homeNumber, name, photo: photoEncoded, photoMimeType: photo.mimetype };
+        let photoEncoded = "";
+        let photoMimeType = "";
+
+        if (photo) {
+            photoMimeType = photo.mimetype;
+
+            let photoData = fs.readFileSync(photo.path);
+            photoEncoded = photoData.toString('base64');
+        }
+
+        const customerToCreate: CustomerEntity = { complement, contactNumber, email, hasWhatsApp, homeNumber, name, photo: photoEncoded, photoMimeType };
         customerToCreate.addressEntity = { cep, street };
         customerToCreate.addressEntity.neighborhoodEntity = { name: neighborhood };
         customerToCreate.userEntity = { idUserType: userType.id || "", password, user };
@@ -127,17 +133,30 @@ export class CustomerService extends GenericService<CustomerEntity>{
         // Campos NeighborhoodEntity
         const { neighborhood } = model;
 
-        let customerFound = await this.findOne({ where: { id }, relations: ["userEntity", "addressEntity", "userEntity.userTypeEntity", "addressEntity.neighborhoodEntity"] });
-        let photoEncoded;
-        if (photo) {
-            fs.unlink(path.resolve(__dirname, "..", "..", "uploads", customerFound.photo || ""), () => { });
-            const photoData = fs.readFileSync(photo.path);
-            photoEncoded = photoData.toString('base64');
-        } else {
-            photoEncoded = customerFound.photo;
+        let customerFound = await this.findOne(
+            {
+                where: { id },
+                relations: ["userEntity", "addressEntity", "userEntity.userTypeEntity", "addressEntity.neighborhoodEntity"]
+            }
+        );
+
+        if (!customerFound) {
+            throw new AppError("Cliente não encontrado");
         }
 
-        customerFound = { ...customerFound, complement, contactNumber, email, hasWhatsApp, homeNumber, name, photo: photoEncoded };
+        let photoEncoded = customerFound.photo;
+        let photoMimeType = customerFound.photoMimeType;
+
+        if (photo) {
+            photoMimeType = photo.mimetype;
+
+            let photoData = fs.readFileSync(photo.path);
+            photoEncoded = photoData.toString('base64');
+
+            fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo.filename), () => { /* Faz nada quando der erro */ });
+        }
+
+        customerFound = { ...customerFound, complement, contactNumber, email, hasWhatsApp, homeNumber, name, photo: photoEncoded, photoMimeType };
         customerFound.addressEntity = { cep, street };
         customerFound.addressEntity.neighborhoodEntity = { name: neighborhood };
 
@@ -155,14 +174,10 @@ export class CustomerService extends GenericService<CustomerEntity>{
             customerFound.addressEntity = addressCreated;
         }
 
-        await (this.validation as CustomerValidation).validateOnUpdate(this, customerFound);
-
-        delete customerFound.photo_url;
+        await this.validation.validateUpdate(this, customerFound);
 
         // await this.repository.update(id, customerFound);
         await this.repository.save(customerFound);
-
-        customerFound.photo_url = `${process.env.APP_URL}:${process.env.PORT}/uploads/${photo}`;
 
         return customerFound;
     }

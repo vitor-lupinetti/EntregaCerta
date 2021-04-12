@@ -2,6 +2,7 @@ import crypto from "crypto";
 import { Request } from "express";
 import multer from "multer";
 import path from "path";
+import { AppError } from "../errors/AppError";
 
 export default {
     dest: path.resolve(__dirname, "..", "..", "uploads"),
@@ -16,7 +17,7 @@ export default {
         if (allowedMimes.includes(file.mimetype)) {
             callback(null, true);
         } else {
-            callback(new Error("Tipo de arquivo inválido"));
+            callback(new AppError("Tipo de arquivo inválido"));
         }
     },
     limits: {

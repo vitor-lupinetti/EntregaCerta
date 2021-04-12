@@ -5,12 +5,10 @@ import path from "path";
 import { CustomerService } from "../services/CustomerService";
 import UserService from "../services/UserService";
 
-
 export class CustomerController {
     async create(request: Request, response: Response) {
         // Campos CustomerEntity
         const { complement, contactNumber, email, hasWhatsApp, homeNumber, name } = request.body;
-        // const photo = request?.file?.filename || "";
         const photo = request?.file;
         // Campos AddressEntity
         const { cep, street } = request.body;
@@ -28,11 +26,7 @@ export class CustomerController {
                 neighborhood, password, street, user
             });
 
-            /**
-             * Apaga imagem salva no servidor
-             * Faz nada caso de erro (callback vazio)
-             */
-            fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo?.filename), () => { });
+            fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo.filename), () => { /* Faz nada quando der erro */ });
 
             return response.status(201).json(customerCreated);
         } catch (err) {
@@ -43,11 +37,9 @@ export class CustomerController {
                 userService.delete(userCreated.id || "");
             }
 
-            /**
-             * Apaga imagem salva no servidor
-             * Faz nada caso de erro (callback vazio)
-             */
-            fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo?.filename), () => { });
+            if (photo) {
+                fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo.filename), () => { /* Faz nada quando der erro */ });
+            }
 
             return response.status(400).json({ error: err.errors || err.message });
         }

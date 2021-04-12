@@ -1,3 +1,4 @@
+import { FindConditions, Not } from "typeorm";
 import * as yup from "yup";
 
 import { UserEntity } from "../../entities/UserEntity"
@@ -7,16 +8,11 @@ import UserTypeService from "../UserTypeService";
 import { Validation } from "./Validation";
 
 export class UserValidation extends Validation<UserEntity> {
-    public async validate(service: UserService, user: UserEntity): Promise<void> {
-        await this.validateFields(user);
-        await this.verifyUserExists(service, user.user);
-    }
-
-    protected async validateFields(user: UserEntity): Promise<void> {
+    protected async validateFields(user: UserEntity, isCreate: boolean): Promise<void> {
         const schema = yup.object().shape({
-            user: yup.string().trim().max(20, "Usuário com mais de 20 caracteres").required("Usuário inválido"),
-            idUserType: yup.string().trim().required("Tipo do usuário inválido"),
-            password: yup.string().trim().min(5, "Senha com menos de 5 caracteres").max(20, "Senha com mais de 20 caracteres"),
+            user: yup.string().max(20, "Usuário com mais de 20 caracteres").required("Usuário inválido"),
+            idUserType: yup.string().required("Tipo do usuário obrigatório"),
+            password: yup.string().min(5, "Senha com menos de 5 caracteres").max(20, "Senha com mais de 20 caracteres"),
         })
 
         await schema.validate(user, this.validateOptions)
@@ -24,10 +20,21 @@ export class UserValidation extends Validation<UserEntity> {
         await this.verifyUserTypeExists(user.idUserType);
     }
 
-    protected async verifyUserExists(service: UserService, username: string): Promise<void> {
-        const userFind = await service.findOne({ where: { user: username } });
+    protected async verifyIfExists(service: UserService, user: UserEntity, isCreate: boolean): Promise<void> {
+        let whereConditions: FindConditions<UserEntity> = {
+            user: user.user
+        };
 
-        if (userFind) {
+        if (!isCreate) {
+            whereConditions = {
+                ...whereConditions,
+                id: Not(user.id)
+            };
+        }
+
+        const userFound = await service.findOne({ where: whereConditions });
+
+        if (userFound) {
             throw new AppError("Esse usuário já está sendo utilizado!");
         }
     }
@@ -44,9 +51,10 @@ export class UserValidation extends Validation<UserEntity> {
         return userTypeFound;
     }
 
-    public async validateChangeUserType(idUserType: string){
+    public async validateChangeUserType(idUserType: string) {
         const userType = await this.verifyUserTypeExists(idUserType);
-        if(userType.description == "ADM" || userType.description == "E-commerce"){
+
+        if (userType.description == "ADM" || userType.description == "E-commerce") {
             throw new AppError("Você só pode alterar entre comprador ou recebedor", 403);
         }
     }
