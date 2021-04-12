@@ -127,6 +127,7 @@
                 }
             }
         },
+       
         "/customers/{id}":{
             "get":{
                 "tags":["Customer"],
@@ -135,6 +136,116 @@
                     {
                       "in": "path",
                       "name": "id",
+                      "type": "string",
+                      "required": true
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description": "sucess"
+                    }
+                }
+            }
+        },
+        "/delivery":{
+            "post":{
+                "tags":["Delivery"],
+                "summary": "Cadastra uma entrega na aplicação",
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema": { 
+                                "type": "object",
+                                "properties":{
+                                    "idBuyer": {
+                                        "type": "string"
+                                    },
+                                    "idReceiver": {
+                                        "type": "string"
+                                    },
+                                    "amountPackaging": {
+                                        "type": "number"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description": "created"
+                    },
+                    "400":{
+                        "description": "error"
+                    },
+                    "500":{
+                        "description": "server error"
+                    }
+                }
+            },
+            "put":{
+                "tags":["Delivery"],
+                "summary": "Altera uma entrega da aplicação",
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema": { 
+                                "type": "object",
+                                "properties":{
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "date": {
+                                        "type": "date"
+                                    },
+                                    "amountPackaging": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description": "updated"
+                    },
+                    "400":{
+                        "description": "error"
+                    }
+                }
+            }
+        },
+        "/delivery/buyer/{idBuyer}":{
+            "get":{
+                "tags":["Delivery"],
+                "summary": "Lista todas entregas que estão no nome de um comprador",
+                "parameters": [
+                    {
+                      "in": "path",
+                      "name": "idBuyer",
+                      "type": "string",
+                      "required": true
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description": "sucess"
+                    }
+                }
+            }
+        },
+        "/delivery/receiver/{idReceiver}":{
+            "get":{
+                "tags":["Delivery"],
+                "summary": "Lista todas entregas que estão no nome de um entregador",
+                "parameters": [
+                    {
+                      "in": "path",
+                      "name": "idReceiver",
                       "type": "string",
                       "required": true
                     }
