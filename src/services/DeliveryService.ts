@@ -35,6 +35,14 @@ class DeliveryService extends GenericService<DeliveryEntity>{
         return await super.update(deliveryFound);
     }
 
+    public async listForBuyer(idBuyer: string){
+        return await super.list({ where: { idBuyer} })
+    }
+
+    public async listForReceiver(idReceiver: string){
+        return await super.list({ where: { idReceiver} })
+    }
+
 }
 
 export default DeliveryService;

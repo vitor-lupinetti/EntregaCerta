@@ -31,6 +31,24 @@ class DeliveryController{
         const deliveryUpdated = await deliveryService.updateDelivery({receiptDate, receiptTime,amountPackaging, id});
         return response.status(201).json(deliveryUpdated);
     }
+
+    async listForBuyer(request:Request, response:Response){
+        const {idBuyer} = request.params;
+
+        const deliveryService = new DeliveryService();
+        const deliveries = await deliveryService.listForBuyer(idBuyer);
+
+        return response.status(200).json(deliveries);
+    }
+
+    async listForReceiver(request:Request, response:Response){
+        const {idReceiver} = request.params;
+
+        const deliveryService = new DeliveryService();
+        const deliveries = await deliveryService.listForReceiver(idReceiver);
+
+        return response.status(200).json(deliveries);
+    }
 }
 
 export default DeliveryController;

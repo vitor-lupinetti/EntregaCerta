@@ -39,5 +39,7 @@ router.get("/user-types", userTypeController.list);
 
 router.post("/delivery", deliveryController.create);
 router.put("/delivery", deliveryController.update);
+router.get("/delivery/buyer/:idBuyer", deliveryController.listForBuyer);
+router.get("/delivery/receiver/:idReceiver", deliveryController.listForReceiver);
 
 export { router };
