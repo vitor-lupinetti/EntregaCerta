@@ -35,6 +35,7 @@ router.put("/customers/", trimReceivedValues, multer(multerConfig).single("photo
 router.put("/customers/user/usertype", ensureAuthenticated, trimReceivedValues, customerController.changeUserTypeOfCustomer);
 router.get("/customers/", customerController.list);
 router.get("/customers/:id", trimReceivedValues, customerController.findCustomerById);
+router.post("/receiving-points", customerController.getReceivingPoints);
 
 router.get("/user-types", userTypeController.list);
 

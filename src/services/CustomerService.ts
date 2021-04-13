@@ -1,8 +1,10 @@
 import fs from "fs";
 import path from "path";
-import { FindOneOptions, getCustomRepository } from "typeorm";
+import { createQueryBuilder, FindConditions, FindOneOptions, getConnection, getCustomRepository, getManager, getRepository } from "typeorm";
+import { AddressEntity } from "../entities/AddressEntity";
 
 import { CustomerEntity } from "../entities/CustomerEntity";
+import { NeighborhoodEntity } from "../entities/NeighborhoodEntity";
 import { UserTypeEntity } from "../entities/UserTypeEntity";
 import { AppError } from "../errors/AppError";
 import { CustomerRepository } from "../repositories/CustomerRepository";
@@ -40,6 +42,13 @@ interface CustomerRelationsUpdateDTO {
     name: string,
     neighborhood: string,
     photo: Express.Multer.File
+}
+
+interface GetReceivingPoitsDTO{
+    cep?: string,
+    complement?:string,
+    neighborhood?:string,
+    idReceiver?: string
 }
 
 export class CustomerService extends GenericService<CustomerEntity>{
@@ -180,5 +189,52 @@ export class CustomerService extends GenericService<CustomerEntity>{
         await this.repository.save(customerFound);
 
         return customerFound;
+    }
+
+    public async getReceivingPoints(model: GetReceivingPoitsDTO){
+        const filter = await this.buidFilter(model);
+
+        const points =  await getManager()
+            .createQueryBuilder(CustomerEntity, 'c')
+            .addSelect('c.id', 'c_id')
+            .innerJoinAndSelect('c.addressEntity', 'a', 'c.idAddress = a.id')
+            .innerJoinAndSelect('a.neighborhoodEntity', 'n', 'a.idNeighborhood = n.id')
+            .where(filter)
+            .getMany();
+
+        return points;
+    }
+
+    private async buidFilter(model: GetReceivingPoitsDTO){
+
+        let filters = [];
+        let filter = '';
+
+        if(model.neighborhood){
+            filters.push(`n.name = '${model.neighborhood}'`)
+        }
+
+        if(model.cep){
+            filters.push(`a.cep = '${model.cep}'`)
+        }
+
+        if(model.idReceiver){
+            filters.push(`c.id = '${model.idReceiver}'`)
+        }
+
+        if(model.complement){
+            filters.push(`c.complement = '${model.complement}'`)
+        }
+
+        for (let i = 0; i < filters.length; i++) {
+            const element = filters[i];
+            filter += element;
+
+            if(i + 1 != filters.length){
+                filter += ' and '
+            }
+        }
+
+        return filter;
     }
 }

@@ -85,10 +85,18 @@ export class CustomerController {
     async changeUserTypeOfCustomer(request: Request, response: Response) {
         const { user, userTypeId } = request.body;
 
-        const userService = new UserService();
 
         const userUpdated = await userService.changeUserType(user, userTypeId);
 
         return response.status(200).json(userUpdated);
+    }
+
+    async getReceivingPoints(request: Request, response: Response){
+        const { cep, neighborhood, complement, idReceiver} = request.body;
+
+        const customerService = new CustomerService();
+        const points = await customerService.getReceivingPoints({cep, neighborhood, complement, idReceiver});
+
+        return response.status(200).json(points);
     }
 }
