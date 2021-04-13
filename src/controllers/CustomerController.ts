@@ -85,7 +85,7 @@ export class CustomerController {
     async changeUserTypeOfCustomer(request: Request, response: Response) {
         const { user, userTypeId } = request.body;
 
-
+        const userService = new UserService();
         const userUpdated = await userService.changeUserType(user, userTypeId);
 
         return response.status(200).json(userUpdated);
