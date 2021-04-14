@@ -1,16 +1,21 @@
+import fs from "fs";
+import path from "path";
 import { getCustomRepository } from "typeorm";
 
 import { DeliveryEntity } from "../entities/DeliveryEntity";
+import { DeliveryPhotoEntity } from "../entities/DeliveryPhotoEntity";
 import { AppError } from "../errors/AppError";
 import { DeliveryRepository } from "../repositories/DeliveryRepository";
+import { DeliveryPhotoService } from "./DeliveryPhotoService";
 import { GenericService } from "./Service";
 import { DeliveryValidation } from "./validations/DeliveryValidation";
 
 interface DeliveryUpdateDTO {
     receiptDate: string,
-    receiptTime: string,
+    receptionTime: string,
     id: string,
-    amountPackaging: number
+    amountPackaging: number,
+    photos?: any
 }
 
 class DeliveryService extends GenericService<DeliveryEntity>{
@@ -19,7 +24,6 @@ class DeliveryService extends GenericService<DeliveryEntity>{
     }
 
     public async updateDelivery(model: DeliveryUpdateDTO) {
-
         const deliveryFound = await super.findOne({ where: { id: model.id } })
 
         if (!deliveryFound) {
@@ -30,19 +34,39 @@ class DeliveryService extends GenericService<DeliveryEntity>{
 
         deliveryFound.amountPackaging = model.amountPackaging;
         deliveryFound.receiptDate = new Date(model.receiptDate);
-        deliveryFound.receptionTime = new Date(model.receiptTime);
+        deliveryFound.receptionTime = new Date(`${model.receiptDate}T${model.receptionTime}`);
 
-        return await super.update(deliveryFound);
+        await this.repository.save(deliveryFound);
+
+        if (model.photos) {
+            let deliveryPhotoService = new DeliveryPhotoService();
+
+            model.photos.forEach(async (photo: any) => {
+                let photoData = fs.readFileSync(photo.path);
+                let photoEncoded = photoData.toString("base64");
+
+                let deliveryPhoto: DeliveryPhotoEntity = {
+                    idDelivery: deliveryFound.id || "",
+                    photo: photoEncoded,
+                    photoMimeType: photo.mimetype
+                };
+
+                await deliveryPhotoService.create(deliveryPhoto);
+
+                fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo.filename), () => { /* Faz nada quando der erro */ });
+            });
+        }
+
+        return deliveryFound;
     }
 
-    public async listForBuyer(idBuyer: string){
-        return await super.list({ where: { idBuyer} })
+    public async listForBuyer(idBuyer: string) {
+        return await super.list({ where: { idBuyer } });
     }
 
-    public async listForReceiver(idReceiver: string){
-        return await super.list({ where: { idReceiver} })
+    public async listForReceiver(idReceiver: string) {
+        return await super.list({ where: { idReceiver } });
     }
-
 }
 
 export default DeliveryService;

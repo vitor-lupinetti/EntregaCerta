@@ -35,13 +35,15 @@ router.put("/customers/", trimReceivedValues, multer(multerConfig).single("photo
 router.put("/customers/user/usertype", ensureAuthenticated, trimReceivedValues, customerController.changeUserTypeOfCustomer);
 router.get("/customers/", customerController.list);
 router.get("/customers/:id", trimReceivedValues, customerController.findCustomerById);
+
 router.post("/receiving-points", customerController.getReceivingPoints);
 
 router.get("/user-types", userTypeController.list);
 
 router.post("/delivery", trimReceivedValues, deliveryController.create);
-router.put("/delivery", trimReceivedValues, deliveryController.update);
+router.put("/delivery", multer(multerConfig).array("photos[]", 8), trimReceivedValues, deliveryController.update);
 router.get("/delivery/buyer/:idBuyer", trimReceivedValues, deliveryController.listForBuyer);
 router.get("/delivery/receiver/:idReceiver", trimReceivedValues, deliveryController.listForReceiver);
+router.get("/delivery/:id", trimReceivedValues, deliveryController.findDeliveryById);
 
 export { router };

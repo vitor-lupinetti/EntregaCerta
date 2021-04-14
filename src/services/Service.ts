@@ -1,4 +1,4 @@
-import { FindOneOptions, Repository } from "typeorm";
+import { FindConditions, FindOneOptions, Repository } from "typeorm";
 
 import { Validation } from "./validations/Validation";
 
@@ -17,9 +17,11 @@ export class GenericService<T> {
 
     public async create(entity: T): Promise<T> {
         await this.validation.validateCreate(this, entity);
+
         const entityCreated = this.repository.create(entity);
 
         await this.repository.save(entityCreated);
+
         return entityCreated;
     }
 
@@ -34,7 +36,7 @@ export class GenericService<T> {
         return entity;
     }
 
-    public async delete(id: string): Promise<void> {
-        await this.repository.delete(id);
+    public async delete(criteria: string | FindConditions<T>): Promise<void> {
+        await this.repository.delete(criteria);
     }
 }

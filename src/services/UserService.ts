@@ -59,32 +59,37 @@ class UserService extends GenericService<UserEntity>{
         return user;
     }
 
-    public async authenticateUser(username: string, password: string): Promise<CustomerTokenDTO> {
+    public async authenticateUser(username: string, password: string): Promise<CustomerTokenDTO | UserTokenDTO> {
         const user = await super.findOne({ where: { user: username }, relations: ["userTypeEntity"] });
         let passwordMatched;
         if (user) {
             passwordMatched = await compare(password, user.password || "");
         }
         if (!user || !passwordMatched) {
-            throw new Error("Usuário/senha incorretos");
+            throw new AppError("Usuário/senha incorretos");
         }
 
         const userWithToken: UserTokenDTO = this.generateTokenForUser(user);
+
+        if (user.userTypeEntity?.description === "ADM" || user.userTypeEntity?.description === "E-commerce") {
+            return userWithToken;
+        }
+
         const customerWithToken: CustomerTokenDTO = await this.returnCustomerWithToken(userWithToken);
 
         return customerWithToken;
     }
 
-    public async changeUserType(user: string, userTypeId: string) {
+    public async changeUserType(user: string, idUserType: string) {
         const userFound = await this.findOne({ where: { user } });
 
         if (!userFound) {
             throw new AppError('Usuário não encontrado', 404);
         }
 
-        await (this.validation as UserValidation).validateChangeUserType(userTypeId);
+        await (this.validation as UserValidation).validateChangeUserType(idUserType);
 
-        userFound.idUserType = userTypeId;
+        userFound.idUserType = idUserType;
         await super.update(userFound);
 
         return userFound;

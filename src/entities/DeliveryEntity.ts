@@ -1,4 +1,4 @@
-import { Column, Entity as EntityORM, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import { Column, Entity as EntityORM, JoinColumn, ManyToOne } from "typeorm";
 
 import { CustomerEntity } from "./CustomerEntity";
 import { DeliveryPhotoEntity } from "./DeliveryPhotoEntity";
@@ -21,7 +21,7 @@ class DeliveryEntity extends Entity {
     receiverEntity?: CustomerEntity;
 
     @Column()
-    amountPackaging: number;
+    amountPackaging?: number;
 
     @Column()
     description: string;
@@ -35,8 +35,7 @@ class DeliveryEntity extends Entity {
     @Column()
     receptionTime?: Date;
 
-    @OneToMany(() => DeliveryPhotoEntity, photo => photo.idDelivery)
-    photos?: Array<DeliveryPhotoEntity>
+    photos?: DeliveryPhotoEntity[];
 }
 
 export { DeliveryEntity };
