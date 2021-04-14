@@ -28,7 +28,7 @@ Para conseguirmos utilizar apenas um repositório que armazene os códigos que s
 
 - Este projeto tem como objetivo gerar um MVP
 - Deixe uma estrelinha caso goste do que viu
-- 
+- Aceitamos sugestões
 
 ### Participantes
 
