@@ -1,7 +1,9 @@
+import { ResultModel } from './../../../models/resultModel';
 import { UserDataService } from './../../../services/userAccount/user-data.service';
-import { ResultModel } from 'src/app/models/resultModel';
 import { Component, OnInit } from '@angular/core';
 import { UserUpdateService } from 'src/app/services/userAccount/user-update.service';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-update',
@@ -10,15 +12,24 @@ import { UserUpdateService } from 'src/app/services/userAccount/user-update.serv
 })
 export class UserUpdateComponent implements OnInit {
 
-  constructor(private account: UserUpdateService, private userData: UserDataService) { }
+  constructor(private account: UserUpdateService, private userData: UserDataService,private route:ActivatedRoute) { }
   img;
-  ngOnInit(): void {
-    this.img = document.getElementById("image");
+  data: ResultModel;
+  subscription:Subscription;
 
+  ngOnInit(): void {
+
+    this.subscription = this.route.data.subscribe(
+      (info:{userData: ResultModel}) => {
+        this.data = info.userData;
+      }
+    );
+
+    this.img = document.getElementById("image");
     this.setInput();
   }
+
    id:string;
-   data: ResultModel;
    name:string;
    photo_url:string;
    email: string;
@@ -44,7 +55,8 @@ export class UserUpdateComponent implements OnInit {
 
 
     setInput(){
-      this.data = this.userData.getUserData();
+      
+      console.log(this.data);
       this.name = this.data.customer.name;
       this.photo_url = this.data.customer.photo_url;
       this.img.setAttribute("src",`data:${this.data.customer.photoMimeType};base64,${this.data.customer.photo}`);

@@ -1,3 +1,4 @@
+import { UserSearchService } from './services/userAccount/user-search.service';
 import { UserDataService } from './services/userAccount/user-data.service';
 import { UserRegisterService} from './services/userAccount/userRegister.service';
 import { AuthService } from './authentication/login/auth.service';
@@ -25,6 +26,8 @@ import { UserRegisterComponent } from './views/userAccount/user-register/user-re
 import { UserUpdateService } from './services/userAccount/user-update.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MessagesService } from './services/messages.service';
+import { UserResolve } from './authentication/guards/userResolve.resolver';
+import { TemplateReceiverComponent } from './receiver/template-receiver/template-receiver.component';
 
 
 
@@ -39,6 +42,7 @@ import { MessagesService } from './services/messages.service';
     HomeBuyerComponent,  
     UserUpdateComponent,
     UserRegisterComponent,
+    TemplateReceiverComponent,
     
     
   ],
@@ -73,7 +77,9 @@ import { MessagesService } from './services/messages.service';
               UserRegisterService, 
               RouteGuard, UserUpdateService,
               UserDataService,
-              MessagesService,],
+              MessagesService,
+            UserSearchService,
+          UserResolve],
 
   bootstrap: [AppComponent]
 })

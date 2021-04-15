@@ -1,14 +1,15 @@
+
 import { Router } from '@angular/router';
 import { AuthService } from './../../authentication/login/auth.service';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import{MediaMatcher} from '@angular/cdk/layout';
 
 @Component({
-  selector: 'app-template-buyer',
-  templateUrl: './template-buyer.component.html',
-  styleUrls: ['./template-buyer.component.css']
+  selector: 'app-template-receiver',
+  templateUrl: './template-receiver.component.html',
+  styleUrls: ['./template-receiver.component.css']
 })
-export class TemplateBuyerComponent implements  OnDestroy {
+export class TemplateReceiverComponent implements OnDestroy {
 
   mediaQuery: MediaQueryList;
 
@@ -34,6 +35,4 @@ export class TemplateBuyerComponent implements  OnDestroy {
     this.routes.navigate(['']);
   
   }
-
-
 }

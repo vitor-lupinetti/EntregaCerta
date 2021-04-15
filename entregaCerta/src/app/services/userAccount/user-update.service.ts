@@ -54,7 +54,7 @@ export class UserUpdateService {
                 result => { 
                   this.customer = result;
                  if(result){
-                   this.setUpdate(this.customer);
+                  //  this.setUpdate(this.customer);
                    console.log(result);
                    this.message.showMessage("Usuário atualizado");
                   //  this.route.navigate(['buyer/homeBuyer']);
@@ -70,12 +70,12 @@ export class UserUpdateService {
               )
   }
 
-  setUpdate(obj: CustomerModel){
-    this.data.customer = obj;
-    let token = this.userData.getUserData();
-    this.data.token = token.token
-    this.userData.setUserData(this.data); 
-    let updateObj = JSON.stringify(this.data);
-    localStorage.setItem("data",updateObj);
-  }
+  // setUpdate(obj: CustomerModel){
+  //   this.data.customer = obj;
+  //   let token = this.userData.getUserData();
+  //   this.data.token = token.token
+  //   this.userData.setUserData(this.data); 
+  //   let updateObj = JSON.stringify(this.data);
+  //   localStorage.setItem("data",updateObj);
+  // }
 }

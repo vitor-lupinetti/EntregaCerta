@@ -1,17 +1,14 @@
 .card{
-    position: absolute;
-    top: 50%;
-    left:50%;
-    transform: translate(-50%, -50%);
+    
     margin: auto;
-    width: 70%;
-    height: 80%;
-    overflow:auto;
+    width: 70vw;
+    /* height: 80%; */
+    /* overflow:auto; */
 }
 
 .title{
     text-align:center;
-    padding-top: 5px;
+    padding-top: 0.3rem;
     font-size: 2rem;
 }
 
@@ -19,7 +16,7 @@ form{
     
     display:flex;
     flex-direction:column;
-    margin-top: 60px;
+    margin-top: 3.13rem;
     justify-content: center;
     align-items: center;
 }
@@ -27,10 +24,10 @@ form{
 button{
     margin: auto;
     font-size: 1.1rem;
-    margin-top: 50px;
-    width: 20%;
-    height: 40px;
-    margin-bottom: 20px;
+    margin-top: 3.13rem;
+    width: 10vw;
+    height: 2.5rem;
+    margin-bottom: 1.25rem;
 }
 
 .btn-container{
@@ -55,9 +52,9 @@ button{
     float:left;
 } 
 #containerWhatsApp{
-    width: 60%;
-    padding-top: 1%;
-    padding-bottom: 3%;
+    width: 60vw;
+    padding-top: 0.6rem;
+    padding-bottom: 1.5rem;
 }
 
 .foto-container{
@@ -83,6 +80,93 @@ img{
 
 .input{
     margin: auto;
-    margin-bottom:8px;
-    width:60%;
+    margin-bottom:0.5rem;
+    width:60vw;
+}
+
+@media (min-width: 700px) {
+    .card{
+        
+        margin: auto;
+        width: 70vw;
+        /* height: 80%; */
+        /* overflow:auto; */
+    }
+    
+    .title{
+        text-align:center;
+        padding-top: 0.5rem;
+        font-size: 2rem;
+    }
+    
+    form{
+        
+        display:flex;
+        flex-direction:column;
+        margin-top: 3rem;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    button{
+        margin: auto;
+        font-size: 1.1rem;
+        margin-top: 2.5rem;
+        height: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .btn-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60%;
+    }
+    
+    .btn-container button{
+        width: 100%;
+    }
+        
+     .whatsApp{
+        margin-left: 0px;
+        float:left;
+    } 
+    #containerWhatsApp{
+        width: 60%;
+        padding-top: 1.2vw;
+        padding-bottom: 1.5vw;
+    }
+    
+    .foto-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 3%;
+        
+    }
+    
+    .img-container{
+        width: 80%;
+        margin: 2%;
+        
+    }
+
+    #input-foto{
+        text-align:center;
+    }
+    
+    img{
+        max-width: 300px;
+        max-height: 300px;
+        width: 100%;
+        /* border-radius: 50%; */
+        border: 1px solid rgb(177, 177, 177);
+    }
+    
+    .input{
+        margin: auto;
+        margin-bottom:0.4rem;
+        width:60%;
+    }
 }
