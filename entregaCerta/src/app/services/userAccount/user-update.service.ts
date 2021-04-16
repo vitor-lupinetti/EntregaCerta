@@ -31,11 +31,7 @@ export class UserUpdateService {
  
   data = <ResultModel>{};
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' +  this.userData.getToken()})
-  } 
-
+ 
   customer: CustomerModel;
     update(customerToCreate: customerCreateModel){
       const formData: FormData = new FormData();
@@ -53,13 +49,15 @@ export class UserUpdateService {
         formData.append('photo', customerToCreate.photo, customerToCreate.photo.name);
       }
       
+      const header = new HttpHeaders().set('Authorization', `Bearer ${this.userData.getToken()}`)
+      const headers = { headers: header };
 
-      this.http.put<CustomerModel>(this.url, formData, this.httpOptions)
+      this.http.put<CustomerModel>(this.url, formData, headers)
               .subscribe(
                 result => { 
                   this.customer = result;
                  if(result){
-                  //  this.setUpdate(this.customer);
+                  this.setUpdate(this.customer);
                    console.log(result);
                    this.message.showMessage("Usuário atualizado");
                   //  this.route.navigate(['/homeBuyer']);
@@ -75,12 +73,11 @@ export class UserUpdateService {
               )
   }
 
-  // setUpdate(obj: CustomerModel){
-  //   this.data.customer = obj;
-  //   let token = this.userData.getUserData();
-  //   this.data.token = token.token
-  //   this.userData.setUserData(this.data); 
-  //   let updateObj = JSON.stringify(this.data);
-  //   localStorage.setItem("data",updateObj);
-  // }
+  setUpdate(obj: CustomerModel){
+    this.data.customer = obj;
+    let token = this.userData.getToken();
+    this.data.token = token;
+    this.userData.setUserData(this.data); 
+    
+  }
 }

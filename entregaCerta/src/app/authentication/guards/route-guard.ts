@@ -44,6 +44,7 @@ export class RouteGuard implements CanActivate{
       console.log("chegou");
       this.authService.setLog(true);
       this.obj = JSON.parse(localStorage.getItem("data"));
+      console.log(this.obj);
       // this.userData.setUserData(data);
       this.userSearchService.search(this.obj.id, this.obj.token);
       this.userData.setId(this.obj.id);
