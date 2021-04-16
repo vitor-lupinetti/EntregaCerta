@@ -2,7 +2,7 @@ import { MessagesService } from './../messages.service';
 import { UserUpdateComponent } from './../../views/userAccount/user-update/user-update.component';
 import { UserDataService } from './user-data.service';
 import { ResultModel } from 'src/app/models/resultModel';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { customerCreateModel } from 'src/app/models/customerCreateModel';
 import { CustomerModel } from 'src/app/models/customerModel';
@@ -31,6 +31,11 @@ export class UserUpdateService {
  
   data = <ResultModel>{};
 
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' +  this.userData.getToken()})
+  } 
+
   customer: CustomerModel;
     update(customerToCreate: customerCreateModel){
       const formData: FormData = new FormData();
@@ -49,7 +54,7 @@ export class UserUpdateService {
       }
       
 
-      this.http.put<CustomerModel>(this.url, formData)
+      this.http.put<CustomerModel>(this.url, formData, this.httpOptions)
               .subscribe(
                 result => { 
                   this.customer = result;
@@ -57,7 +62,7 @@ export class UserUpdateService {
                   //  this.setUpdate(this.customer);
                    console.log(result);
                    this.message.showMessage("Usuário atualizado");
-                  //  this.route.navigate(['buyer/homeBuyer']);
+                  //  this.route.navigate(['/homeBuyer']);
                  }
                 },
                 error => {

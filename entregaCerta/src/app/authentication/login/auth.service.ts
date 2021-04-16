@@ -82,7 +82,9 @@ export class AuthService {
                                    userType: this.userType });
       console.log(this.customer.customer.id);
     localStorage.setItem("data", objJson);
-
+    this.data.setToken(this.customer.token);
+    this.data.setType(this.userType);
+    this.data.setId( this.customer.customer.id);
   }
 
 }

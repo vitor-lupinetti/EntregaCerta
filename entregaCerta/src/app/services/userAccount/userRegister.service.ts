@@ -1,6 +1,7 @@
+import { UserDataService } from './user-data.service';
 import { Router } from '@angular/router';
 import { MessagesService } from './../messages.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { customerCreateModel } from 'src/app/models/customerCreateModel';
 import { environment } from 'src/environments/environment';
@@ -11,7 +12,7 @@ import { AuthService } from 'src/app/authentication/login/auth.service';
 })
 export class UserRegisterService implements OnInit {
 
-  constructor(private http :HttpClient, private router:Router, private message:MessagesService, private authService:AuthService) {}
+  constructor(private http :HttpClient, private message:MessagesService, private authService:AuthService) {}
 
   ngOnInit(): void {}
   

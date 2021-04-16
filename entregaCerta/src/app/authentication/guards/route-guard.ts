@@ -39,7 +39,6 @@ export class RouteGuard implements CanActivate{
   obj: StorageModel ;
   load():void{
     
-    
     // this.loading = true;
     if(localStorage.getItem("data") != undefined && !this.authService.userAuth()){
       console.log("chegou");
@@ -47,7 +46,9 @@ export class RouteGuard implements CanActivate{
       this.obj = JSON.parse(localStorage.getItem("data"));
       // this.userData.setUserData(data);
       this.userSearchService.search(this.obj.id, this.obj.token);
-      
+      this.userData.setId(this.obj.id);
+      this.userData.setToken(this.obj.token);
+      this.userData.setType(this.obj.userType);
     }
   
   }

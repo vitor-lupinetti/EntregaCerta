@@ -28,6 +28,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MessagesService } from './services/messages.service';
 import { UserResolve } from './authentication/guards/userResolve.resolver';
 import { TemplateReceiverComponent } from './receiver/template-receiver/template-receiver.component';
+import { UpdateDeliveryComponent } from './buyer/view-buyer/update-delivery/update-delivery.component';
+import { ListComponent } from './views/delivery/list/list.component';
+import { DeliveryListService } from './services/delivery/delivery-list.service';
 
 
 
@@ -43,6 +46,8 @@ import { TemplateReceiverComponent } from './receiver/template-receiver/template
     UserUpdateComponent,
     UserRegisterComponent,
     TemplateReceiverComponent,
+    UpdateDeliveryComponent,
+    ListComponent,
     
     
   ],
@@ -79,7 +84,8 @@ import { TemplateReceiverComponent } from './receiver/template-receiver/template
               UserDataService,
               MessagesService,
             UserSearchService,
-          UserResolve],
+          UserResolve,
+          DeliveryListService],
 
   bootstrap: [AppComponent]
 })
