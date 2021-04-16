@@ -6,7 +6,9 @@ import { DeliveryEntity } from "../entities/DeliveryEntity";
 import { DeliveryPhotoEntity } from "../entities/DeliveryPhotoEntity";
 import { AppError } from "../errors/AppError";
 import { DeliveryRepository } from "../repositories/DeliveryRepository";
+import { CustomerService } from "./CustomerService";
 import { DeliveryPhotoService } from "./DeliveryPhotoService";
+import { MailService } from "./MailService";
 import { GenericService } from "./Service";
 import { DeliveryValidation } from "./validations/DeliveryValidation";
 
@@ -21,6 +23,16 @@ interface DeliveryUpdateDTO {
 class DeliveryService extends GenericService<DeliveryEntity>{
     constructor() {
         super(getCustomRepository(DeliveryRepository), new DeliveryValidation());
+    }
+
+    public async create(delivery: DeliveryEntity): Promise<DeliveryEntity> {
+        let deliveryCreated = await super.create(delivery);
+
+        let mailService = new MailService();
+
+        mailService.noticeNewDelivery(deliveryCreated);
+
+        return deliveryCreated;
     }
 
     public async updateDelivery(model: DeliveryUpdateDTO) {
@@ -56,6 +68,10 @@ class DeliveryService extends GenericService<DeliveryEntity>{
                 fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo.filename), () => { /* Faz nada quando der erro */ });
             });
         }
+
+        let mailService = new MailService();
+
+        mailService.noticeUpdatedDelivery(deliveryFound);
 
         return deliveryFound;
     }
