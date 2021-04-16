@@ -30,7 +30,7 @@ export class AuthService {
               .subscribe(
                 result => { 
                   this.customer = result;
-                  console.log(this.customer );
+                
                   
                    this.userType = this.customer.customer.userEntity.userTypeEntity.description;
                   
@@ -40,7 +40,7 @@ export class AuthService {
                     this.setLog(true);
                     this.data.setUserData(this.customer);
                     this.setLocalStorage();
-                    console.log("buyer");
+                  
                     this.router.navigate(['buyer/user-update']);
                     
                   }
@@ -48,7 +48,7 @@ export class AuthService {
                     this.setLog(true);
                     this.data.setUserData(this.customer);
                     this.setLocalStorage();
-                    console.log("Reciver");
+                   
                     this.router.navigate(['receiver/user-update']);
                   }
                   else{
@@ -80,7 +80,7 @@ export class AuthService {
     let objJson = JSON.stringify({ token: this.customer.token,
                                    id: this.customer.customer.id,
                                    userType: this.userType });
-      console.log(this.customer.customer.id);
+
     localStorage.setItem("data", objJson);
     this.data.setToken(this.customer.token);
     this.data.setType(this.userType);

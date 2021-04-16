@@ -56,7 +56,6 @@ export class UserUpdateComponent implements OnInit {
 
     setInput(){
       
-      console.log(this.data);
       this.name = this.data.customer.name;
       this.photo_url = this.data.customer.photo_url;
       this.img.setAttribute("src",`data:${this.data.customer.photoMimeType};base64,${this.data.customer.photo}`);

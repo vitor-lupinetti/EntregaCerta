@@ -15,14 +15,12 @@ export class RouteGuard implements CanActivate{
   
   constructor( private authService: AuthService, private router: Router, private userData:UserDataService, private userSearchService: UserSearchService) { }
 
-  // loading = false;
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
 
     this.load();
     if(this.authService.userAuth()){
-      // this.loading = true;
-      console.log("auth");
+
       if(this.validType(state)){     
         return true;
       }
@@ -39,13 +37,13 @@ export class RouteGuard implements CanActivate{
   obj: StorageModel ;
   load():void{
     
-    // this.loading = true;
+ 
     if(localStorage.getItem("data") != undefined && !this.authService.userAuth()){
-      console.log("chegou");
+     
       this.authService.setLog(true);
       this.obj = JSON.parse(localStorage.getItem("data"));
-      console.log(this.obj);
-      // this.userData.setUserData(data);
+      
+    
       this.userSearchService.search(this.obj.id, this.obj.token);
       this.userData.setId(this.obj.id);
       this.userData.setToken(this.obj.token);
@@ -59,7 +57,7 @@ export class RouteGuard implements CanActivate{
   validType(state):boolean{
     
     this.obj = JSON.parse(localStorage.getItem("data"));
-    console.log(this.obj.userType);
+    
     
     let userType = this.obj.userType.toUpperCase();
     if(userType == undefined){
@@ -67,7 +65,7 @@ export class RouteGuard implements CanActivate{
     }
 
      let routerUrl = state.url.toUpperCase();
-     console.log(routerUrl);
+     
     let routerType = routerUrl.includes(userType);
     
     return routerType;

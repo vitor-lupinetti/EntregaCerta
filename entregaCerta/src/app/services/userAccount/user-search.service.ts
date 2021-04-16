@@ -23,27 +23,16 @@ export class UserSearchService implements OnInit{
   
   obj: StorageModel;
 
-  test(){
-    this.obj = JSON.parse(localStorage.getItem("data"));
-    let httpOptions
-    return httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.obj.token}`})
-    } 
-  }
   
-
-  
-  
-
   resultModel = <ResultModel>{};
-  load = false;
+  
   url = `${environment.api_url}/customers/`;
   search(id, token){
-    
-     console.log(this.test());
+    const header = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+    const headers = { headers: header };
+     console.log(headers);
     console.log(this.userData.getToken());
-    this.http.get<CustomerModel>(this.url +id, this.test())
+    this.http.get<CustomerModel>(this.url +id, headers)
               .subscribe(
                 result => { 
                   
