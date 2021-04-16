@@ -2,12 +2,19 @@ import { FindConditions, Not } from "typeorm";
 import * as yup from "yup";
 
 import { CustomerEntity } from "../../entities/CustomerEntity";
-import { AppError } from "../../errors/AppError";
 import { CustomerService } from "../CustomerService";
 import { Validation } from "./Validation";
 
 export class CustomerValidation extends Validation<CustomerEntity> {
-    protected async validateFields(customer: CustomerEntity, isCreate: boolean): Promise<void> {
+    protected async validateKeyFields(customer: CustomerEntity, isCreate: boolean): Promise<void> {
+        /**
+         * Without key field
+         */
+    }
+
+    public async validateSimpleFields(customer: CustomerEntity, isCreate: boolean): Promise<void> {
+        this.alreadyValidateSimpleFields = true;
+
         let validations = {
             complement: yup.string().max(100, "Complemento com mais de 100 caracteres"),
             contactNumber: yup.string().matches(/^\d{10,11}$/, "Número de contato no formato incorreto"),
@@ -26,14 +33,16 @@ export class CustomerValidation extends Validation<CustomerEntity> {
 
         const schema = yup.object().shape(validations);
 
-        await schema.validate(customer, this.validateOptions);
+        try {
+            await schema.validate(customer, this.validateOptions);
+        } catch (err) {
+            this.addErrors(err.errors);
+        }
     }
 
     protected async verifyIfExists(service: CustomerService, customer: CustomerEntity, isCreate: boolean): Promise<void> {
         let whereConditions: FindConditions<CustomerEntity>[] = [
-            {
-                contactNumber: customer.contactNumber
-            }
+            { contactNumber: customer.contactNumber }
         ];
 
         if (customer.email) {
@@ -57,7 +66,7 @@ export class CustomerValidation extends Validation<CustomerEntity> {
         let customerFound = await service.findOne({ where: whereConditions });
 
         if (customerFound) {
-            throw new AppError("Já existe um registro que possua mesmo e-mail, ou número de contato.");
+            this.errors.push("Já existe um registro que possua mesmo e-mail ou número de contato.");
         }
     }
 }

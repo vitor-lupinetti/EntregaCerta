@@ -1,10 +1,10 @@
-import { DeliveryEntity } from "../../entities/DeliveryEntity";
-import DeliveryService from "../DeliveryService";
-import { Validation } from "./Validation";
 import * as yup from "yup";
-import UserService from "../UserService";
+
+import { DeliveryEntity } from "../../entities/DeliveryEntity";
 import { AppError } from "../../errors/AppError";
 import { CustomerService } from "../CustomerService";
+import DeliveryService from "../DeliveryService";
+import { Validation } from "./Validation";
 
 interface DeliveryUpdateDTO {
     receiptDate: string,
@@ -16,18 +16,32 @@ interface DeliveryUpdateDTO {
 
 export class DeliveryValidation extends Validation<DeliveryEntity> {
     public async validateCreate(service: DeliveryService, delivery: DeliveryEntity): Promise<void> {
-        await this.validateFields(delivery, true);
+        if (!this.alreadyValidateSimpleFields) {
+            await this.validateSimpleFields(delivery, true);
+        }
+
+        await this.validateKeyFields(delivery, true);
+
+        this.throwErrors();
     }
 
-    protected async validateFields(delivery: DeliveryEntity, isCreate: boolean): Promise<void> {
+    protected async validateKeyFields(delivery: DeliveryEntity, isCreate: boolean): Promise<void> {
+        await this.verifyIfCustomerExists(delivery.idBuyer);
+        await this.verifyIfCustomerExists(delivery.idReceiver);
+    }
+
+    public async validateSimpleFields(delivery: DeliveryEntity, isCreate: boolean): Promise<void> {
+        this.alreadyValidateSimpleFields = true;
+
         let validations = this.getValidationsFields(isCreate);
 
         const schema = yup.object().shape(validations);
 
-        await schema.validate(delivery, this.validateOptions)
-
-        await this.verifyIfCustomerExists(delivery.idBuyer);
-        await this.verifyIfCustomerExists(delivery.idReceiver);
+        try {
+            await schema.validate(delivery, this.validateOptions);
+        } catch (err) {
+            this.addErrors(err.errors);
+        }
     }
 
     private getValidationsFields(isCreate: boolean): {} {
@@ -51,11 +65,17 @@ export class DeliveryValidation extends Validation<DeliveryEntity> {
 
         const schema = yup.object().shape(validations);
 
-        await schema.validate(model, this.validateOptions);
+        try {
+            await schema.validate(model, this.validateOptions);
+        } catch (err) {
+            this.addErrors(err.errors);
+        }
 
         if (new Date(model.receiptDate).getTime() > new Date().getTime()) {
-            throw new AppError("Data de recebimento não pode ser uma data maior que hoje.");
+            this.errors.push("Data de recebimento não pode ser uma data maior que hoje.");
         }
+
+        this.throwErrors();
     }
 
     private async verifyIfCustomerExists(id: string) {

@@ -44,10 +44,10 @@ interface CustomerRelationsUpdateDTO {
     photo: Express.Multer.File
 }
 
-interface GetReceivingPoitsDTO{
+interface GetReceivingPointsDTO {
     cep?: string,
-    complement?:string,
-    neighborhood?:string,
+    complement?: string,
+    neighborhood?: string,
     idReceiver?: string
 }
 
@@ -87,6 +87,8 @@ export class CustomerService extends GenericService<CustomerEntity>{
         customerToCreate.addressEntity = { cep, street };
         customerToCreate.addressEntity.neighborhoodEntity = { name: neighborhood };
         customerToCreate.userEntity = { idUserType: userType.id || "", password, user };
+
+        await this.treatValidations(customerToCreate, neighborhoodService, addressService, userService);
 
         const neighborhoodCreated = await neighborhoodService.create(customerToCreate.addressEntity.neighborhoodEntity);
 
@@ -169,6 +171,8 @@ export class CustomerService extends GenericService<CustomerEntity>{
         customerFound.addressEntity = { cep, street };
         customerFound.addressEntity.neighborhoodEntity = { name: neighborhood };
 
+        await this.treatValidations(customerFound, neighborhoodService, addressService);
+
         const neighborhoodCreated = await neighborhoodService.create(customerFound.addressEntity.neighborhoodEntity);
 
         if (neighborhoodCreated) {
@@ -191,10 +195,10 @@ export class CustomerService extends GenericService<CustomerEntity>{
         return customerFound;
     }
 
-    public async getReceivingPoints(model: GetReceivingPoitsDTO){
-        const filter = await this.buidFilter(model);
+    public async getReceivingPoints(model: GetReceivingPointsDTO) {
+        const filter = await this.buildFilter(model);
 
-        const points =  await getManager()
+        const points = await getManager()
             .createQueryBuilder(CustomerEntity, 'c')
             .addSelect('c.id', 'c_id')
             .innerJoinAndSelect('c.addressEntity', 'a', 'c.idAddress = a.id')
@@ -205,24 +209,24 @@ export class CustomerService extends GenericService<CustomerEntity>{
         return points;
     }
 
-    private async buidFilter(model: GetReceivingPoitsDTO){
+    private async buildFilter(model: GetReceivingPointsDTO) {
 
         let filters = [];
         let filter = '';
 
-        if(model.neighborhood){
+        if (model.neighborhood) {
             filters.push(`n.name = '${model.neighborhood}'`)
         }
 
-        if(model.cep){
+        if (model.cep) {
             filters.push(`a.cep = '${model.cep}'`)
         }
 
-        if(model.idReceiver){
+        if (model.idReceiver) {
             filters.push(`c.id = '${model.idReceiver}'`)
         }
 
-        if(model.complement){
+        if (model.complement) {
             filters.push(`c.complement = '${model.complement}'`)
         }
 
@@ -230,11 +234,43 @@ export class CustomerService extends GenericService<CustomerEntity>{
             const element = filters[i];
             filter += element;
 
-            if(i + 1 != filters.length){
+            if (i + 1 != filters.length) {
                 filter += ' and '
             }
         }
 
         return filter;
+    }
+
+    public async onlyValidateCreate(customer: CustomerEntity): Promise<string[]> {
+        await this.validation.validateSimpleFields(customer, true);
+
+        return this.validation.getErrors();
+    }
+
+    private async treatValidations(customer: CustomerEntity, neighborhoodService: NeighborhoodService, addressService: AddressService, userService?: UserService) {
+        if (customer.userEntity && userService) {
+            let userEntity = customer.userEntity;
+
+            this.validation.addErrors(await userService.onlyValidateCreate(userEntity));
+        }
+
+        if (customer.addressEntity) {
+            let addressEntity = customer.addressEntity;
+
+            this.validation.addErrors(await addressService.onlyValidateCreate(addressEntity));
+
+            if (addressEntity.neighborhoodEntity) {
+                let neighborhoodEntity = addressEntity.neighborhoodEntity;
+
+                this.validation.addErrors(await neighborhoodService.onlyValidateCreate(neighborhoodEntity));
+            }
+        }
+
+        let customerErrors = await this.onlyValidateCreate(customer);
+
+        if (customerErrors.length > 0) {
+            throw new AppError(customerErrors);
+        }
     }
 }

@@ -9,4 +9,10 @@ export class NeighborhoodService extends GenericService<NeighborhoodEntity>{
     constructor() {
         super(getCustomRepository(NeighborhoodRepository), new NeighborhoodValidation());
     }
+
+    public async onlyValidateCreate(neighborhood: NeighborhoodEntity): Promise<string[]> {
+        await this.validation.validateSimpleFields(neighborhood, true)
+
+        return this.validation.getErrors();
+    }
 }

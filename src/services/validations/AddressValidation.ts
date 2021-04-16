@@ -1,22 +1,28 @@
 import * as yup from "yup"
 
-import { AddressEntity } from "../../entities/AddressEntity"
-import { AppError } from "../../errors/AppError";
+import { AddressEntity } from "../../entities/AddressEntity";
 import { AddressService } from "../AddressService";
 import { NeighborhoodService } from "../NeighborhoodService";
 import { Validation } from "./Validation";
 
 export class AddressValidation extends Validation<AddressEntity> {
-    protected async validateFields(address: AddressEntity, isCreate: boolean): Promise<void> {
+    protected async validateKeyFields(address: AddressEntity, isCreate: boolean): Promise<void> {
+        await this.verifyNeighborhoodExists(address.idNeighborhood || "");
+    }
+
+    public async validateSimpleFields(address: AddressEntity, isCreate: boolean): Promise<void> {
+        this.alreadyValidateSimpleFields = true;
+
         const schema = yup.object().shape({
-            idNeighborhood: yup.string().required("Bairro obrigatório"),
             cep: yup.string().matches(/^\d{8}$/, "CEP no formato incorreto"),
             street: yup.string().max(100, "Rua com mais de 100 caracteres").required("Rua obrigatória")
         });
 
-        await schema.validate(address, this.validateOptions);
-
-        await this.verifyNeighborhoodExists(address.idNeighborhood || "");
+        try {
+            await schema.validate(address, this.validateOptions);
+        } catch (err) {
+            this.addErrors(err.errors);
+        }
     }
 
     protected async verifyIfExists(service: AddressService, address: AddressEntity, isCreate: boolean): Promise<void> {
@@ -35,7 +41,7 @@ export class AddressValidation extends Validation<AddressEntity> {
         const neighborhoodFound = await neighborhoodService.findOne({ where: { id: idNeighborhood } });
 
         if (!neighborhoodFound) {
-            throw new AppError("Bairro não encontrado");
+            this.errors.push("Bairro não encontrado");
         }
     }
 }

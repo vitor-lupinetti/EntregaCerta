@@ -9,4 +9,10 @@ export class AddressService extends GenericService<AddressEntity>{
     constructor() {
         super(getCustomRepository(AddressRepository), new AddressValidation());
     }
+
+    public async onlyValidateCreate(address: AddressEntity): Promise<string[]> {
+        await this.validation.validateSimpleFields(address, true);
+
+        return this.validation.getErrors();
+    }
 }

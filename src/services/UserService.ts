@@ -133,6 +133,12 @@ class UserService extends GenericService<UserEntity>{
         delete entity.password;
         return entity;
     }
+
+    public async onlyValidateCreate(user: UserEntity): Promise<string[]> {
+        await this.validation.validateSimpleFields(user, true);
+
+        return this.validation.getErrors();
+    }
 }
 
 export default UserService;
