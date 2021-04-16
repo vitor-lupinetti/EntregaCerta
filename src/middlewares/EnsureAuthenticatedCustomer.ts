@@ -6,7 +6,7 @@ import UserService from '../services/UserService';
 interface IPayload{
     sub: string;
 }
-export async function ensureAuthenticated(request: Request, response:Response, next: NextFunction){
+export async function ensureAuthenticatedCustomer(request: Request, response:Response, next: NextFunction){
     const authHeader = request.headers.authorization;
 
     if(!authHeader){
@@ -24,6 +24,15 @@ export async function ensureAuthenticated(request: Request, response:Response, n
         throw new Error("Token inválido!");
     }
 
+    if(!user){
+        throw new AppError("Usuário não econtrado", 404);
+    }
+
+    let userDescription = user.userTypeEntity?.description;
+
+    if(userDescription != "Buyer" && userDescription != "Receiver"){
+        throw new AppError("Somente um comprador tem permissão para acessar essa rota!!", 401);
+    }
 
     next();
 }

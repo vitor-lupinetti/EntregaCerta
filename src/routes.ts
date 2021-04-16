@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { NextFunction, Router } from "express";
 import multer from "multer";
 
 import multerConfig from "./config/multer";
@@ -9,6 +9,8 @@ import { NeighborhoodController } from "./controllers/NeighborhoodController";
 import UserController from "./controllers/UserController";
 import UserTypeController from "./controllers/UserTypeController";
 import { ensureAuthenticated } from "./middlewares/EnsureAuthenticated";
+import { ensureAuthenticatedAdm } from "./middlewares/EnsureAuthenticatedAdm";
+import { ensureAuthenticatedCustomer } from "./middlewares/EnsureAuthenticatedCustomer";
 import { trimReceivedValues } from "./middlewares/TrimReceivedValues";
 
 const router = Router();
@@ -20,30 +22,30 @@ const customerController = new CustomerController();
 const userTypeController = new UserTypeController();
 const deliveryController = new DeliveryController();
 
-router.post("/users/", trimReceivedValues, userController.create);
-router.get("/users/", userController.list);
-router.get("/users/:username", trimReceivedValues, userController.getUserByUsername);
+router.post("/users/", ensureAuthenticated,trimReceivedValues, userController.create);
+router.get("/users/", ensureAuthenticated,userController.list);
+router.get("/users/:username",ensureAuthenticated, trimReceivedValues, userController.getUserByUsername);
 
 router.post("/login", trimReceivedValues, userController.authenticateUser);
 
-router.get("/neighborhoods/", neighborhoodController.list);
+router.get("/neighborhoods/",ensureAuthenticated, neighborhoodController.list);
 
-router.get("/addresses/", addressController.list);
+router.get("/addresses/",ensureAuthenticated, addressController.list);
 
 router.post("/customers/", multer(multerConfig).single("photo"), trimReceivedValues, customerController.create);
-router.put("/customers/", trimReceivedValues, multer(multerConfig).single("photo"), customerController.update);
-router.put("/customers/user/usertype", ensureAuthenticated, trimReceivedValues, customerController.changeUserTypeOfCustomer);
-router.get("/customers/", customerController.list);
-router.get("/customers/:id", trimReceivedValues, customerController.findCustomerById);
+router.put("/customers/",ensureAuthenticatedCustomer, trimReceivedValues, multer(multerConfig).single("photo"), customerController.update);
+router.put("/customers/user/usertype", ensureAuthenticatedAdm, trimReceivedValues, customerController.changeUserTypeOfCustomer);
+router.get("/customers/",ensureAuthenticatedCustomer, customerController.list);
+router.get("/customers/:id",ensureAuthenticatedCustomer, trimReceivedValues, customerController.findCustomerById);
 
 router.post("/receiving-points", customerController.getReceivingPoints);
 
-router.get("/user-types", userTypeController.list);
+router.get("/user-types",ensureAuthenticatedCustomer, userTypeController.list);
 
 router.post("/delivery", trimReceivedValues, deliveryController.create);
-router.put("/delivery", multer(multerConfig).array("photos[]", 8), trimReceivedValues, deliveryController.update);
-router.get("/delivery/buyer/:idBuyer", trimReceivedValues, deliveryController.listForBuyer);
-router.get("/delivery/receiver/:idReceiver", trimReceivedValues, deliveryController.listForReceiver);
-router.get("/delivery/:id", trimReceivedValues, deliveryController.findDeliveryById);
+router.put("/delivery",ensureAuthenticatedCustomer, multer(multerConfig).array("photos[]", 8), trimReceivedValues, deliveryController.update);
+router.get("/delivery/buyer/:idBuyer",ensureAuthenticatedCustomer, trimReceivedValues, deliveryController.listForBuyer);
+router.get("/delivery/receiver/:idReceiver",ensureAuthenticatedCustomer, trimReceivedValues, deliveryController.listForReceiver);
+router.get("/delivery/:id", trimReceivedValues,ensureAuthenticatedCustomer, deliveryController.findDeliveryById);
 
 export { router };
