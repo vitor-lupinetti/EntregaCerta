@@ -6,7 +6,15 @@ import UserTypeService from "../UserTypeService";
 import { Validation } from "./Validation";
 
 export class UserTypeValidation extends Validation<UserTypeEntity> {
-    protected async validateFields(userType: UserTypeEntity, isCreate: boolean): Promise<void> {
+    protected async validateKeyFields(userType: UserTypeEntity, isCreate: boolean): Promise<void> {
+        /**
+         * Without key field
+         */
+    }
+
+    public async validateSimpleFields(userType: UserTypeEntity, isCreate: boolean): Promise<void> {
+        this.alreadyValidateSimpleFields = true;
+
         const schema = yup.object().shape({
             description: yup.string().max(20, "Descrição com mais de 20 caracteres").required("Descrição obrigatória")
         });
