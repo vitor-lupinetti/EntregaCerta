@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import Mail from "nodemailer/lib/mailer";
 import { DeliveryEntity } from "../entities/DeliveryEntity";
 import { CustomerService } from "./CustomerService";
 
@@ -7,10 +8,21 @@ export class MailService {
     private readonly PORT: number;
     private readonly SMTP_SERVER: string;
 
+    private transporter: Mail;
+
     constructor() {
         this.EMAIL = "noreply.entregacerta@gmail.com";
         this.PORT = 587;
         this.SMTP_SERVER = "smtp.gmail.com";
+
+        this.transporter = nodemailer.createTransport({
+            host: this.SMTP_SERVER,
+            port: this.PORT,
+            auth: {
+                user: this.EMAIL,
+                pass: process.env.EMAIL_PASSWORD
+            }
+        });
     }
 
     public async noticeNewDelivery(delivery: DeliveryEntity) {
@@ -58,16 +70,7 @@ export class MailService {
     }
 
     public async send(to: string, subject: string, body: string) {
-        let transporter = nodemailer.createTransport({
-            host: this.SMTP_SERVER,
-            port: this.PORT,
-            auth: {
-                user: this.EMAIL,
-                pass: process.env.EMAIL_PASSWORD
-            }
-        });
-
-        await transporter.sendMail({
+        await this.transporter.sendMail({
             from: this.EMAIL,
             to,
             subject,
