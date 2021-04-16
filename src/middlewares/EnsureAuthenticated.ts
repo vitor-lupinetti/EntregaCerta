@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 import { AppError } from '../errors/AppError';
 import UserService from '../services/UserService';
+import {TokenService} from '../services/TokenService'
 
 interface IPayload{
     sub: string;
@@ -9,21 +10,9 @@ interface IPayload{
 export async function ensureAuthenticated(request: Request, response:Response, next: NextFunction){
     const authHeader = request.headers.authorization;
 
-    if(!authHeader){
-        throw new Error("Token is missing!");
-    }
+    const tokenService = new TokenService();
 
-    const [ , token] = authHeader.split(" ");
-    let user;
-    
-    try {
-        const {sub} = verify(token, process.env.JWT_SECRET!) as IPayload;
-        const userService = new UserService();
-        user = await userService.findOne({where: {id: sub}, relations: ["userTypeEntity"]});
-    } catch  {
-        throw new Error("Token inválido!");
-    }
-
+    await tokenService.ensureAuthenticated(authHeader);
 
     next();
 }
