@@ -8,84 +8,86 @@
             <div class="img-container">
                 <img src="../../../../assets/default-user.png" id="image" alt="Imagem perfil" width="250" height="200">
             </div>
-            <input id="input-foto" class="input" placeholder="Imagem" [(ngModel)]="photo" name="photo" (change)="handleFileInput($event.target.files)" type="file" >
+            <input id="input-foto" class="input" placeholder="Imagem" [(ngModel)]="photo" name="photo"
+                (change)="handleFileInput($event.target.files)" type="file">
         </div>
 
         <mat-form-field class="input">
 
             <input placeholder="Nome" [(ngModel)]="name" name="name" matInput type="text">
-            
+
         </mat-form-field>
 
-        
-       
-            
-        <mat-form-field class="input">
 
-            <input  matInput placeholder="Email" [(ngModel)]="email" name="email" type="email">
-            
-        </mat-form-field>
+
 
         <mat-form-field class="input">
 
-            <input matInput  name="contactNumber" placeholder="Número de contato" [(ngModel)]="contactNumber" type="text">
+            <input matInput placeholder="Email" [(ngModel)]="email" name="email" type="email">
+
+        </mat-form-field>
+
+        <mat-form-field class="input">
+
+            <input matInput name="contactNumber" placeholder="Número de contato" [(ngModel)]="contactNumber"
+                type="text">
 
         </mat-form-field>
 
         <div id="containerWhatsApp">
 
-            <input name="hasWhatsApp" class="whatsApp" [(ngModel)]="hasWhatsAppBoolean" type="checkbox"> <label class="whatsApp" >Has WhatsApp</label>
+            <input name="hasWhatsApp" class="whatsApp" [(ngModel)]="hasWhatsAppBoolean" type="checkbox"> <label
+                class="whatsApp">Has WhatsApp</label>
         </div>
 
         <mat-form-field class="input">
 
-            <input matInput  name="cep" placeholder="CEP" [(ngModel)]="cep" type="text">
+            <input matInput name="cep" placeholder="CEP" [(ngModel)]="cep" type="text" (blur)="findByCEP()">
 
         </mat-form-field>
 
         <mat-form-field class="input">
 
-            <input matInput  name="street" placeholder="Rua" [(ngModel)]="street" type="text">
+            <input matInput name="street" placeholder="Rua" [(ngModel)]="street" type="text" disabled>
 
         </mat-form-field>
 
         <mat-form-field class="input">
 
-            <input matInput  name="homeNumber" placeholder="Número de moradia" [(ngModel)]="homeNumber" type="text">
+            <input matInput name="homeNumber" placeholder="Número de moradia" [(ngModel)]="homeNumber" type="text">
 
         </mat-form-field>
 
         <mat-form-field class="input">
 
-            <textarea matInput  name="complement" placeholder="Complemento" [(ngModel)]="complement" > </textarea>
+            <textarea matInput name="complement" placeholder="Complemento" [(ngModel)]="complement"> </textarea>
 
         </mat-form-field>
 
         <mat-form-field class="input">
 
-            <input matInput  name="neighborhood" placeholder="Bairro" [(ngModel)]="neighborhood" type="text">
+            <input matInput name="neighborhood" placeholder="Bairro" [(ngModel)]="neighborhood" type="text" disabled>
 
         </mat-form-field>
 
         <mat-form-field class="input">
 
-            <input matInput  name="user" placeholder="Usuário" [(ngModel)]="user" type="text">
+            <input matInput name="user" placeholder="Usuário" [(ngModel)]="user" type="text">
 
         </mat-form-field>
 
         <mat-form-field class="input">
 
-            <input matInput  name="password" placeholder="Senha" [(ngModel)]="password" type="password">
+            <input matInput name="password" placeholder="Senha" [(ngModel)]="password" type="password">
 
         </mat-form-field>
-       
+
         <div class="btn-container">
             <button mat-raised-button (click)="send()" color="primary">
                 Cadastrar
             </button>
-       </div>
+        </div>
 
     </form>
 
 </mat-card>
-
