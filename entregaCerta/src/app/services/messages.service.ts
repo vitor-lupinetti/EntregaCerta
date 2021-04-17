@@ -5,37 +5,29 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class MessagesService {
+  constructor(private snackBar: MatSnackBar) { }
 
-  constructor(private snackBar:MatSnackBar) { }
-
-  
-
-  showMessageError(msg:string): void{
+  showMessageError(msg: string | string[]): void {
     let message = "";
 
-    for(let n = 0; n < msg.length; n++){
-      if(msg.length == 1 || n == 0){
-        message += msg[n]; 
-   
-      }
-      else{
-        message += ", " + msg[n] ;
-      }
-      
+    if (typeof msg === "string") {
+      message = msg;
+    } else {
+      message = msg.join(", ");
     }
-    this.snackBar.open(message, 'X' , {
-      duration:3000,
-      horizontalPosition:"center",
-      verticalPosition:"top"
+
+    this.snackBar.open(message, 'X', {
+      duration: 3000,
+      horizontalPosition: "center",
+      verticalPosition: "top"
     })
-    
   }
 
-  showMessage(msg:string){
-    this.snackBar.open(msg, 'X' , {
-      duration:3000,
-      horizontalPosition:"center",
-      verticalPosition:"top"
+  showMessage(msg: string) {
+    this.snackBar.open(msg, 'X', {
+      duration: 3000,
+      horizontalPosition: "center",
+      verticalPosition: "top"
     })
   }
 }
