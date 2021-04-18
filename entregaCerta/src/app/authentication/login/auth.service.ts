@@ -34,7 +34,6 @@ export class AuthService {
                   
                    this.userType = this.customer.customer.userEntity.userTypeEntity.description;
                   
-                  // this.userType = "Receiver";
 
                   if(this.userType == "Buyer"){
                     this.setLog(true);
@@ -85,6 +84,7 @@ export class AuthService {
     this.data.setToken(this.customer.token);
     this.data.setType(this.userType);
     this.data.setId( this.customer.customer.id);
+   
   }
 
 }

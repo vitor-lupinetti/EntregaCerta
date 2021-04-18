@@ -1,0 +1,39 @@
+.card{
+    overflow:auto;
+    margin: auto;
+    text-align: center;
+    width: 80vw;
+    /* min-height: 30%; */
+}
+
+form{
+    display:flex;
+    flex-direction:column;
+    width: 60vw;
+    margin: auto;
+}
+
+.title{
+    margin-bottom:4rem;
+}
+
+button{
+    margin: 20px 15px 0px 0px;
+}
+
+.container{
+    margin:auto;
+    width:90vw;
+}
+
+.title{
+    margin-bottom:3rem;
+}
+
+/* .data{
+    margin-right:2rem;
+} */
+
+input{
+    width:30vw;
+}

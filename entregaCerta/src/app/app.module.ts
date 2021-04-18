@@ -1,3 +1,4 @@
+import { DeliverySearchService } from './services/delivery/delivery-search.service';
 import { UserSearchService } from './services/userAccount/user-search.service';
 import { UserDataService } from './services/userAccount/user-data.service';
 import { UserRegisterService} from './services/userAccount/userRegister.service';
@@ -31,6 +32,11 @@ import { TemplateReceiverComponent } from './receiver/template-receiver/template
 import { UpdateDeliveryComponent } from './buyer/view-buyer/update-delivery/update-delivery.component';
 import { ListComponent } from './views/delivery/list/list.component';
 import { DeliveryListService } from './services/delivery/delivery-list.service';
+import { MatTableModule } from '@angular/material/table';
+import { DeliveryUpdateComponent } from './views/delivery/delivery-update/delivery-update.component';
+import { DeliveryUpdateService } from './services/delivery/delivery-update.service';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
 
 
 
@@ -48,6 +54,8 @@ import { DeliveryListService } from './services/delivery/delivery-list.service';
     TemplateReceiverComponent,
     UpdateDeliveryComponent,
     ListComponent,
+    DeliveryUpdateComponent,
+    
     
     
   ],
@@ -66,6 +74,10 @@ import { DeliveryListService } from './services/delivery/delivery-list.service';
     FormsModule,
     HttpClientModule,
     MatSnackBarModule,
+    MatTableModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+  
 
     // MatToolbarModule,
     //     MatIconModule,
@@ -83,9 +95,11 @@ import { DeliveryListService } from './services/delivery/delivery-list.service';
               RouteGuard, UserUpdateService,
               UserDataService,
               MessagesService,
-            UserSearchService,
-          UserResolve,
-          DeliveryListService],
+              UserSearchService,
+              UserResolve,
+              DeliveryListService,
+              DeliverySearchService,
+              DeliveryUpdateService],
 
   bootstrap: [AppComponent]
 })

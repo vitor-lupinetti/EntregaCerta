@@ -1,0 +1,13 @@
+table{
+    width: 100%;
+}
+
+h1{
+    padding: 1rem;
+    padding-left: 1.5rem;
+    
+}
+
+.id{
+    visibility: hidden;
+}

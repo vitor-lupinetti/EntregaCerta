@@ -1,3 +1,5 @@
+import { DeliveryUpdateComponent } from './views/delivery/delivery-update/delivery-update.component';
+import { ListComponent } from './views/delivery/list/list.component';
 import { TemplateReceiverComponent } from './receiver/template-receiver/template-receiver.component';
 import { UserRegisterComponent } from './views/userAccount/user-register/user-register.component';
 
@@ -20,6 +22,8 @@ const routes: Routes = [
     {path: 'user-update' , component: UserUpdateComponent,
       resolve:{userData : UserResolve}
   }, 
+  {path: 'delivery-list', component: ListComponent},
+ 
 ],
   canActivate:[RouteGuard]},
 
@@ -27,6 +31,8 @@ const routes: Routes = [
     {path: 'user-update' , component: UserUpdateComponent,
       resolve:{userData : UserResolve}
   }, 
+  {path: 'delivery-list', component: ListComponent},
+  {path: 'delivery-list/delivery-update/:id', component: DeliveryUpdateComponent},
 ],
   canActivate:[RouteGuard]},
 {path: 'user-register' , component: UserRegisterComponent,

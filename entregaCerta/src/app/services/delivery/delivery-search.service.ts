@@ -2,30 +2,26 @@ import { UserDataService } from './../userAccount/user-data.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DeliveryModel } from 'src/app/models/deliveryModel';
 import { environment } from 'src/environments/environment';
+import { DeliveryObjectModel } from 'src/app/models/deliveryObjectModel';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DeliveryListService {
+export class DeliverySearchService {
 
-  constructor(private http: HttpClient, private userData:UserDataService) { }
+  constructor(private http:HttpClient, private userData:UserDataService) { }
 
+  search(id:string): Observable<DeliveryObjectModel>{
   
-  list(): Observable<DeliveryModel[]>{
-    let type = this.userData.getType().toLowerCase();
-    let id = this.userData.getId(); 
     let token = this.userData.getToken();
 
-   let url = `${environment.api_url}/delivery/${type}/${id}`;
-    console.log(url);
+   let url = `${environment.api_url}/delivery/${id}`;
+
     const header = new HttpHeaders().set('Authorization', `Bearer ${token}`)
     const headers = { headers: header };
 
-    
 
-    return this.http.get<DeliveryModel[]>(url, headers);
+    return this.http.get<DeliveryObjectModel>(url, headers);
   }
 }
-

@@ -1,10 +1,12 @@
-export interface DeliveryModel{
+export interface DeliveryModel {
     id:string;
-    idBuyer: string,
-    idReceiver: string,
-    amountPackaging: number,
+    idBuyer?: string,
+    idReceiver?: string,
+    amountPackaging: string,
     description: string,
-    purchaseDate: string,
-    receiptDate: string,
-    receptionTime: string,
+    purchaseDate?: string,
+    receiptDate?: string,
+    receptionTime?: string,
+    date?: string;
+  
 }

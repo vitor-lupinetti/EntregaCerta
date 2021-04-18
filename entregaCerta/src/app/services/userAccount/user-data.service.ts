@@ -23,9 +23,11 @@ export class UserDataService {
 
   setId( id:string ){
     this.id = id;
+    
   }
 
   getId(){
+    
     return this.id;
   }
 
