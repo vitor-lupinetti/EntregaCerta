@@ -29,6 +29,10 @@
     "typescript": "~4.1.5",
     "zone.js": "~0.11.3"
   },
+  "engines": {
+    "node": "12.18.4",
+    "yarn": "1.22.10"
+  },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1102.5",
     "@angular/cli": "~11.2.5",
