@@ -5,6 +5,7 @@ import multerConfig from "./config/multer";
 import { AddressController } from "./controllers/AddressController";
 import { CustomerController } from "./controllers/CustomerController";
 import DeliveryController from "./controllers/DeliveryController";
+import DeliveryPhotosController from "./controllers/DeliveryPhotosController";
 import { NeighborhoodController } from "./controllers/NeighborhoodController";
 import UserController from "./controllers/UserController";
 import UserTypeController from "./controllers/UserTypeController";
@@ -21,6 +22,7 @@ const addressController = new AddressController();
 const customerController = new CustomerController();
 const userTypeController = new UserTypeController();
 const deliveryController = new DeliveryController();
+const deliveryPhotosController = new DeliveryPhotosController();
 
 router.post("/users/", ensureAuthenticated,trimReceivedValues, userController.create);
 router.get("/users/", ensureAuthenticated,userController.list);
@@ -43,7 +45,9 @@ router.post("/receiving-points", customerController.getReceivingPoints);
 router.get("/user-types",ensureAuthenticatedCustomer, userTypeController.list);
 
 router.post("/delivery", trimReceivedValues, deliveryController.create);
-router.put("/delivery",ensureAuthenticatedCustomer, multer(multerConfig).array("photos[]", 8), trimReceivedValues, deliveryController.update);
+router.put("/delivery",ensureAuthenticatedCustomer, trimReceivedValues, deliveryController.update);
+router.post("/delivery-photos",ensureAuthenticatedCustomer, multer(multerConfig).single("photo"), trimReceivedValues, deliveryPhotosController.create);
+router.delete("/delivery-photos",ensureAuthenticatedCustomer, trimReceivedValues, deliveryPhotosController.delete);
 router.get("/delivery/buyer/:idBuyer",ensureAuthenticatedCustomer, trimReceivedValues, deliveryController.listForBuyer);
 router.get("/delivery/receiver/:idReceiver",ensureAuthenticatedCustomer, trimReceivedValues, deliveryController.listForReceiver);
 router.get("/delivery/:id", trimReceivedValues,ensureAuthenticatedCustomer, deliveryController.findDeliveryById);

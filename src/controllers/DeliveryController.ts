@@ -23,7 +23,6 @@ class DeliveryController {
         amountPackaging = Number(amountPackaging);
         let receiptDate = "";
         let receptionTime = "";
-        let photos = request?.files;
 
         const regexDateTime = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
 
@@ -36,7 +35,7 @@ class DeliveryController {
 
         const deliveryService = new DeliveryService();
 
-        const deliveryUpdated = await deliveryService.updateDelivery({ receiptDate, receptionTime, amountPackaging, id, photos });
+        const deliveryUpdated = await deliveryService.updateDelivery({ receiptDate, receptionTime, amountPackaging, id });
         return response.status(201).json(deliveryUpdated);
     }
 

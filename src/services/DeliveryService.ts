@@ -16,8 +16,7 @@ interface DeliveryUpdateDTO {
     receiptDate: string,
     receptionTime: string,
     id: string,
-    amountPackaging: number,
-    photos?: any
+    amountPackaging: number
 }
 
 class DeliveryService extends GenericService<DeliveryEntity>{
@@ -50,24 +49,7 @@ class DeliveryService extends GenericService<DeliveryEntity>{
 
         await this.repository.save(deliveryFound);
 
-        if (model.photos) {
-            let deliveryPhotoService = new DeliveryPhotoService();
-
-            model.photos.forEach(async (photo: any) => {
-                let photoData = fs.readFileSync(photo.path);
-                let photoEncoded = photoData.toString("base64");
-
-                let deliveryPhoto: DeliveryPhotoEntity = {
-                    idDelivery: deliveryFound.id || "",
-                    photo: photoEncoded,
-                    photoMimeType: photo.mimetype
-                };
-
-                await deliveryPhotoService.create(deliveryPhoto);
-
-                fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo.filename), () => { /* Faz nada quando der erro */ });
-            });
-        }
+       
 
         let mailService = new MailService();
 
