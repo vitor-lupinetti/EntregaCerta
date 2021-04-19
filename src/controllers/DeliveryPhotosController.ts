@@ -24,5 +24,16 @@ export default class DeliveryPhotosController{
 
         return response.status(201).json({message: "Foto apagada com sucesso."});
     }
+
+    async list(request: Request, response: Response) {
+
+        let { idDelivery } = request.params;
+
+        const photoService = new DeliveryPhotoService();
+
+        const photos = await photoService.list({where: {idDelivery}});
+
+        return response.status(200).json(photos);
+    }
     
 }

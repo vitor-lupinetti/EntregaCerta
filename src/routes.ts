@@ -46,10 +46,13 @@ router.get("/user-types",ensureAuthenticatedCustomer, userTypeController.list);
 
 router.post("/delivery", trimReceivedValues, deliveryController.create);
 router.put("/delivery",ensureAuthenticatedCustomer, trimReceivedValues, deliveryController.update);
-router.post("/delivery-photos",ensureAuthenticatedCustomer, multer(multerConfig).single("photo"), trimReceivedValues, deliveryPhotosController.create);
-router.delete("/delivery-photos",ensureAuthenticatedCustomer, trimReceivedValues, deliveryPhotosController.delete);
 router.get("/delivery/buyer/:idBuyer",ensureAuthenticatedCustomer, trimReceivedValues, deliveryController.listForBuyer);
 router.get("/delivery/receiver/:idReceiver",ensureAuthenticatedCustomer, trimReceivedValues, deliveryController.listForReceiver);
 router.get("/delivery/:id", trimReceivedValues,ensureAuthenticatedCustomer, deliveryController.findDeliveryById);
+
+router.post("/delivery-photos",ensureAuthenticatedCustomer, multer(multerConfig).single("photo"), trimReceivedValues, deliveryPhotosController.create);
+router.get("/delivery-photos/:idDelivery",ensureAuthenticatedCustomer, trimReceivedValues, deliveryPhotosController.list);
+router.delete("/delivery-photos",ensureAuthenticatedCustomer, trimReceivedValues, deliveryPhotosController.delete);
+
 
 export { router };

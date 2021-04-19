@@ -30,9 +30,11 @@ export class DeliveryPhotoService extends GenericService<DeliveryPhotoEntity> {
             throw new AppError("Entrega não encontrada", 404);
         }
 
-        if (photo) {
+        if (!photo) {
+            throw new AppError('Foto não enviada.');
+        }
 
-            let photoData = fs.readFileSync(photo.path);
+        let photoData = fs.readFileSync(photo.path);
             let photoEncoded = photoData.toString("base64");
 
             let deliveryPhoto: DeliveryPhotoEntity = {
@@ -44,15 +46,14 @@ export class DeliveryPhotoService extends GenericService<DeliveryPhotoEntity> {
             await this.create(deliveryPhoto);
 
             fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo.filename), () => { /* Faz nada quando der erro */ });
-        }
 
     }
 
     public async delete(id: any){
-        const deliveryFound = await super.findOne({where: {id}});
+        const photoFound = await super.findOne({where: {id}});
 
-        if(!deliveryFound){
-            throw new AppError('Entrega não encontrada!!', 404);
+        if(!photoFound){
+            throw new AppError('Foto não encontrada!!', 404);
         }
 
         await super.delete({id});

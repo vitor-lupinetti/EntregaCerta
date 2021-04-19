@@ -163,9 +163,6 @@
                                     "idReceiver": {
                                         "type": "string"
                                     },
-                                    "amountPackaging": {
-                                        "type": "number"
-                                    },
                                     "description": {
                                         "type": "string"
                                     }
@@ -253,6 +250,63 @@
                 "responses":{
                     "200":{
                         "description": "sucess"
+                    }
+                }
+            }
+        },
+        "/delivery-photos":{
+            "post":{
+                "tags":["Delivery"],
+                "summary": "Cadastra uma nova foto da entrega na aplicação",
+                "requestBody":{
+                    "content":{
+                        "multipart/form-data":{
+                            "schema": { 
+                                "type": "object",
+                                "properties":{
+                                    "idDelivery":{
+                                        "type": "string"
+                                    },
+                                    "photo":{
+                                        "type": "file"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description": "created"
+                    },
+                    "400":{
+                        "description": "error"
+                    }
+                }
+            },
+            "delete":{
+                "tags":["Delivery"],
+                "summary": "Deleta uma foto da entrega na aplicação",
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema": { 
+                                "type": "object",
+                                "properties":{
+                                    "id":{
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description": "created"
+                    },
+                    "400":{
+                        "description": "error"
                     }
                 }
             }
