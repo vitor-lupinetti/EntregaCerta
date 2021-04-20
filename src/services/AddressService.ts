@@ -11,8 +11,12 @@ export class AddressService extends GenericService<AddressEntity>{
     }
 
     public async onlyValidateCreate(address: AddressEntity): Promise<string[]> {
-        await this.validation.validateSimpleFields(address, true);
+        this.validation.disableThrowErrors();
+        await this.validation.validateCreate(this, address);
 
-        return this.validation.getErrors();
+        let addressErrors = this.validation.getErrors();
+        addressErrors.splice(addressErrors.indexOf("Bairro não encontrado"), 1);
+
+        return addressErrors;
     }
 }

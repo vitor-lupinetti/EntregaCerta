@@ -26,6 +26,7 @@ class UserService extends GenericService<UserEntity>{
     }
 
     public async create(entity: UserEntity): Promise<UserEntity> {
+        this.validation.ableThrowErrors();
         await this.validation.validateCreate(this, entity);
 
         const hashedPassword = await hash(entity.password || "", 8);
@@ -135,7 +136,8 @@ class UserService extends GenericService<UserEntity>{
     }
 
     public async onlyValidateCreate(user: UserEntity): Promise<string[]> {
-        await this.validation.validateSimpleFields(user, true);
+        this.validation.disableThrowErrors();
+        await this.validation.validateCreate(this, user);
 
         return this.validation.getErrors();
     }

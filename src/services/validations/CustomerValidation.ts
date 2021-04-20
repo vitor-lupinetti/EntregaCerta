@@ -6,15 +6,7 @@ import { CustomerService } from "../CustomerService";
 import { Validation } from "./Validation";
 
 export class CustomerValidation extends Validation<CustomerEntity> {
-    protected async validateKeyFields(customer: CustomerEntity, isCreate: boolean): Promise<void> {
-        /**
-         * Without key field
-         */
-    }
-
-    public async validateSimpleFields(customer: CustomerEntity, isCreate: boolean): Promise<void> {
-        this.alreadyValidateSimpleFields = true;
-
+    protected async validateFields(customer: CustomerEntity, isCreate: boolean): Promise<void> {
         let validations = {
             complement: yup.string().max(100, "Complemento com mais de 100 caracteres"),
             contactNumber: yup.string().matches(/^\d{10,11}$/, "Número de contato no formato incorreto"),

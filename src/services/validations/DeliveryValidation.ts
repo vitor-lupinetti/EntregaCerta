@@ -16,23 +16,18 @@ interface DeliveryUpdateDTO {
 
 export class DeliveryValidation extends Validation<DeliveryEntity> {
     public async validateCreate(service: DeliveryService, delivery: DeliveryEntity): Promise<void> {
-        if (!this.alreadyValidateSimpleFields) {
-            await this.validateSimpleFields(delivery, true);
+        if (this.alreadyValidate) {
+            return;
         }
 
-        await this.validateKeyFields(delivery, true);
+        this.alreadyValidate = true;
+
+        await this.validateFields(delivery, true);
 
         this.throwErrors();
     }
 
-    protected async validateKeyFields(delivery: DeliveryEntity, isCreate: boolean): Promise<void> {
-        await this.verifyIfCustomerExists(delivery.idBuyer);
-        await this.verifyIfCustomerExists(delivery.idReceiver);
-    }
-
-    public async validateSimpleFields(delivery: DeliveryEntity, isCreate: boolean): Promise<void> {
-        this.alreadyValidateSimpleFields = true;
-
+    public async validateFields(delivery: DeliveryEntity, isCreate: boolean): Promise<void> {
         let validations = this.getValidationsFields(isCreate);
 
         const schema = yup.object().shape(validations);
@@ -42,6 +37,9 @@ export class DeliveryValidation extends Validation<DeliveryEntity> {
         } catch (err) {
             this.addErrors(err.errors);
         }
+
+        await this.verifyIfCustomerExists(delivery.idBuyer);
+        await this.verifyIfReceiverExists(delivery.idReceiver);
     }
 
     private getValidationsFields(isCreate: boolean): {} {
@@ -84,7 +82,20 @@ export class DeliveryValidation extends Validation<DeliveryEntity> {
         const customerFound = customerService.findOne({ where: { id } });
 
         if (!customerFound) {
-            throw new AppError("Cliente não encontrado!", 404);
+            this.errors.push("Cliente não encontrado!");
+        }
+    }
+
+    private async verifyIfReceiverExists(id: string) {
+        const customerService = new CustomerService();
+
+        const receiverFound = await customerService.findOne({
+            where: { id },
+            relations: ["userEntity", "userEntity.userTypeEntity"]
+        });
+
+        if (!receiverFound || receiverFound.userEntity?.userTypeEntity?.description !== "Receiver") {
+            this.errors.push("Recebedor não encontrado!");
         }
     }
 }

@@ -8,16 +8,10 @@ import UserTypeService from "../UserTypeService";
 import { Validation } from "./Validation";
 
 export class UserValidation extends Validation<UserEntity> {
-    protected async validateKeyFields(user: UserEntity, isCreate: boolean): Promise<void> {
-        await this.verifyUserTypeExists(user.idUserType);
-    }
-
-    public async validateSimpleFields(user: UserEntity, isCreate: boolean): Promise<void> {
-        this.alreadyValidateSimpleFields = true;
-
+    protected async validateFields(user: UserEntity, isCreate: boolean): Promise<void> {
         const schema = yup.object().shape({
-            user: yup.string().max(20, "Usuário com mais de 20 caracteres").required("Usuário inválido"),
-            password: yup.string().min(5, "Senha com menos de 5 caracteres").max(20, "Senha com mais de 20 caracteres"),
+            user: yup.string().max(20, "Usuário com mais de 20 caracteres").required("Usuário obrigatório"),
+            password: yup.string().min(5, "Senha com menos de 5 caracteres").max(20, "Senha com mais de 20 caracteres")
         });
 
         try {
@@ -25,6 +19,8 @@ export class UserValidation extends Validation<UserEntity> {
         } catch (err) {
             this.addErrors(err.errors);
         }
+
+        await this.verifyUserTypeExists(user.idUserType);
     }
 
     protected async verifyIfExists(service: UserService, user: UserEntity, isCreate: boolean): Promise<void> {

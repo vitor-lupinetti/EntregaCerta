@@ -11,7 +11,8 @@ export class NeighborhoodService extends GenericService<NeighborhoodEntity>{
     }
 
     public async onlyValidateCreate(neighborhood: NeighborhoodEntity): Promise<string[]> {
-        await this.validation.validateSimpleFields(neighborhood, true)
+        this.validation.disableThrowErrors();
+        await this.validation.validateCreate(this, neighborhood);
 
         return this.validation.getErrors();
     }

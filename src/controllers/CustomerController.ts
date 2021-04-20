@@ -1,15 +1,16 @@
 import { Request, Response } from "express";
 import fs from "fs";
 import path from "path";
+import { CustomerEntity } from "../entities/CustomerEntity";
 
 import { CustomerService } from "../services/CustomerService";
+import { FileService } from "../services/FileService";
 import UserService from "../services/UserService";
 
 export class CustomerController {
     async create(request: Request, response: Response) {
         // Campos CustomerEntity
         const { complement, contactNumber, email, hasWhatsApp, homeNumber, name } = request.body;
-        const photo = request?.file;
         // Campos AddressEntity
         const { cep, street } = request.body;
         // Campos NeighborhoodEntity
@@ -17,32 +18,28 @@ export class CustomerController {
         // Campos UserEntity
         const { password, user } = request.body;
 
-        try {
-            const customerService = new CustomerService();
+        let photo = "";
+        let photoMimeType = "";
 
-            const customerCreated = await customerService.createCustomerWithRelations({
-                complement,
-                contactNumber, email, hasWhatsApp, homeNumber, name, photo, cep,
-                neighborhood, password, street, user
-            });
+        if (request.file) {
+            const fileService = new FileService();
 
-            fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo.filename), () => { /* Faz nada quando der erro */ });
+            const convertedFile = fileService.convertToBase64(request.file);
 
-            return response.status(201).json(customerCreated);
-        } catch (err) {
-            const userService = new UserService();
-            const userCreated = await userService.findOne({ where: { user } });
-
-            if (userCreated) {
-                userService.delete(userCreated.id || "");
-            }
-
-            if (photo) {
-                fs.unlink(path.resolve(__dirname, "..", "..", "uploads", photo.filename), () => { /* Faz nada quando der erro */ });
-            }
-
-            return response.status(400).json({ error: err.errors || err.message });
+            photo = convertedFile.fileEncoded;
+            photoMimeType = convertedFile.mimeType;
         }
+
+        const customerToCreate: CustomerEntity = { complement, contactNumber, email, hasWhatsApp, homeNumber, name, photo, photoMimeType };
+        customerToCreate.addressEntity = { cep, street };
+        customerToCreate.addressEntity.neighborhoodEntity = { name: neighborhood };
+        customerToCreate.userEntity = { idUserType: "", password, user };
+
+        const customerService = new CustomerService();
+
+        const customerCreated = await customerService.create(customerToCreate);
+
+        return response.status(201).json(customerCreated);
     }
 
     async list(request: Request, response: Response) {
@@ -69,15 +66,30 @@ export class CustomerController {
     async update(request: Request, response: Response) {
         // Campos CustomerEntity
         const { id, complement, contactNumber, email, hasWhatsApp, homeNumber, name } = request.body;
-        const photo = request?.file;
         // Campos AddressEntity
         const { cep, street } = request.body;
         // Campos NeighborhoodEntity
         const { neighborhood } = request.body;
 
+        let photo = "";
+        let photoMimeType = "";
+
+        if (request.file) {
+            const fileService = new FileService();
+
+            const convertedFile = fileService.convertToBase64(request.file);
+
+            photo = convertedFile.fileEncoded;
+            photoMimeType = convertedFile.mimeType;
+        }
+
+        const customerToUpdate: CustomerEntity = { id, complement, contactNumber, email, hasWhatsApp, homeNumber, name, photo, photoMimeType };
+        customerToUpdate.addressEntity = { cep, street };
+        customerToUpdate.addressEntity.neighborhoodEntity = { name: neighborhood };
+
         const customerService = new CustomerService();
 
-        const customerUpdated = await customerService.updateCustomer({ id, cep, complement, contactNumber, email, hasWhatsApp, homeNumber, name, neighborhood, photo, street });
+        const customerUpdated = await customerService.update(customerToUpdate);
 
         return response.status(201).json(customerUpdated);
     }

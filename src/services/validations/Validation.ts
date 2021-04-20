@@ -5,33 +5,58 @@ import { AppError } from "../../errors/AppError";
 import { GenericService } from "../Service";
 
 export abstract class Validation<T extends Entity> {
-    protected alreadyValidateSimpleFields: boolean = false;
+    protected alreadyValidate: boolean = false;
+    protected canThrowErrors: boolean = true;
     protected errors: string[] = [];
     protected validateOptions: ValidateOptions = {
         abortEarly: false
     };
 
+    public ableThrowErrors(): void {
+        this.canThrowErrors = true;
+    }
+
+    public disableThrowErrors(): void {
+        this.canThrowErrors = false;
+    }
+
     public getErrors(): string[] {
         return this.errors;
     }
 
+    public addErrors(errors: string[]) {
+        errors.forEach((error: string) => {
+            this.errors.push(error);
+        });
+    }
+
     public async validateCreate(service: GenericService<T>, entity: T): Promise<void> {
-        if (!this.alreadyValidateSimpleFields) {
-            await this.validateSimpleFields(entity, true);
+        if (this.alreadyValidate) {
+            return;
         }
 
-        await this.validateKeyFields(entity, true);
+        this.alreadyValidate = true;
+
+        await this.validateFields(entity, true);
         await this.verifyIfExists(service, entity, true);
 
         this.throwErrors();
     }
 
     public async validateUpdate(service: GenericService<T>, entity: T): Promise<void> {
-        if (!this.alreadyValidateSimpleFields) {
-            await this.validateSimpleFields(entity, false);
+        let entityFound = service.findOne({ where: { id: entity.id } });
+
+        if (!entityFound) {
+            throw new AppError("Não encontrado para atualizar", 404);
         }
 
-        await this.validateKeyFields(entity, false);
+        if (this.alreadyValidate) {
+            return;
+        }
+
+        this.alreadyValidate = true;
+
+        await this.validateFields(entity, false);
         await this.verifyIfExists(service, entity, false);
 
         this.throwErrors();
@@ -43,24 +68,14 @@ export abstract class Validation<T extends Entity> {
         this.throwErrors();
     }
 
-    public addErrors(errors: string[]) {
-        errors.forEach((error: string) => {
-            this.errors.push(error);
-        });
-    }
-
     protected throwErrors() {
-        if (this.errors.length > 0) {
+        if (this.canThrowErrors && this.errors.length > 0) {
             throw new AppError(this.errors);
         }
     }
 
-    protected async validateKeyFields(entity: T, isCreate: boolean): Promise<void> {
-        this.errors.push("\"validateKeyFields\" not implemented");
-    }
-
-    public async validateSimpleFields(entity: T, isCreate: boolean): Promise<void> {
-        this.errors.push("\"validateSimpleFields\" not implemented");
+    protected async validateFields(entity: T, isCreate: boolean): Promise<void> {
+        this.errors.push("\"validateFields\" not implemented");
     }
 
     protected async verifyIfExists(service: GenericService<T>, entity: T, isCreate: boolean): Promise<void> {

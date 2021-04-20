@@ -6,13 +6,7 @@ import { NeighborhoodService } from "../NeighborhoodService";
 import { Validation } from "./Validation";
 
 export class AddressValidation extends Validation<AddressEntity> {
-    protected async validateKeyFields(address: AddressEntity, isCreate: boolean): Promise<void> {
-        await this.verifyNeighborhoodExists(address.idNeighborhood || "");
-    }
-
-    public async validateSimpleFields(address: AddressEntity, isCreate: boolean): Promise<void> {
-        this.alreadyValidateSimpleFields = true;
-
+    protected async validateFields(address: AddressEntity, isCreate: boolean): Promise<void> {
         const schema = yup.object().shape({
             cep: yup.string().matches(/^\d{8}$/, "CEP no formato incorreto"),
             street: yup.string().max(100, "Rua com mais de 100 caracteres").required("Rua obrigatória")
@@ -23,6 +17,8 @@ export class AddressValidation extends Validation<AddressEntity> {
         } catch (err) {
             this.addErrors(err.errors);
         }
+
+        await this.verifyNeighborhoodExists(address.idNeighborhood || "");
     }
 
     protected async verifyIfExists(service: AddressService, address: AddressEntity, isCreate: boolean): Promise<void> {
