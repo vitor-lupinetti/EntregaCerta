@@ -1,6 +1,4 @@
 import { Request, Response } from "express";
-import fs from "fs";
-import path from "path";
 import { CustomerEntity } from "../entities/CustomerEntity";
 
 import { CustomerService } from "../services/CustomerService";

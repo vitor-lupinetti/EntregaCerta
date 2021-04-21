@@ -134,36 +134,25 @@ export class CustomerService extends GenericService<CustomerEntity>{
     }
 
     private async buildFilter(model: GetReceivingPointsDTO) {
-
         let filters = [];
-        let filter = '';
 
         if (model.neighborhood) {
-            filters.push(`n.name = '${model.neighborhood}'`)
+            filters.push(`n.name = '${model.neighborhood}'`);
         }
 
         if (model.cep) {
-            filters.push(`a.cep = '${model.cep}'`)
+            filters.push(`a.cep = '${model.cep}'`);
         }
 
         if (model.idReceiver) {
-            filters.push(`c.id = '${model.idReceiver}'`)
+            filters.push(`c.id = '${model.idReceiver}'`);
         }
 
         if (model.complement) {
-            filters.push(`c.complement = '${model.complement}'`)
+            filters.push(`c.complement = '${model.complement}'`);
         }
 
-        for (let i = 0; i < filters.length; i++) {
-            const element = filters[i];
-            filter += element;
-
-            if (i + 1 != filters.length) {
-                filter += ' and '
-            }
-        }
-
-        return filter;
+        return filters.join(" and ");
     }
 
     public async onlyValidateCreate(customer: CustomerEntity): Promise<string[]> {

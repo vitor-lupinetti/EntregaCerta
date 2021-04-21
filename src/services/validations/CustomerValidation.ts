@@ -49,7 +49,7 @@ export class CustomerValidation extends Validation<CustomerEntity> {
 
             if (customer.email) {
                 whereConditions[1] = {
-                    ...whereConditions[0],
+                    ...whereConditions[1],
                     id: Not(customer.id)
                 };
             }
