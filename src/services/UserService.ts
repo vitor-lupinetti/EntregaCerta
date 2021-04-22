@@ -25,18 +25,16 @@ class UserService extends GenericService<UserEntity>{
         super(getCustomRepository(UserRepository), new UserValidation());
     }
 
-    public async create(entity: UserEntity): Promise<UserEntity> {
+    public async create(user: UserEntity): Promise<UserEntity> {
         this.validation.ableThrowErrors();
-        await this.validation.validateCreate(this, entity);
+        await this.validation.validateCreate(this, user);
 
-        const hashedPassword = await hash(entity.password || "", 8);
-        entity.password = hashedPassword;
+        const hashedPassword = await hash(user.password || "", 8);
+        user.password = hashedPassword;
 
-        const entityCreated = this.repository.create(entity);
+        const userCreated = await this.repository.save(user);
 
-        await this.repository.save(entityCreated);
-
-        return this.getUserWithoutPassword(entityCreated);
+        return this.getUserWithoutPassword(userCreated);
     }
 
     public async list(options?: FindOneOptions<UserEntity>): Promise<UserEntity[]> {
@@ -61,14 +59,18 @@ class UserService extends GenericService<UserEntity>{
     }
 
     public async authenticateUser(username: string, password: string): Promise<CustomerTokenDTO | UserTokenDTO> {
-        const user = await super.findOne({ where: { user: username }, relations: ["userTypeEntity"] });
+        let user = await super.findOne({ where: { user: username }, relations: ["userTypeEntity"] });
         let passwordMatched;
+
         if (user) {
             passwordMatched = await compare(password, user.password || "");
         }
-        if (!user || !passwordMatched) {
+
+        if (!passwordMatched) {
             throw new AppError("Usuário/senha incorretos");
         }
+
+        user = await this.getUserWithoutPassword(user);
 
         const userWithToken: UserTokenDTO = this.generateTokenForUser(user);
 
@@ -104,7 +106,6 @@ class UserService extends GenericService<UserEntity>{
             expiresIn: '1d',
         });
 
-
         const userWithToken: UserTokenDTO = {
             user,
             token
@@ -114,20 +115,20 @@ class UserService extends GenericService<UserEntity>{
     }
 
     private async returnCustomerWithToken(user: UserTokenDTO): Promise<CustomerTokenDTO> {
-
         const customerService = new CustomerService();
 
-        const customer = await customerService.findOne({ where: { id: user.user.id }, relations: ["userEntity", "addressEntity", "userEntity.userTypeEntity", "addressEntity.neighborhoodEntity"] })
+        let customer = await customerService.findOne({
+            where: { id: user.user.id },
+            relations: ["addressEntity", "addressEntity.neighborhoodEntity"]
+        });
+        customer.userEntity = user.user;
 
         const customerWithToken: CustomerTokenDTO = {
             customer,
             token: user.token
         };
 
-        delete customerWithToken.customer.userEntity?.password;
-
         return customerWithToken;
-
     }
 
     private async getUserWithoutPassword(entity: UserEntity) {

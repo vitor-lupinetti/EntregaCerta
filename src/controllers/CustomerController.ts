@@ -8,7 +8,7 @@ import { CustomerService } from "../services/CustomerService";
 import { FileService } from "../services/FileService";
 import UserService from "../services/UserService";
 
-function fillCustomerEntity(request: Request, isCreate: boolean): CustomerEntity {
+function fillCustomerToSave(request: Request, isCreate: boolean): CustomerEntity {
     const { complement, contactNumber, email, hasWhatsApp, homeNumber, name } = request.body;
     const { cep, street } = request.body;
     const { neighborhood } = request.body;
@@ -59,7 +59,7 @@ function fillCustomerEntity(request: Request, isCreate: boolean): CustomerEntity
 
 export class CustomerController {
     public async create(request: Request, response: Response) {
-        const customerToCreate = fillCustomerEntity(request, true);
+        const customerToCreate = fillCustomerToSave(request, true);
 
         const customerService = new CustomerService();
 
@@ -90,7 +90,7 @@ export class CustomerController {
     }
 
     public async update(request: Request, response: Response) {
-        const customerToUpdate = fillCustomerEntity(request, false);
+        const customerToUpdate = fillCustomerToSave(request, false);
 
         const customerService = new CustomerService();
 

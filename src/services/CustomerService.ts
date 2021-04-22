@@ -74,15 +74,6 @@ export class CustomerService extends GenericService<CustomerEntity>{
         return customers;
     }
 
-    public async findOne(options?: FindOneOptions<CustomerEntity>): Promise<CustomerEntity> {
-        const customer = await super.findOne(options);
-        if (customer) {
-            customer.photo_url = `${process.env.APP_URL}:${process.env.PORT}/uploads/${customer.photo}`;
-        }
-
-        return customer;
-    }
-
     public async update(customer: CustomerEntity): Promise<CustomerEntity> {
         const addressService = new AddressService();
         const neighborhoodService = new NeighborhoodService();

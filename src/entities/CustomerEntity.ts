@@ -1,4 +1,4 @@
-import { Column, Entity as EntityORM, JoinColumn, ManyToOne, OneToOne  } from "typeorm";
+import { Column, Entity as EntityORM, JoinColumn, ManyToOne, OneToOne } from "typeorm";
 import { AddressEntity } from "./AddressEntity";
 
 import { Entity } from "./Entity";
@@ -37,10 +37,9 @@ class CustomerEntity extends Entity {
 
     @Column()
     photo?: string = "";
+
     @Column()
     photoMimeType: string = "";
-
-    photo_url?:string="";
 }
 
 export { CustomerEntity };
