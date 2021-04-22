@@ -19,11 +19,7 @@ export class GenericService<T> {
         this.validation.ableThrowErrors();
         await this.validation.validateCreate(this, entity);
 
-        const entityCreated = this.repository.create(entity);
-
-        await this.repository.save(entityCreated);
-
-        return entityCreated;
+        return await this.repository.save(entity);
     }
 
     public async findOne(options?: FindOneOptions<T>): Promise<T> {
@@ -34,9 +30,7 @@ export class GenericService<T> {
         this.validation.ableThrowErrors();
         await this.validation.validateUpdate(this, entity);
 
-        await this.repository.save(entity);
-
-        return entity;
+        return await this.repository.save(entity);
     }
 
     public async delete(criteria: string | FindConditions<T>): Promise<void> {

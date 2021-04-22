@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
+
 import { DeliveryEntity } from "../entities/DeliveryEntity";
 import { DeliveryPhotoService } from "../services/DeliveryPhotoService";
 import DeliveryService from "../services/DeliveryService";
-
 
 class DeliveryController {
     async create(request: Request, response: Response) {
@@ -20,7 +20,6 @@ class DeliveryController {
 
     async update(request: Request, response: Response) {
         let { id, date, amountPackaging } = request.body;
-        amountPackaging = Number(amountPackaging);
         let receiptDate = "";
         let receptionTime = "";
 

@@ -1,5 +1,3 @@
-import fs from "fs";
-import path from "path";
 import { FindOneOptions, getCustomRepository, getManager } from "typeorm";
 
 import { CustomerEntity } from "../entities/CustomerEntity";
@@ -183,9 +181,13 @@ export class CustomerService extends GenericService<CustomerEntity>{
                 let neighborhoodEntity = addressEntity.neighborhoodEntity;
 
                 this.validation.addErrors(await neighborhoodService.onlyValidateCreate(neighborhoodEntity));
+
+                addressEntity.idNeighborhood = neighborhoodEntity.id;
             }
 
             this.validation.addErrors(await addressService.onlyValidateCreate(addressEntity));
+
+            customer.idAddress = addressEntity.id;
         }
 
         let customerErrors = [];

@@ -1,20 +1,18 @@
 import { Request, Response } from "express";
-import { CustomerEntity } from "../entities/CustomerEntity";
 
+import { AddressEntity } from "../entities/AddressEntity";
+import { CustomerEntity } from "../entities/CustomerEntity";
+import { NeighborhoodEntity } from "../entities/NeighborhoodEntity";
+import { UserEntity } from "../entities/UserEntity";
 import { CustomerService } from "../services/CustomerService";
 import { FileService } from "../services/FileService";
 import UserService from "../services/UserService";
 
 export class CustomerController {
-    async create(request: Request, response: Response) {
-        // Campos CustomerEntity
+    private fillCustomerEntity(request: Request, isCreate: boolean): CustomerEntity {
         const { complement, contactNumber, email, hasWhatsApp, homeNumber, name } = request.body;
-        // Campos AddressEntity
         const { cep, street } = request.body;
-        // Campos NeighborhoodEntity
         const { neighborhood } = request.body;
-        // Campos UserEntity
-        const { password, user } = request.body;
 
         let photo = "";
         let photoMimeType = "";
@@ -28,10 +26,40 @@ export class CustomerController {
             photoMimeType = convertedFile.mimeType;
         }
 
-        const customerToCreate: CustomerEntity = { complement, contactNumber, email, hasWhatsApp, homeNumber, name, photo, photoMimeType };
-        customerToCreate.addressEntity = { cep, street };
-        customerToCreate.addressEntity.neighborhoodEntity = { name: neighborhood };
-        customerToCreate.userEntity = { idUserType: "", password, user };
+        const customer = new CustomerEntity();
+        customer.complement = complement;
+        customer.contactNumber = contactNumber;
+        customer.email = email;
+        customer.hasWhatsApp = hasWhatsApp;
+        customer.homeNumber = homeNumber;
+        customer.name = name;
+        customer.photo = photo;
+        customer.photoMimeType = photoMimeType;
+
+        customer.addressEntity = new AddressEntity();
+        customer.addressEntity.cep = cep;
+        customer.addressEntity.street = street;
+
+        customer.addressEntity.neighborhoodEntity = new NeighborhoodEntity();
+        customer.addressEntity.neighborhoodEntity.name = neighborhood;
+
+        if (isCreate) {
+            const { password, user } = request.body;
+
+            customer.userEntity = new UserEntity();
+            customer.userEntity.password = password;
+            customer.userEntity.user = user;
+        } else {
+            const { id } = request.body;
+
+            customer.id = id;
+        }
+
+        return customer;
+    }
+
+    public async create(request: Request, response: Response) {
+        const customerToCreate = this.fillCustomerEntity(request, true);
 
         const customerService = new CustomerService();
 
@@ -40,7 +68,7 @@ export class CustomerController {
         return response.status(201).json(customerCreated);
     }
 
-    async list(request: Request, response: Response) {
+    public async list(request: Request, response: Response) {
         const customerService = new CustomerService();
 
         const customers = await customerService.list({ relations: ["userEntity", "addressEntity", "userEntity.userTypeEntity", "addressEntity.neighborhoodEntity"] });
@@ -48,7 +76,7 @@ export class CustomerController {
         return response.json(customers);
     }
 
-    async findCustomerById(request: Request, response: Response) {
+    public async findCustomerById(request: Request, response: Response) {
         const { id } = request.params;
 
         const customerService = new CustomerService();
@@ -61,38 +89,17 @@ export class CustomerController {
         return response.status(404).json({ message: "Usuário não encontrado" })
     }
 
-    async update(request: Request, response: Response) {
-        // Campos CustomerEntity
-        const { id, complement, contactNumber, email, hasWhatsApp, homeNumber, name } = request.body;
-        // Campos AddressEntity
-        const { cep, street } = request.body;
-        // Campos NeighborhoodEntity
-        const { neighborhood } = request.body;
-
-        let photo = "";
-        let photoMimeType = "";
-
-        if (request.file) {
-            const fileService = new FileService();
-
-            const convertedFile = fileService.convertToBase64(request.file);
-
-            photo = convertedFile.fileEncoded;
-            photoMimeType = convertedFile.mimeType;
-        }
-
-        const customerToUpdate: CustomerEntity = { id, complement, contactNumber, email, hasWhatsApp, homeNumber, name, photo, photoMimeType };
-        customerToUpdate.addressEntity = { cep, street };
-        customerToUpdate.addressEntity.neighborhoodEntity = { name: neighborhood };
+    public async update(request: Request, response: Response) {
+        const customerToUpdate = this.fillCustomerEntity(request, false);
 
         const customerService = new CustomerService();
 
         const customerUpdated = await customerService.update(customerToUpdate);
 
-        return response.status(201).json(customerUpdated);
+        return response.status(200).json(customerUpdated);
     }
 
-    async changeUserTypeOfCustomer(request: Request, response: Response) {
+    public async changeUserTypeOfCustomer(request: Request, response: Response) {
         const { user, idUserType } = request.body;
 
         const userService = new UserService();
@@ -101,7 +108,7 @@ export class CustomerController {
         return response.status(200).json(userUpdated);
     }
 
-    async getReceivingPoints(request: Request, response: Response) {
+    public async getReceivingPoints(request: Request, response: Response) {
         const { cep, neighborhood, complement, idReceiver } = request.body;
 
         const customerService = new CustomerService();

@@ -3,16 +3,16 @@ import { DeliveryPhotoEntity } from "../entities/DeliveryPhotoEntity";
 import { DeliveryPhotoService } from "../services/DeliveryPhotoService";
 
 
-export default class DeliveryPhotosController{
+export default class DeliveryPhotosController {
     async create(request: Request, response: Response) {
         let { idDelivery } = request.body;
         let photo = request?.file;
 
         const photoService = new DeliveryPhotoService();
 
-        await photoService.createPhoto(photo,idDelivery);
+        await photoService.createPhoto(photo, idDelivery);
 
-        return response.status(201).json({message: "Foto adicionada."});
+        return response.status(201).json({ message: "Foto adicionada." });
     }
 
     async delete(request: Request, response: Response) {
@@ -22,7 +22,7 @@ export default class DeliveryPhotosController{
 
         await photoService.delete(id);
 
-        return response.status(201).json({message: "Foto apagada com sucesso."});
+        return response.status(200).json({ message: "Foto apagada com sucesso." });
     }
 
     async list(request: Request, response: Response) {
@@ -31,9 +31,9 @@ export default class DeliveryPhotosController{
 
         const photoService = new DeliveryPhotoService();
 
-        const photos = await photoService.list({where: {idDelivery}});
+        const photos = await photoService.list({ where: { idDelivery } });
 
         return response.status(200).json(photos);
     }
-    
+
 }
