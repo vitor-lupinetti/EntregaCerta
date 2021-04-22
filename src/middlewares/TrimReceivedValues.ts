@@ -16,4 +16,4 @@ export async function trimReceivedValues(request: Request, response: Response, n
     }
 
     next();
-};
+}
