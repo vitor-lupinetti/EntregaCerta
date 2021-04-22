@@ -8,58 +8,58 @@ import { CustomerService } from "../services/CustomerService";
 import { FileService } from "../services/FileService";
 import UserService from "../services/UserService";
 
-export class CustomerController {
-    private fillCustomerEntity(request: Request, isCreate: boolean): CustomerEntity {
-        const { complement, contactNumber, email, hasWhatsApp, homeNumber, name } = request.body;
-        const { cep, street } = request.body;
-        const { neighborhood } = request.body;
+function fillCustomerEntity(request: Request, isCreate: boolean): CustomerEntity {
+    const { complement, contactNumber, email, hasWhatsApp, homeNumber, name } = request.body;
+    const { cep, street } = request.body;
+    const { neighborhood } = request.body;
 
-        let photo = "";
-        let photoMimeType = "";
+    let photo = "";
+    let photoMimeType = "";
 
-        if (request.file) {
-            const fileService = new FileService();
+    if (request.file) {
+        const fileService = new FileService();
 
-            const convertedFile = fileService.convertToBase64(request.file);
+        const convertedFile = fileService.convertToBase64(request.file);
 
-            photo = convertedFile.fileEncoded;
-            photoMimeType = convertedFile.mimeType;
-        }
-
-        const customer = new CustomerEntity();
-        customer.complement = complement;
-        customer.contactNumber = contactNumber;
-        customer.email = email;
-        customer.hasWhatsApp = hasWhatsApp;
-        customer.homeNumber = homeNumber;
-        customer.name = name;
-        customer.photo = photo;
-        customer.photoMimeType = photoMimeType;
-
-        customer.addressEntity = new AddressEntity();
-        customer.addressEntity.cep = cep;
-        customer.addressEntity.street = street;
-
-        customer.addressEntity.neighborhoodEntity = new NeighborhoodEntity();
-        customer.addressEntity.neighborhoodEntity.name = neighborhood;
-
-        if (isCreate) {
-            const { password, user } = request.body;
-
-            customer.userEntity = new UserEntity();
-            customer.userEntity.password = password;
-            customer.userEntity.user = user;
-        } else {
-            const { id } = request.body;
-
-            customer.id = id;
-        }
-
-        return customer;
+        photo = convertedFile.fileEncoded;
+        photoMimeType = convertedFile.mimeType;
     }
 
+    const customer = new CustomerEntity();
+    customer.complement = complement;
+    customer.contactNumber = contactNumber;
+    customer.email = email;
+    customer.hasWhatsApp = hasWhatsApp;
+    customer.homeNumber = homeNumber;
+    customer.name = name;
+    customer.photo = photo;
+    customer.photoMimeType = photoMimeType;
+
+    customer.addressEntity = new AddressEntity();
+    customer.addressEntity.cep = cep;
+    customer.addressEntity.street = street;
+
+    customer.addressEntity.neighborhoodEntity = new NeighborhoodEntity();
+    customer.addressEntity.neighborhoodEntity.name = neighborhood;
+
+    if (isCreate) {
+        const { password, user } = request.body;
+
+        customer.userEntity = new UserEntity();
+        customer.userEntity.password = password;
+        customer.userEntity.user = user;
+    } else {
+        const { id } = request.body;
+
+        customer.id = id;
+    }
+
+    return customer;
+}
+
+export class CustomerController {
     public async create(request: Request, response: Response) {
-        const customerToCreate = this.fillCustomerEntity(request, true);
+        const customerToCreate = fillCustomerEntity(request, true);
 
         const customerService = new CustomerService();
 
@@ -90,7 +90,7 @@ export class CustomerController {
     }
 
     public async update(request: Request, response: Response) {
-        const customerToUpdate = this.fillCustomerEntity(request, false);
+        const customerToUpdate = fillCustomerEntity(request, false);
 
         const customerService = new CustomerService();
 
