@@ -1,41 +1,53 @@
 import { Request, Response } from "express";
 
 import { DeliveryEntity } from "../entities/DeliveryEntity";
+import { AppError } from "../errors/AppError";
 import { DeliveryPhotoService } from "../services/DeliveryPhotoService";
 import DeliveryService from "../services/DeliveryService";
 
 class DeliveryController {
     async create(request: Request, response: Response) {
         const { idBuyer, idReceiver, description } = request.body;
-
-        let purchaseDate = new Date();
+        let purchaseDateObj = new Date();
+        let purchaseDate = `${purchaseDateObj.getFullYear()}-${(purchaseDateObj.getMonth() + 1)}-${purchaseDateObj.getDate()}`;
 
         const deliveryService = new DeliveryService();
 
-        const deliveryToCreate: DeliveryEntity = { idBuyer, idReceiver, purchaseDate, description };
+        const deliveryToCreate = new DeliveryEntity();
+        deliveryToCreate.idBuyer = idBuyer;
+        deliveryToCreate.idReceiver = idReceiver;
+        deliveryToCreate.purchaseDate = purchaseDate;
+        deliveryToCreate.purchaseDateObj = purchaseDateObj;
+        deliveryToCreate.description = description;
+
         const deliveryCreated = await deliveryService.create(deliveryToCreate);
 
         return response.status(201).json(deliveryCreated);
     }
 
     async update(request: Request, response: Response) {
-        let { id, date, amountPackaging } = request.body;
-        let receiptDate = "";
-        let receptionTime = "";
+        let { id, amountPackaging, date } = request.body;
+
+        const deliveryToUpdate = new DeliveryEntity();
+        deliveryToUpdate.id = id;
+        deliveryToUpdate.amountPackaging = amountPackaging;
 
         const regexDateTime = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
 
         if (regexDateTime.test(date)) {
-            let formattedDate: Date = new Date(date);
+            let formattedDate = new Date(date);
 
-            receiptDate = `${formattedDate.getFullYear()}-${formattedDate.getMonth() + 1}-${formattedDate.getDate()}`;
-            receptionTime = `${formattedDate.getHours()}:${formattedDate.getMinutes()}`;
+            deliveryToUpdate.receiptDate = `${formattedDate.getFullYear()}-${formattedDate.getMonth() + 1}-${formattedDate.getDate()}`;
+            deliveryToUpdate.receiptDateObj = formattedDate;
+            deliveryToUpdate.receptionTime = `${formattedDate.getHours()}:${formattedDate.getMinutes()}`;
+            deliveryToUpdate.receptionTimeObj = formattedDate;
         }
 
         const deliveryService = new DeliveryService();
 
-        const deliveryUpdated = await deliveryService.updateDelivery({ receiptDate, receptionTime, amountPackaging, id });
-        return response.status(201).json(deliveryUpdated);
+        const deliveryUpdated = await deliveryService.update(deliveryToUpdate);
+
+        return response.status(200).json(deliveryUpdated);
     }
 
     async listForBuyer(request: Request, response: Response) {
@@ -64,7 +76,7 @@ class DeliveryController {
         const delivery = await deliveryService.findOne({ where: { id } });
 
         if (!delivery) {
-            return response.status(404).json({ message: "Entrega não encontrada" })
+            throw new AppError("Entrega não encontrada", 404);
         }
 
         const deliveryPhotoService = new DeliveryPhotoService();

@@ -44,7 +44,7 @@ export abstract class Validation<T extends Entity> {
     }
 
     public async validateUpdate(service: GenericService<T>, entity: T): Promise<void> {
-        let entityFound = service.findOne({ where: { id: entity.id } });
+        let entityFound = await service.findOne({ where: { id: entity.id } });
 
         if (!entityFound) {
             throw new AppError("Não encontrado para atualizar", 404);

@@ -27,13 +27,19 @@ class DeliveryEntity extends Entity {
     description: string;
 
     @Column()
-    purchaseDate: Date;
+    purchaseDate: string;
+
+    purchaseDateObj: Date;
 
     @Column()
-    receiptDate?: Date;
+    receiptDate?: string;
+
+    receiptDateObj?: Date;
 
     @Column()
-    receptionTime?: Date;
+    receptionTime?: string;
+
+    receptionTimeObj?: Date;
 
     photos?: DeliveryPhotoEntity[];
 }
