@@ -1,18 +1,30 @@
 import { Request, Response } from "express";
+
 import { DeliveryPhotoEntity } from "../entities/DeliveryPhotoEntity";
 import { DeliveryPhotoService } from "../services/DeliveryPhotoService";
-
+import { FileService } from "../services/FileService";
 
 export default class DeliveryPhotosController {
     async create(request: Request, response: Response) {
         let { idDelivery } = request.body;
-        let photo = request?.file;
+
+        const deliveryPhotoToCreate = new DeliveryPhotoEntity();
+        deliveryPhotoToCreate.idDelivery = idDelivery;
+
+        if (request.file) {
+            const fileService = new FileService();
+
+            const convertedFile = fileService.convertToBase64(request.file);
+
+            deliveryPhotoToCreate.photo = convertedFile.fileEncoded;
+            deliveryPhotoToCreate.photoMimeType = convertedFile.mimeType;
+        }
 
         const photoService = new DeliveryPhotoService();
 
-        await photoService.createPhoto(photo, idDelivery);
+        const deliveryPhotoCreated = await photoService.create(deliveryPhotoToCreate);
 
-        return response.status(201).json({ message: "Foto adicionada." });
+        return response.status(201).json({ id: deliveryPhotoCreated.id });
     }
 
     async delete(request: Request, response: Response) {
@@ -26,7 +38,6 @@ export default class DeliveryPhotosController {
     }
 
     async list(request: Request, response: Response) {
-
         let { idDelivery } = request.params;
 
         const photoService = new DeliveryPhotoService();
@@ -35,5 +46,4 @@ export default class DeliveryPhotosController {
 
         return response.status(200).json(photos);
     }
-
 }
