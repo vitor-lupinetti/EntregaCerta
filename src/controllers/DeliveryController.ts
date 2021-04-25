@@ -9,7 +9,7 @@ class DeliveryController {
     async create(request: Request, response: Response) {
         const { idBuyer, idReceiver, description } = request.body;
         let purchaseDateObj = new Date();
-        let purchaseDate = `${purchaseDateObj.getFullYear()}-${(purchaseDateObj.getMonth() + 1)}-${purchaseDateObj.getDate()}`;
+        let purchaseDate = purchaseDateObj.toISOString().replace(/T.*/, "");
 
         const deliveryService = new DeliveryService();
 
@@ -37,9 +37,9 @@ class DeliveryController {
         if (regexDateTime.test(date)) {
             let formattedDate = new Date(date);
 
-            deliveryToUpdate.receiptDate = `${formattedDate.getFullYear()}-${formattedDate.getMonth() + 1}-${formattedDate.getDate()}`;
+            deliveryToUpdate.receiptDate = formattedDate.toISOString().replace(/T.*/, "");
             deliveryToUpdate.receiptDateObj = formattedDate;
-            deliveryToUpdate.receptionTime = `${formattedDate.getHours()}:${formattedDate.getMinutes()}`;
+            deliveryToUpdate.receptionTime = formattedDate.toISOString().replace(/.*T/, "");
             deliveryToUpdate.receptionTimeObj = formattedDate;
         }
 
