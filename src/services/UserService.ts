@@ -142,6 +142,14 @@ class UserService extends GenericService<UserEntity>{
 
         return this.validation.getErrors();
     }
+
+    public async delete(id: string): Promise<void> {
+        this.validation.ableThrowErrors();
+
+        await this.validation.validateDelete(this, id);
+
+        await super.delete(id);
+    }
 }
 
 export default UserService;

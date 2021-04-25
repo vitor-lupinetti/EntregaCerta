@@ -56,6 +56,16 @@ class UserController {
 
         return response.status(200).json(userAuthenticated);
     }
+
+    async delete(request: Request, response: Response) {
+        const { id } = request.body;
+
+        const userService = new UserService();
+
+        await userService.delete(id);
+
+        return response.status(200).json({ message: "Usuário apagado com sucesso" });
+    }
 }
 
 export default UserController;

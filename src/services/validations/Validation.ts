@@ -62,7 +62,7 @@ export abstract class Validation<T extends Entity> {
         this.throwErrors();
     }
 
-    public async validateDelete(service: GenericService<T>, entity: T): Promise<void> {
+    public async validateDelete(service: GenericService<T>, id: string): Promise<void> {
         this.errors.push("\"validateDelete\" not implemented");
 
         this.throwErrors();

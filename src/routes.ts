@@ -29,6 +29,7 @@ router.get("/user-types", ensureAuthenticatedAdm, userTypeController.list);
 
 router.post("/users", ensureAuthenticatedAdm, trimReceivedValues, userController.create);
 router.get("/users", ensureAuthenticated, userController.list);
+router.delete("/users", ensureAuthenticatedAdm, userController.delete);
 router.get("/users/:username", ensureAuthenticated, trimReceivedValues, userController.getUserByUsername);
 
 router.post("/customers", multer(multerConfig).single("photo"), trimReceivedValues, customerController.create);

@@ -1,4 +1,4 @@
-import { FindConditions, FindOneOptions, Repository } from "typeorm";
+import { FindOneOptions, Repository } from "typeorm";
 
 import { Validation } from "./validations/Validation";
 
@@ -33,7 +33,7 @@ export class GenericService<T> {
         return await this.repository.save(entity);
     }
 
-    public async delete(criteria: string | FindConditions<T>): Promise<void> {
-        await this.repository.delete(criteria);
+    public async delete(id: string): Promise<void> {
+        await this.repository.delete(id);
     }
 }

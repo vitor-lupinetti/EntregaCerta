@@ -73,6 +73,37 @@
                         "description": "server error"
                     }
                 }
+            },
+            "delete": {
+                "tags": [
+                    "Usuários"
+                ],
+                "summary": "Excui um usuário específico da aplicação",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "400": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                }
             }
         },
         "/customers": {
