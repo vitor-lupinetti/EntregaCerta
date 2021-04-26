@@ -2,10 +2,28 @@ import { FindConditions, Not } from "typeorm";
 import * as yup from "yup";
 
 import { CustomerEntity } from "../../entities/CustomerEntity";
+import { DeliveryStatusEnum } from "../../enums/DeliveryStatusEnum";
+import { AppError } from "../../errors/AppError";
 import { CustomerService } from "../CustomerService";
+import DeliveryService from "../DeliveryService";
 import { Validation } from "./Validation";
 
 export class CustomerValidation extends Validation<CustomerEntity> {
+    public async validateDelete(service: CustomerService, id: string): Promise<void> {
+        const customer = await service.findOne({
+            where: { id },
+            relations: ["userEntity", "userEntity.userTypeEntity"]
+        });
+
+        if (!customer) {
+            throw new AppError("Registro não encontrado", 404);
+        }
+
+        await this.verifyPendingDeliveryExists(id);
+
+        this.throwErrors();
+    }
+
     protected async validateFields(customer: CustomerEntity, isCreate: boolean): Promise<void> {
         let validations = {
             complement: yup.string().max(100, "Complemento com mais de 100 caracteres"),
@@ -59,6 +77,27 @@ export class CustomerValidation extends Validation<CustomerEntity> {
 
         if (customerFound) {
             this.errors.push("Já existe um registro que possua mesmo e-mail ou número de contato.");
+        }
+    }
+
+    protected async verifyPendingDeliveryExists(idClient: string): Promise<void> {
+        const deliveryService = new DeliveryService();
+
+        const deliveryFound = await deliveryService.findOne({
+            where: [
+                {
+                    idBuyer: idClient,
+                    status: Not(DeliveryStatusEnum.FINISHED)
+                },
+                {
+                    idReceiver: idClient,
+                    status: Not(DeliveryStatusEnum.FINISHED)
+                }
+            ]
+        });
+
+        if (deliveryFound) {
+            this.errors.push("Primeiro resolva as entregas pendentes");
         }
     }
 }

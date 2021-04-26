@@ -116,4 +116,14 @@ export class CustomerController {
 
         return response.status(200).json(points);
     }
+
+    public async delete(request: Request, response: Response) {
+        const { id } = request.body;
+
+        const customerService = new CustomerService();
+
+        await customerService.delete(id);
+
+        return response.status(200).json({ message: "Cliente apagado com sucesso" });
+    }
 }

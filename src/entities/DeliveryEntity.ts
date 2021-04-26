@@ -41,6 +41,9 @@ class DeliveryEntity extends Entity {
 
     receptionTimeObj?: Date;
 
+    @Column()
+    status: string;
+
     photos?: DeliveryPhotoEntity[];
 }
 

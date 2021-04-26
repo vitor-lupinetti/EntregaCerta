@@ -32,15 +32,29 @@ class DeliveryController {
         deliveryToUpdate.id = id;
         deliveryToUpdate.amountPackaging = amountPackaging;
 
-        const regexDateTime = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
+        /**
+         * \d{4} >> 0000 até 9999
+         * -
+         * (0[1-9])|(1[0-2]) >> 01 até 09 ou 10 até 12
+         * -
+         * (0[1-9])|([1-3]\d) >> 01 até 09 ou 10 até 39
+         * T
+         * (0\d)|([1-2]\d) >> 00 até 09 ou 10 até 29
+         * :
+         * (0\d)|([1-5]\d) >> 00 até 09 ou 10 até 59
+         * 
+         * Impedir de criar um objeto Date com o valor Invalid Date
+         */
+        const regexDateTime = /^\d{4}-(0[1-9])|(1[0-2])-(0[1-9])|([1-3]\d)T(0\d)|([1-2]\d):(0\d)|([1-5]\d)$/;
 
         if (regexDateTime.test(date)) {
-            let formattedDate = new Date(date);
+            let dateObj = new Date(date);
+            let dateISO = dateObj.toISOString();
 
-            deliveryToUpdate.receiptDate = formattedDate.toISOString().replace(/T.*/, "");
-            deliveryToUpdate.receiptDateObj = formattedDate;
-            deliveryToUpdate.receptionTime = formattedDate.toISOString().replace(/.*T/, "");
-            deliveryToUpdate.receptionTimeObj = formattedDate;
+            deliveryToUpdate.receiptDate = dateISO.replace(/T.*/, "");
+            deliveryToUpdate.receiptDateObj = dateObj;
+            deliveryToUpdate.receptionTime = dateISO.replace(/.*T/, "").replace(/\..*/, "");
+            deliveryToUpdate.receptionTimeObj = dateObj;
         }
 
         const deliveryService = new DeliveryService();

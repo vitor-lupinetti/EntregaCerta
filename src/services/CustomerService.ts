@@ -3,6 +3,7 @@ import { FindOneOptions, getCustomRepository, getManager } from "typeorm";
 import { CustomerEntity } from "../entities/CustomerEntity";
 import { AppError } from "../errors/AppError";
 import { CustomerRepository } from "../repositories/CustomerRepository";
+import { UserRepository } from "../repositories/UserRepository";
 import { AddressService } from "./AddressService";
 import { NeighborhoodService } from "./NeighborhoodService";
 import { GenericService } from "./Service";
@@ -156,6 +157,18 @@ export class CustomerService extends GenericService<CustomerEntity>{
         await this.validation.validateUpdate(this, customer);
 
         return this.validation.getErrors();
+    }
+
+    public async delete(id: string): Promise<void> {
+        this.validation.ableThrowErrors();
+
+        await this.validation.validateDelete(this, id);
+
+        await super.delete(id);
+
+        const userRepository = getCustomRepository(UserRepository);
+
+        await userRepository.delete(id);
     }
 
     private async treatValidations(

@@ -10,10 +10,17 @@ import { Validation } from "./Validation";
 
 export class UserValidation extends Validation<UserEntity> {
     public async validateDelete(service: UserService, id: string): Promise<void> {
+        const user = await service.findOne({ where: { id } });
+
+        if (!user) {
+            throw new AppError("Registro não encontrado", 404);
+        }
+
         await this.verifyCustomerExists(id);
 
         this.throwErrors();
     }
+
     protected async validateFields(user: UserEntity, isCreate: boolean): Promise<void> {
         const schema = yup.object().shape({
             user: yup.string().max(20, "Usuário com mais de 20 caracteres").required("Usuário obrigatório"),
