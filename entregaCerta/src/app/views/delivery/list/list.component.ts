@@ -1,4 +1,3 @@
-import { UserDataService } from './../../../services/userAccount/user-data.service';
 import { DeliveryModel } from './../../../models/deliveryModel';
 import { DeliveryListService } from './../../../services/delivery/delivery-list.service';
 import { Component, OnInit } from '@angular/core';
@@ -12,41 +11,46 @@ import { MessagesService } from 'src/app/services/messages.service';
 })
 export class ListComponent implements OnInit {
 
-  constructor(private deliveryList:DeliveryListService,
-              private userData:UserDataService,
-              private message:MessagesService) { }
+  constructor(
+    private deliveryList: DeliveryListService,
+    private message: MessagesService
+  ) { }
 
   deliveryModel: DeliveryModel[];
-  
+
   displayedColumns;
   obj: StorageModel;
 
   ngOnInit(): void {
+    this.obj = JSON.parse(localStorage.getItem("data"));
 
-     this.obj = JSON.parse(localStorage.getItem("data"));
-
-    if(this.obj.userType.toLowerCase() == "receiver"){
-      this.displayedColumns = [ 'description', 'purchaseDate', 'action'];
+    if (this.obj.userType.toLowerCase() == "receiver") {
+      this.displayedColumns = ['description', 'purchaseDate', 'action'];
     }
-    else{
-      this.displayedColumns = [ 'description', 'purchaseDate'];
+    else {
+      this.displayedColumns = ['description', 'purchaseDate'];
     }
 
     this.deliveryModel = [];
-    this.deliveryList.list().subscribe(result =>{
-      if(result){
-        this.deliveryModel = result;
-        console.log(result);
+    this.deliveryList.list().subscribe(
+      result => {
+        if (result) {
+          this.deliveryModel = result
+            .map((delivery: DeliveryModel) => {
+              delivery.purchaseDate = delivery.purchaseDate.replace(/^(\d{4})-(\d{2})-(\d{2})$/, "$3/$2/$1");
+
+              return delivery
+            });
+        }
+      },
+
+      error => {
+        if (error !== 500) {
+          this.message.showMessage(error.error.error);
+        } else {
+          console.log(error);
+        }
       }
-      console.log(result);
-    },
-    error=>{
-      if(error == 404){
-        console.log(error.status);
-      }
-      this.message.showMessage(error.error.error);
-    })
+    );
   }
-
-
 }
