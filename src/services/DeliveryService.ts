@@ -39,11 +39,11 @@ class DeliveryService extends GenericService<DeliveryEntity>{
     }
 
     public async listForBuyer(idBuyer: string) {
-        return await super.list({ where: { idBuyer } });
+        return await this.list({ where: { idBuyer } });
     }
 
     public async listForReceiver(idReceiver: string) {
-        return await super.list({ where: { idReceiver } });
+        return await this.list({ where: { idReceiver } });
     }
 
     public async list(options?: FindOneOptions<DeliveryEntity>): Promise<DeliveryEntity[]> {
@@ -72,13 +72,18 @@ class DeliveryService extends GenericService<DeliveryEntity>{
     }
 
     private addTimeZone(delivery: DeliveryEntity): void {
-        const { receiptDate, receptionTime } = delivery;
+        const { purchaseDate, receiptDate, receptionTime } = delivery;
+
+        const dateTimePurchase = new Date(purchaseDate);
+        dateTimePurchase.setHours(dateTimePurchase.getHours() - 3);
 
         const dateTimeReceipt = new Date(`${receiptDate}T${receptionTime}.000Z`);
         dateTimeReceipt.setHours(dateTimeReceipt.getHours() - 3);
 
+        const dateTimePurchaseISO = dateTimePurchase.toISOString();
         const dateTimeReceiptISO = dateTimeReceipt.toISOString();
 
+        delivery.purchaseDate = dateTimePurchaseISO.replace(/T.*/, "");
         delivery.receiptDate = dateTimeReceiptISO.replace(/T.*/, "");
         delivery.receptionTime = dateTimeReceiptISO.replace(/.*T/, "").replace(/\..*/, "");
     }
