@@ -17,8 +17,9 @@
     
             <mat-form-field >
                 <mat-label>Horário</mat-label>
-                <input matInput type="time" name="times"[(ngModel)]="times" >
+                <input matInput type="time" name="times"[(ngModel)]="times" #time >
               </mat-form-field>
+              <!-- <input  type="time" name="time"[(ngModel)]="times" > -->
     </form>
 
 
@@ -32,3 +33,40 @@
 
 
 </mat-card>
+<mat-card class="photoAdd">
+    <mat-card-title class="title">Adicionar foto</mat-card-title>
+    <form>
+        
+            <div class="foto-container-add">
+                <div class="img-container-add">
+                    <img id="image" alt="Imagem entrega" width="250" height="200">
+                </div>
+                <input class="input" placeholder="Adicionar Imagem" [(ngModel)]="photo" name="photo"
+                    (change)="handleFileInput($event.target.files)" type="file" >
+                    
+            </div>
+        
+    </form>
+</mat-card>
+<div class="photoContainer">
+    <div *ngFor="let photo of photos" class="photo">
+        <img src={{photo.src}}>
+        <button class="buton" (click)="photoDelete(photo.id)"> 
+            Excluir imagem
+        </button>
+    </div>
+</div>
+
+
+<!-- <div class="foto-container">
+    <div class="img-container">
+        <img id="image" alt="Imagem entrega" width="250" height="200">
+    </div>
+    <input matInput class="input" placeholder="Adicionar Imagem" [(ngModel)]="photo" name="photo"
+        (change)="handleFileInput($event.target.files)" type="file" >
+</div> -->
+
+    
+
+    
+

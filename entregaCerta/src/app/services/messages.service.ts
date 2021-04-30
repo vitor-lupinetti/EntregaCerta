@@ -1,11 +1,14 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { UserDeleteComponent } from '../views/userAccount/user-delete/user-delete.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessagesService {
-  constructor(private snackBar: MatSnackBar) { }
+  constructor(private snackBar: MatSnackBar,
+              private dialog: MatDialog) { }
 
   showMessageError(msg: string | string[]): void {
     let message = "";
@@ -30,4 +33,13 @@ export class MessagesService {
       verticalPosition: "top"
     })
   }
+
+  dialogConfirm(): any{
+    const confirm = this.dialog.open(UserDeleteComponent);
+    confirm.afterClosed().subscribe(result =>{
+      console.log(result);
+      return result;
+    })
+  }
 }
+

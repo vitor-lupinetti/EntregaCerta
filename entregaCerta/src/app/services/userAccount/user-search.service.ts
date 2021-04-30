@@ -27,34 +27,11 @@ export class UserSearchService implements OnInit{
   resultModel = <ResultModel>{};
   
   url = `${environment.api_url}/customers/`;
-  search(id, token){
+  search(id, token): Observable<CustomerModel>{
     const header = new HttpHeaders().set('Authorization', `Bearer ${token}`)
     const headers = { headers: header };
-     console.log(headers);
-    console.log(this.userData.getToken());
-    this.http.get<CustomerModel>(this.url +id, headers)
-              .subscribe(
-                result => { 
-                  
-                 if(result){
-                   this.resultModel.customer = result;
-                   this.resultModel.token = token;
-                   
-                   this.userData.setUserData(this.resultModel);
-                   console.log(this.userData.getUserData()); 
-                  
-                 }
-                },
-                error => {
-                  if(error.status == 400) {
-                    console.log(error.error);
-                    
-                  }
-                  console.log(error)
-                  
-                }
-              )
-              
-
+ 
+   console.log(this.userData);
+    return this.http.get<CustomerModel>(this.url +id, headers);     
   }
 }

@@ -1,10 +1,15 @@
-import { ResultModel } from './../../../models/resultModel';
+import { ResultModel } from 'src/app/models/resultModel';
+import { UserSearchService } from './../../../services/userAccount/user-search.service';
+
+import { AuthService } from 'src/app/authentication/login/auth.service';
+
 import { UserDataService } from './../../../services/userAccount/user-data.service';
 import { Component, OnInit } from '@angular/core';
 import { UserUpdateService } from 'src/app/services/userAccount/user-update.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CepService } from 'src/app/services/cep/cep.service';
+import { StorageModel } from 'src/app/models/storageModel';
 
 @Component({
   selector: 'app-user-update',
@@ -12,21 +17,69 @@ import { CepService } from 'src/app/services/cep/cep.service';
   styleUrls: ['./user-update.component.css']
 })
 export class UserUpdateComponent implements OnInit {
-  constructor(private account: UserUpdateService, private userData: UserDataService, private route: ActivatedRoute, private cepService: CepService) { }
+  constructor(private account: UserUpdateService,
+              private userData: UserDataService,
+              private route: ActivatedRoute,
+               private cepService: CepService,
+               private auth:AuthService,
+
+               private userSearchService: UserSearchService) { }
 
   img;
-  data: ResultModel;
+  data =  <ResultModel>{};
   subscription: Subscription;
 
   ngOnInit(): void {
-    this.subscription = this.route.data.subscribe(
-      (info: { userData: ResultModel }) => {
-        this.data = info.userData;
-      }
-    );
+     
+     if (this.userData.reload){
+     
+      this.subscription = this.route.data.subscribe(
+        (info: { userData: ResultModel }) => {
+          this.data = info.userData;
+        }
+      );
+      
+      this.img = document.getElementById("image");
+      this.setInput();
+    }
+    else{
 
-    this.img = document.getElementById("image");
-    this.setInput();
+    
+      this.reload();
+      this.img = document.getElementById("image");
+      
+    }
+    
+  }
+
+  reload(){
+
+    let obj: StorageModel ;
+    obj = JSON.parse(localStorage.getItem("data"));
+
+        this.userSearchService.search(obj.id, obj.token).subscribe( result => { 
+                     
+            if(result){
+                console.log(result);  
+                this.data.customer = result;
+                this.data.token = obj.token;
+          
+              this.userData.setUserData(this.data);
+              console.log(this.data);
+              this.setInput();
+            }
+           },
+           error => {
+             if(error.status == 400) {
+               console.log(error.error);
+               
+             }
+             console.log(error)
+             
+           }  
+           
+         )
+        //  return this.data;
   }
 
   id: string;
@@ -54,6 +107,8 @@ export class UserUpdateComponent implements OnInit {
   }
 
   setInput() {
+    console.log("input");
+    
     this.name = this.data.customer.name;
     this.photo_url = this.data.customer.photo_url;
     this.img.setAttribute("src", `data:${this.data.customer.photoMimeType};base64,${this.data.customer.photo}`);

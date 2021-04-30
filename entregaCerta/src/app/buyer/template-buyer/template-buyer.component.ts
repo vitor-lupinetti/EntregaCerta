@@ -1,3 +1,4 @@
+import { MessagesService } from 'src/app/services/messages.service';
 import { Router } from '@angular/router';
 import { AuthService } from './../../authentication/login/auth.service';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
@@ -14,7 +15,11 @@ export class TemplateBuyerComponent implements  OnDestroy {
 
   private _mobileQueryListener: () => void;
 
-  constructor(private authService:AuthService, private routes:Router, changeDetectorRef:ChangeDetectorRef, media:MediaMatcher) { 
+  constructor(private authService:AuthService,
+              private routes:Router,
+              changeDetectorRef:ChangeDetectorRef,
+              media:MediaMatcher,
+              private message:MessagesService) { 
     this.mediaQuery = media.matchMedia('(max-width:500px)');
     this._mobileQueryListener = () =>
     changeDetectorRef.detectChanges();
@@ -33,6 +38,13 @@ export class TemplateBuyerComponent implements  OnDestroy {
     localStorage.removeItem("data");
     this.routes.navigate(['']);
   
+  }
+
+  delete(){
+    let confirm = this.message.dialogConfirm();
+    if(confirm == "true"){
+      console.log("delete true");
+    }
   }
 
 

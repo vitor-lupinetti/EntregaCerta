@@ -1,3 +1,4 @@
+import { UserUpdateComponent } from './../../views/userAccount/user-update/user-update.component';
 import { UserSearchService } from './../../services/userAccount/user-search.service';
 import { UserDataService } from './../../services/userAccount/user-data.service';
 import { AuthService } from './../login/auth.service';
@@ -6,6 +7,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { Observable } from 'rxjs';
 import { ResultModel } from 'src/app/models/resultModel';
 import { StorageModel } from 'src/app/models/storageModel';
+import { constructorParametersDownlevelTransform } from '@angular/compiler-cli';
 
 
 @Injectable({
@@ -13,12 +15,16 @@ import { StorageModel } from 'src/app/models/storageModel';
 })
 export class RouteGuard implements CanActivate{
   
-  constructor( private authService: AuthService, private router: Router, private userData:UserDataService, private userSearchService: UserSearchService) { }
+  constructor( private authService: AuthService,
+               private router: Router,
+               private userData:UserDataService,
+               private userSearchService: UserSearchService,
+              ) { }
 
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
-
-    this.load();
+    this.userData.reload = false;
+    this.load(state);
     if(this.authService.userAuth()){
 
       if(this.validType(state)){     
@@ -35,21 +41,55 @@ export class RouteGuard implements CanActivate{
 
   }
   obj: StorageModel ;
-  load():void{
+  resultModel = <ResultModel>{};
+  reload = false;
+  loaded = false;
+  load(state):void{
     
- 
     if(localStorage.getItem("data") != undefined && !this.authService.userAuth()){
-     
-      this.authService.setLog(true);
+      
+
+      this.userData.reload = true;
+      if(!state.url.includes("update")){
+
+        this.obj = JSON.parse(localStorage.getItem("data"));
+        
+        this.userSearchService.search(this.obj.id, this.obj.token).subscribe( result => { 
+          console.log("reaload");           
+          if(result){
+            this.resultModel.customer = result;
+            
+            this.resultModel.token = this.obj.token;
+            
+            this.userData.setUserData(this.resultModel);
+            console.log( this.resultModel.customer); 
+            this.loaded = true;
+          }
+         },
+         error => {
+           if(error.status == 400) {
+             console.log(error.error);
+             
+           }
+           console.log(error)
+           
+         }  
+       )
+        
+      }
+      
       this.obj = JSON.parse(localStorage.getItem("data"));
       
-    
-      this.userSearchService.search(this.obj.id, this.obj.token);
+      
+     console.log("set auth guard");
+     this.authService.setLog(true);
+
+     
       this.userData.setId(this.obj.id);
       this.userData.setToken(this.obj.token);
       this.userData.setType(this.obj.userType);
     }
-  
+    this.userData.reload = false;
   }
 
    

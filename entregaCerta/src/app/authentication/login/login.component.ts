@@ -10,7 +10,7 @@ import { Sigin } from '../../models/sigin';
 })
 export class LoginComponent implements OnInit {
 
-  
+ 
   user: string = '';
   password:string = '';
 

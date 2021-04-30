@@ -36,7 +36,11 @@ import { MatTableModule } from '@angular/material/table';
 import { DeliveryUpdateComponent } from './views/delivery/delivery-update/delivery-update.component';
 import { DeliveryUpdateService } from './services/delivery/delivery-update.service';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatDialogModule} from '@angular/material/dialog';
 import {MatNativeDateModule} from '@angular/material/core';
+import { PhotosService } from './services/delivery/photos.service';
+import { UserDeleteComponent } from './views/userAccount/user-delete/user-delete.component';
+import { UserDeleteService } from './services/userAccount/user-delete.service';
 
 
 
@@ -55,6 +59,7 @@ import {MatNativeDateModule} from '@angular/material/core';
     UpdateDeliveryComponent,
     ListComponent,
     DeliveryUpdateComponent,
+    UserDeleteComponent,
     
     
     
@@ -77,7 +82,7 @@ import {MatNativeDateModule} from '@angular/material/core';
     MatTableModule,
     MatDatepickerModule,
     MatNativeDateModule,
-  
+    MatDialogModule,
 
     // MatToolbarModule,
     //     MatIconModule,
@@ -99,7 +104,9 @@ import {MatNativeDateModule} from '@angular/material/core';
               UserResolve,
               DeliveryListService,
               DeliverySearchService,
-              DeliveryUpdateService],
+              DeliveryUpdateService,
+              PhotosService,
+              UserDeleteService],
 
   bootstrap: [AppComponent]
 })

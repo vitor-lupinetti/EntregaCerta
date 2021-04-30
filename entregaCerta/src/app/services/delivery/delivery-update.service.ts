@@ -13,7 +13,7 @@ export class DeliveryUpdateService {
 
   constructor(private http:HttpClient, private userData:UserDataService) { }
 
-  update(delivery:DeliveryUpdateModel): Observable<DeliveryUpdateModel>{
+  update(delivery:DeliveryModel): Observable<DeliveryModel>{
   
     let token = this.userData.getToken();
 
@@ -23,6 +23,6 @@ export class DeliveryUpdateService {
     const headers = { headers: header };
 
 
-    return this.http.put<DeliveryUpdateModel>(url, delivery, headers);
+    return this.http.put<DeliveryModel>(url, delivery, headers);
   }
 }

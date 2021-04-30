@@ -8,17 +8,21 @@ export class UserDataService {
 
   constructor() { }
 
-  private data: ResultModel;
+   data: ResultModel;
+   reload;
   private type: string;
   private id: string;
   private token:string;
 
   setUserData(data: ResultModel){
+    console.log("set data");
     this.data = data;
   }
 
   getUserData(): ResultModel{
+    console.log("get data");
     return this.data;
+    
   }
 
   setId( id:string ){
