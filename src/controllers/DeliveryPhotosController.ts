@@ -28,7 +28,7 @@ export default class DeliveryPhotosController {
     }
 
     async delete(request: Request, response: Response) {
-        let { id } = request.body;
+        let { id } = request.params;
 
         const photoService = new DeliveryPhotoService();
 

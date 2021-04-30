@@ -35,7 +35,7 @@ router.get("/users/:username", ensureAuthenticated, trimReceivedValues, userCont
 router.post("/customers", multer(multerConfig).single("photo"), trimReceivedValues, customerController.create);
 router.get("/customers", ensureAuthenticatedCustomer, customerController.list);
 router.put("/customers", ensureAuthenticatedCustomer, multer(multerConfig).single("photo"), trimReceivedValues, customerController.update);
-router.delete("/customers", ensureAuthenticatedCustomer, trimReceivedValues, customerController.delete);
+router.delete("/customers/:id", ensureAuthenticatedCustomer, trimReceivedValues, customerController.delete);
 router.get("/customers/:id", ensureAuthenticatedCustomer, trimReceivedValues, customerController.findCustomerById);
 router.put("/customers/user/usertype", ensureAuthenticatedAdm, trimReceivedValues, customerController.changeUserTypeOfCustomer);
 
@@ -54,7 +54,7 @@ router.get("/delivery/buyer/:idBuyer", ensureAuthenticatedCustomer, trimReceived
 router.get("/delivery/receiver/:idReceiver", ensureAuthenticatedCustomer, trimReceivedValues, deliveryController.listForReceiver);
 
 router.post("/delivery-photos", ensureAuthenticatedCustomer, multer(multerConfig).single("photo"), trimReceivedValues, deliveryPhotosController.create);
-router.delete("/delivery-photos", ensureAuthenticatedCustomer, trimReceivedValues, deliveryPhotosController.delete);
+router.delete("/delivery-photos/:id", ensureAuthenticatedCustomer, trimReceivedValues, deliveryPhotosController.delete);
 router.get("/delivery-photos/:idDelivery", ensureAuthenticatedCustomer, trimReceivedValues, deliveryPhotosController.list);
 
 export { router };

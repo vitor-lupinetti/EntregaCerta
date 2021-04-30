@@ -109,16 +109,16 @@ export class CustomerController {
     }
 
     public async getReceivingPoints(request: Request, response: Response) {
-        const { cep, neighborhood, complement, idReceiver } = request.body;
+        const { cep, neighborhood, complement, name } = request.body;
 
         const customerService = new CustomerService();
-        const points = await customerService.getReceivingPoints({ cep, neighborhood, complement, idReceiver });
+        const points = await customerService.getReceivingPoints({ cep, neighborhood, complement, name });
 
         return response.status(200).json(points);
     }
 
     public async delete(request: Request, response: Response) {
-        const { id } = request.body;
+        const { id } = request.params;
 
         const customerService = new CustomerService();
 

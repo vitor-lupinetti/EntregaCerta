@@ -101,10 +101,19 @@ class UserService extends GenericService<UserEntity>{
     private generateTokenForUser(user: UserEntity): UserTokenDTO {
         const secret = process.env.JWT_SECRET || ' ';
 
-        const token = sign({}, secret, {
-            subject: user.id,
-            expiresIn: '1d',
-        });
+        let token;
+
+        if(user.userTypeEntity?.description === "E-commerce"){
+            token = sign({}, secret, {
+                subject: user.id,
+            });
+        }
+        else{
+            token = sign({}, secret, {
+                subject: user.id,
+                expiresIn: '1d',
+            });
+        }
 
         const userWithToken: UserTokenDTO = {
             user,

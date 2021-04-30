@@ -15,7 +15,7 @@ interface GetReceivingPointsDTO {
     cep?: string,
     complement?: string,
     neighborhood?: string,
-    idReceiver?: string
+    name?: string
 }
 
 export class CustomerService extends GenericService<CustomerEntity>{
@@ -115,6 +115,8 @@ export class CustomerService extends GenericService<CustomerEntity>{
         const points = await getManager()
             .createQueryBuilder(CustomerEntity, 'c')
             .addSelect('c.id', 'c_id')
+            .innerJoinAndSelect('c.userEntity', 'u', 'c.id = u.id')
+            .innerJoinAndSelect('u.userTypeEntity', 'ut', 'u.idUserType = ut.id')
             .innerJoinAndSelect('c.addressEntity', 'a', 'c.idAddress = a.id')
             .innerJoinAndSelect('a.neighborhoodEntity', 'n', 'a.idNeighborhood = n.id')
             .where(filter)
@@ -126,6 +128,8 @@ export class CustomerService extends GenericService<CustomerEntity>{
     private async buildFilter(model: GetReceivingPointsDTO) {
         let filters = [];
 
+        filters.push(`ut.description = 'Receiver'`)
+
         if (model.neighborhood) {
             filters.push(`n.name = '${model.neighborhood}'`);
         }
@@ -134,8 +138,8 @@ export class CustomerService extends GenericService<CustomerEntity>{
             filters.push(`a.cep = '${model.cep}'`);
         }
 
-        if (model.idReceiver) {
-            filters.push(`c.id = '${model.idReceiver}'`);
+        if (model.name) {
+            filters.push(`c.name = '${model.name}'`);
         }
 
         if (model.complement) {
