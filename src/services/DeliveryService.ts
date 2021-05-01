@@ -72,9 +72,9 @@ class DeliveryService extends GenericService<DeliveryEntity>{
     }
 
     private addTimeZone(delivery: DeliveryEntity): void {
-        const { purchaseDate, receiptDate, receptionTime } = delivery;
+        const { purchaseDate, purchaseTime, receiptDate, receptionTime } = delivery;
 
-        const dateTimePurchase = new Date(purchaseDate);
+        const dateTimePurchase = new Date(`${purchaseDate}T${purchaseTime}.000Z`);
         dateTimePurchase.setHours(dateTimePurchase.getHours() - 3);
 
         const dateTimeReceipt = new Date(`${receiptDate}T${receptionTime}.000Z`);
@@ -84,6 +84,7 @@ class DeliveryService extends GenericService<DeliveryEntity>{
         const dateTimeReceiptISO = dateTimeReceipt.toISOString();
 
         delivery.purchaseDate = dateTimePurchaseISO.replace(/T.*/, "");
+        delivery.purchaseTime = dateTimePurchaseISO.replace(/.*T/, "").replace(/\..*/, "");
         delivery.receiptDate = dateTimeReceiptISO.replace(/T.*/, "");
         delivery.receptionTime = dateTimeReceiptISO.replace(/.*T/, "").replace(/\..*/, "");
     }

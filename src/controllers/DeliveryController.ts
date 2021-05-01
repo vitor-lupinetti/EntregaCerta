@@ -9,7 +9,9 @@ class DeliveryController {
     async create(request: Request, response: Response) {
         const { idBuyer, idReceiver, description } = request.body;
         let purchaseDateObj = new Date();
-        let purchaseDate = purchaseDateObj.toISOString().replace(/T.*/, "");
+        let purchaseISO = purchaseDateObj.toISOString();
+        let purchaseDate = purchaseISO.replace(/T.*/, "");
+        let purchaseTime = purchaseISO.replace(/.*T/, "").replace(/\..*/, "");
 
         const deliveryService = new DeliveryService();
 
@@ -17,6 +19,7 @@ class DeliveryController {
         deliveryToCreate.idBuyer = idBuyer;
         deliveryToCreate.idReceiver = idReceiver;
         deliveryToCreate.purchaseDate = purchaseDate;
+        deliveryToCreate.purchaseTime = purchaseTime;
         deliveryToCreate.purchaseDateObj = purchaseDateObj;
         deliveryToCreate.description = description;
 

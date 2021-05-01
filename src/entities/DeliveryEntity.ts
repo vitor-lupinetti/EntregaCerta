@@ -29,6 +29,9 @@ class DeliveryEntity extends Entity {
     @Column()
     purchaseDate: string;
 
+    @Column()
+    purchaseTime: string;
+
     purchaseDateObj: Date;
 
     @Column()
