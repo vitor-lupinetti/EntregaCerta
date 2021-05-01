@@ -58,7 +58,7 @@ class UserController {
     }
 
     async delete(request: Request, response: Response) {
-        const { id } = request.body;
+        const { id } = request.params;
 
         const userService = new UserService();
 

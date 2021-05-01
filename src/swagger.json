@@ -73,26 +73,22 @@
                         "description": "server error"
                     }
                 }
-            },
+            }
+        },
+        "/users/{id}": {
             "delete": {
                 "tags": [
                     "Usuários"
                 ],
                 "summary": "Excui um usuário específico da aplicação",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "id": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true
                     }
-                },
+                ],
                 "responses": {
                     "200": {
                         "description": "success"
@@ -245,26 +241,22 @@
                         "description": "server error"
                     }
                 }
-            },
+            }
+        },
+        "/customers/{id}": {
             "delete": {
                 "tags": [
                     "Clientes"
                 ],
                 "summary": "Excui um cliente específico da aplicação",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "id": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true
                     }
-                },
+                ],
                 "responses": {
                     "200": {
                         "description": "success"
@@ -276,9 +268,7 @@
                         "description": "server error"
                     }
                 }
-            }
-        },
-        "/customers/{id}": {
+            },
             "get": {
                 "tags": [
                     "Clientes"
@@ -627,26 +617,22 @@
                         "description": "server error"
                     }
                 }
-            },
+            }
+        },
+        "/delivery-photos/{id}": {
             "delete": {
                 "tags": [
                     "Entregas"
                 ],
                 "summary": "Exclui uma foto da entrega na aplicação",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "id": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true
                     }
-                },
+                ],
                 "responses": {
                     "200": {
                         "description": "success"
