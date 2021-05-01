@@ -5,12 +5,12 @@
     <form>
           
         <mat-form-field>
-            <input matInput placeholder="Quantidade" [(ngModel)]="deliveryModel.amountPackaging" name="amountPackaging">
+            <input matInput placeholder="Quantidade" [(ngModel)]="deliveryModel.amountPackaging" name="amountPackaging" type="number"> 
         </mat-form-field>
 
               <mat-form-field >
                 <mat-label>Data</mat-label>
-                <input matInput name="date" [matDatepicker]="picker" [(ngModel)]="date" >
+                <input matInput ng-bind="date|date:'dd/MM/yyyy' " name="date" [matDatepicker]="picker" [(ngModel)]="date" >
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>

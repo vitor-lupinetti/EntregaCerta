@@ -6,13 +6,41 @@ import { DeliverySearchService } from './../../../services/delivery/delivery-sea
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessagesService } from 'src/app/services/messages.service';
-import * as moment from 'moment';
+// import * as moment from 'moment';
+import {MomentDateAdapter,MAT_MOMENT_DATE_ADAPTER_OPTIONS} from "@angular/material-moment-adapter";
+import {DateAdapter,MAT_DATE_FORMATS,MAT_DATE_LOCALE} from "@angular/material/core";
+import * as _moment from "moment";
 import { DeliveryObjectModel } from 'src/app/models/deliveryObjectModel';
+// import { default as _rollupMoment } from "moment";
+
+// const moment = _rollupMoment || _moment;
+const moment = _moment;
+export  const MY_FORMATS = {
+  parse : {
+    dateInput : 'L' ,
+ },
+ display : {
+    dateInput : 'D/MM/YYYY' ,
+    monthYearLabel : 'MMM YYYY' ,
+    dateA11yLabel : 'L' ,
+    monthYearA11yLabel : 'MMMM YYYY' ,
+ },
+};
 
 @Component({
   selector: 'app-delivery-update',
   templateUrl: './delivery-update.component.html',
-  styleUrls: ['./delivery-update.component.css']
+  styleUrls: ['./delivery-update.component.css'],
+  providers: [
+
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+  ]
 })
 export class DeliveryUpdateComponent implements OnInit {
 
@@ -31,7 +59,7 @@ export class DeliveryUpdateComponent implements OnInit {
     private photosService: PhotosService
   ) { }
 
-  date = '';
+  date ;
   times = '';
 
   ngOnInit(): void {
@@ -42,7 +70,7 @@ export class DeliveryUpdateComponent implements OnInit {
         if (result) {
           this.deliveryModel = result.delivery;
 
-          this.date = this.deliveryModel.receiptDate + "T00:00:00";
+          this.date = moment(this.deliveryModel.receiptDate + "T00:00:00");
           this.times = this.deliveryModel.receptionTime;
           this.img = document.getElementById("image");
 
@@ -68,7 +96,7 @@ export class DeliveryUpdateComponent implements OnInit {
       this.img.setAttribute("src", reader.result);
     };
 
-    let photo: PhotoDeliveryModel;
+    let photoModel: PhotoDeliveryModel;
 
     this.photosService
       .photoUpdate({
@@ -78,7 +106,7 @@ export class DeliveryUpdateComponent implements OnInit {
       .subscribe(
         result => {
           if (result) {
-            photo = result;
+            photoModel = result;
             this.photoList();
           }
         },
@@ -96,7 +124,7 @@ export class DeliveryUpdateComponent implements OnInit {
   photoList() {
     let photoObject: PhotoDeliveryModel[];
     this.photos = [];
-
+    
     this.photosService.photoList(this.id).subscribe(
       result => {
         if (result) {
@@ -119,15 +147,27 @@ export class DeliveryUpdateComponent implements OnInit {
         }
       }
     );
+
+    // photoObject = this.deliveryModel.photos;
+    // for (let { photoMimeType, photo, id } of photoObject) {
+    //   this.photos.push({
+    //     src: `data:${photoMimeType};base64,${photo}`,
+    //     id: id
+    //   });
+    // }
   }
 
   photoDelete(id: string) {
+
     this.photosService.photoDelete(id).subscribe(
       result => {
         if (result) {
+          
           this.photos.filter(function (image) {
             return image.id != id;
           });
+
+          this.photoList();
         }
       },
 
@@ -137,6 +177,7 @@ export class DeliveryUpdateComponent implements OnInit {
         } else {
           console.log(error);
         }
+        console.log(error);
       }
     );
   }
@@ -146,7 +187,7 @@ export class DeliveryUpdateComponent implements OnInit {
 
     dateTimeToSend = moment.utc(dateTimeToSend).local(true).toISOString();
     dateTimeToSend = dateTimeToSend.replace(/T.*/, `T${this.times}`);
-
+    console.log(dateTimeToSend);
     this.deliveryUpdate
       .update({
         id: this.deliveryModel.id,

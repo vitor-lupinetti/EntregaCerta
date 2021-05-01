@@ -41,7 +41,7 @@ export class PhotosService {
   }
 
   photoDelete(id){
-    let url = `${environment.api_url}/delivery-photos`;
+    let url = `${environment.api_url}/delivery-photos/${id}`;
     let token = this.userData.getToken();
 
     const header = new HttpHeaders().set('Authorization', `Bearer ${token}`)

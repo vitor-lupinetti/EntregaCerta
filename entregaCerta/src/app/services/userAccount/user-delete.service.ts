@@ -19,7 +19,7 @@ export class UserDeleteService {
 
     const header = new HttpHeaders().set('Authorization', `Bearer ${token}`)
     const headers = { headers: header };
-
+    console.log("delete service");
     return this.http.delete(url, headers);
   }
 }

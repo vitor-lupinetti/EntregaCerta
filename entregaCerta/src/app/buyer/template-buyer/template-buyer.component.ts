@@ -1,3 +1,5 @@
+import { UserDeleteService } from './../../services/userAccount/user-delete.service';
+import { PhotosService } from './../../services/delivery/photos.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { Router } from '@angular/router';
 import { AuthService } from './../../authentication/login/auth.service';
@@ -19,7 +21,8 @@ export class TemplateBuyerComponent implements  OnDestroy {
               private routes:Router,
               changeDetectorRef:ChangeDetectorRef,
               media:MediaMatcher,
-              private message:MessagesService) { 
+              private message:MessagesService,
+              private userDelete:UserDeleteService) { 
     this.mediaQuery = media.matchMedia('(max-width:500px)');
     this._mobileQueryListener = () =>
     changeDetectorRef.detectChanges();
@@ -42,8 +45,24 @@ export class TemplateBuyerComponent implements  OnDestroy {
 
   delete(){
     let confirm = this.message.dialogConfirm();
-    if(confirm == "true"){
-      console.log("delete true");
+    
+    if(this.message.dialogConfirm()){
+      console.log("deletado?");
+      this.userDelete.delete().subscribe(
+        result => {
+          if (result) {
+            this.exit;
+          }
+        },
+  
+        error => {
+          if (error !== 500) {
+            this.message.showMessage(error.error.error);
+          } else {
+            console.log(error);
+          }
+        }
+      );
     }
   }
 

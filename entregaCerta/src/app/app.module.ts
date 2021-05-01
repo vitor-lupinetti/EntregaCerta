@@ -33,11 +33,11 @@ import { UpdateDeliveryComponent } from './buyer/view-buyer/update-delivery/upda
 import { ListComponent } from './views/delivery/list/list.component';
 import { DeliveryListService } from './services/delivery/delivery-list.service';
 import { MatTableModule } from '@angular/material/table';
-import { DeliveryUpdateComponent } from './views/delivery/delivery-update/delivery-update.component';
+import { DeliveryUpdateComponent, MY_FORMATS } from './views/delivery/delivery-update/delivery-update.component';
 import { DeliveryUpdateService } from './services/delivery/delivery-update.service';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatDialogModule} from '@angular/material/dialog';
-import {MatNativeDateModule} from '@angular/material/core';
+import {MatNativeDateModule, MAT_DATE_FORMATS, NativeDateModule} from '@angular/material/core';
 import { PhotosService } from './services/delivery/photos.service';
 import { UserDeleteComponent } from './views/userAccount/user-delete/user-delete.component';
 import { UserDeleteService } from './services/userAccount/user-delete.service';
@@ -83,7 +83,10 @@ import { UserDeleteService } from './services/userAccount/user-delete.service';
     MatDatepickerModule,
     MatNativeDateModule,
     MatDialogModule,
-
+    MatDatepickerModule,
+    NativeDateModule,
+    // MatMomentDateModule
+    
     // MatToolbarModule,
     //     MatIconModule,
     //     MatSidenavModule,
@@ -106,7 +109,10 @@ import { UserDeleteService } from './services/userAccount/user-delete.service';
               DeliverySearchService,
               DeliveryUpdateService,
               PhotosService,
-              UserDeleteService],
+              UserDeleteService,
+              // {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {strict: true}},
+              {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+            ],
 
   bootstrap: [AppComponent]
 })

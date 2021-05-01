@@ -8,5 +8,5 @@ export interface DeliveryModel {
     receiptDate?: string;
     receptionTime?: string;
     date?: string;
-  
+    photos?;
 }
