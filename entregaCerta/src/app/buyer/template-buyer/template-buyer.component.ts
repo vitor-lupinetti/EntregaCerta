@@ -43,19 +43,22 @@ export class TemplateBuyerComponent implements  OnDestroy {
   
   }
 
-  delete(){
-    let confirm = this.message.dialogConfirm();
+  async delete(){
+    let confirm = await this.message.dialogConfirm();
     
-    if(this.message.dialogConfirm()){
-      console.log("deletado?");
+    if(confirm.success){
+      
       this.userDelete.delete().subscribe(
         result => {
+          
           if (result) {
-            this.exit;
+            
+            this.exit();
           }
         },
   
         error => {
+          
           if (error !== 500) {
             this.message.showMessage(error.error.error);
           } else {

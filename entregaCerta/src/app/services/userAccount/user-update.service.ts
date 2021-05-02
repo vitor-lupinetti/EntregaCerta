@@ -64,11 +64,11 @@ export class UserUpdateService {
                  }
                 },
                 error => {
-                  if(error.status == 400) {
-                    console.log(error.error);
-                    this.message.showMessageError(error.error.error);
+                  if (error !== 500) {
+                    this.message.showMessage(error.error.error);
+                  } else {
+                    console.log(error);
                   }
-                  console.log(error)
                 }
               )
   }

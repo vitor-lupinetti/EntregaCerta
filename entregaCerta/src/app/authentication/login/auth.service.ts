@@ -18,7 +18,10 @@ export class AuthService {
   userType: string;
  
 
-  constructor(private router: Router, private http : HttpClient, private data:UserDataService, private message:MessagesService) { }
+  constructor(private router: Router,
+              private http : HttpClient,
+              private data:UserDataService,
+              private message:MessagesService) { }
 
   private urlLogin: string = `${environment.api_url}/login`
  
@@ -55,10 +58,12 @@ export class AuthService {
                   }
                 },
                 error => {
-                  if(error.status == 500) {
-                    console.log(error);
+                  if (error !== 500) {
                     this.message.showMessage(error.error.error);
+                  } else {
+                    console.log(error);
                   }
+                  console.log(error);
                 }
               )
   }

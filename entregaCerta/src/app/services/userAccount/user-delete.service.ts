@@ -13,7 +13,7 @@ export class UserDeleteService {
 
   delete(){
     let id = this.userData.getId();
-    let url = `${environment.api_url}/users/${id}`;
+    let url = `${environment.api_url}/customers/${id}`;
     let token = this.userData.getToken();
     
 

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserDeleteComponent } from '../views/userAccount/user-delete/user-delete.component';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,11 +36,24 @@ export class MessagesService {
   }
 
   dialogConfirm(): any{
-    const confirm = this.dialog.open(UserDeleteComponent);
-    confirm.afterClosed().subscribe(result =>{
-      console.log(result);
-      return result;
+    return new Promise((resolve,reject) =>{
+      const confirm = this.dialog.open(UserDeleteComponent);
+      confirm.afterClosed().subscribe(result =>{
+        if(result){
+          resolve({
+            success:true
+          });
+        }
+        // else{
+        //   reject({
+        //     success:false,
+        //     msg:'error delete'
+        //   });
+        // }
+      
     })
+    })
+    
   }
 }
 
