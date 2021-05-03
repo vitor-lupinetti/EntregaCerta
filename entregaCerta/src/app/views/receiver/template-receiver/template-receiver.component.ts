@@ -1,6 +1,6 @@
 
 import { Router } from '@angular/router';
-import { AuthService } from './../../authentication/login/auth.service';
+import { AuthService } from '../../../services/userAccount/auth.service';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import{MediaMatcher} from '@angular/cdk/layout';
 

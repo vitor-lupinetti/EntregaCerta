@@ -1,4 +1,4 @@
-import { AuthService } from 'src/app/authentication/login/auth.service';
+
 import { ResultModel } from './../../models/resultModel';
 import { CustomerModel } from './../../models/customerModel';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -7,6 +7,7 @@ import { UserDataService } from './user-data.service';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { StorageModel } from 'src/app/models/storageModel';
+import { AuthService } from './auth.service';
 
 
 @Injectable({

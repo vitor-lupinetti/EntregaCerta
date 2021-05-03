@@ -2,7 +2,7 @@ import { DeliverySearchService } from './services/delivery/delivery-search.servi
 import { UserSearchService } from './services/userAccount/user-search.service';
 import { UserDataService } from './services/userAccount/user-data.service';
 import { UserRegisterService} from './services/userAccount/userRegister.service';
-import { AuthService } from './authentication/login/auth.service';
+import { AuthService } from './services/userAccount/auth.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,20 +16,19 @@ import {MatCardModule}  from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {  MatInputModule } from '@angular/material/input';
-import { LoginComponent } from './authentication/login/login.component';
+import { LoginComponent } from './views/userAccount/login/login.component';
 import {FormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { TemplateBuyerComponent } from './buyer/template-buyer/template-buyer.component';
-import { HomeBuyerComponent } from './buyer/view-buyer/home-buyer/home-buyer.component';
-import { RouteGuard } from './authentication/guards/route-guard';
+import { TemplateBuyerComponent } from './views/buyer/template-buyer/template-buyer.component';
+import { HomeBuyerComponent } from './views/buyer/home-buyer/home-buyer.component';
+
 import { UserUpdateComponent } from './views/userAccount/user-update/user-update.component';
 import { UserRegisterComponent } from './views/userAccount/user-register/user-register.component';
 import { UserUpdateService } from './services/userAccount/user-update.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MessagesService } from './services/messages.service';
-import { UserResolve } from './authentication/guards/userResolve.resolver';
-import { TemplateReceiverComponent } from './receiver/template-receiver/template-receiver.component';
-import { UpdateDeliveryComponent } from './buyer/view-buyer/update-delivery/update-delivery.component';
+import { UserResolve } from './resolver/userResolve.resolver';
+import { TemplateReceiverComponent } from './views/receiver/template-receiver/template-receiver.component';
 import { ListComponent } from './views/delivery/list/list.component';
 import { DeliveryListService } from './services/delivery/delivery-list.service';
 import { MatTableModule } from '@angular/material/table';
@@ -41,6 +40,8 @@ import {MatNativeDateModule, MAT_DATE_FORMATS, NativeDateModule} from '@angular/
 import { PhotosService } from './services/delivery/photos.service';
 import { UserDeleteComponent } from './views/userAccount/user-delete/user-delete.component';
 import { UserDeleteService } from './services/userAccount/user-delete.service';
+import { RouteGuard } from './services/guards/route-guard';
+
 
 
 
@@ -56,7 +57,6 @@ import { UserDeleteService } from './services/userAccount/user-delete.service';
     UserUpdateComponent,
     UserRegisterComponent,
     TemplateReceiverComponent,
-    UpdateDeliveryComponent,
     ListComponent,
     DeliveryUpdateComponent,
     UserDeleteComponent,

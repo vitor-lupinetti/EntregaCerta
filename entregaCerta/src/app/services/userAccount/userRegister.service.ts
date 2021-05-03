@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { customerCreateModel } from 'src/app/models/customerCreateModel';
 import { environment } from 'src/environments/environment';
-import { AuthService } from 'src/app/authentication/login/auth.service';
+import { AuthService } from 'src/app/services/userAccount/auth.service';
 
 @Injectable({
   providedIn: 'root'

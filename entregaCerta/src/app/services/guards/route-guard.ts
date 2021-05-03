@@ -1,7 +1,7 @@
-import { UserUpdateComponent } from './../../views/userAccount/user-update/user-update.component';
-import { UserSearchService } from './../../services/userAccount/user-search.service';
-import { UserDataService } from './../../services/userAccount/user-data.service';
-import { AuthService } from './../login/auth.service';
+import { UserUpdateComponent } from '../../views/userAccount/user-update/user-update.component';
+import { UserSearchService } from '../userAccount/user-search.service';
+import { UserDataService } from '../userAccount/user-data.service';
+import { AuthService } from '../userAccount/auth.service';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -45,16 +45,21 @@ export class RouteGuard implements CanActivate{
   reload = false;
   loaded = false;
   load(state):void{
+
+
     
     if(localStorage.getItem("data") != undefined && !this.authService.userAuth()){
       
-
-      this.userData.reload = true;
+      this.obj = JSON.parse(localStorage.getItem("data"));
+        
+      
+     
       if(!state.url.includes("update")){
 
         this.obj = JSON.parse(localStorage.getItem("data"));
         
-        this.userSearchService.search(this.obj.id, this.obj.token).subscribe( result => { 
+        this.userSearchService.search(this.obj.id, this.obj.token)
+        .subscribe( result => { 
           console.log("reaload");           
           if(result){
             this.resultModel.customer = result;
@@ -89,7 +94,7 @@ export class RouteGuard implements CanActivate{
       this.userData.setToken(this.obj.token);
       this.userData.setType(this.obj.userType);
     }
-    this.userData.reload = false;
+    
   }
 
    

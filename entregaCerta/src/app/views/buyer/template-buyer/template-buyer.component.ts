@@ -1,9 +1,8 @@
-import { UserDeleteService } from './../../services/userAccount/user-delete.service';
-import { PhotosService } from './../../services/delivery/photos.service';
+import { UserDeleteService } from '../../../services/userAccount/user-delete.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { Router } from '@angular/router';
-import { AuthService } from './../../authentication/login/auth.service';
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { AuthService } from '../../../services/userAccount/auth.service';
+import { Component, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import{MediaMatcher} from '@angular/cdk/layout';
 
 @Component({

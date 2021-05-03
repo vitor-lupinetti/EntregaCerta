@@ -1,7 +1,7 @@
 import { ResultModel } from 'src/app/models/resultModel';
 import { UserSearchService } from './../../../services/userAccount/user-search.service';
 
-import { AuthService } from 'src/app/authentication/login/auth.service';
+import { AuthService } from 'src/app/services/userAccount/auth.service';
 
 import { UserDataService } from './../../../services/userAccount/user-data.service';
 import { Component, OnInit } from '@angular/core';
@@ -31,24 +31,27 @@ export class UserUpdateComponent implements OnInit {
 
   ngOnInit(): void {
      
-     if (this.userData.reload){
-     
-      this.subscription = this.route.data.subscribe(
-        (info: { userData: ResultModel }) => {
-          this.data = info.userData;
-        }
-      );
+    //  if (this.userData.reload){
+    //   console.log("update 1");
+    //   this.subscription = this.route.data.subscribe(
+    //     (info: { userData: ResultModel }) => {
+    //       this.data = info.userData;
+    //     }
+    //   );
       
-      this.img = document.getElementById("image");
-      this.setInput();
-    }
-    else{
+    //   this.img = document.getElementById("image");
+    //   this.setInput();
+    // }
+    // else{
 
-    
+    //   console.log("update 2");
+    //   this.reload();
+    //   this.img = document.getElementById("image");
+      
+    // }
+
       this.reload();
       this.img = document.getElementById("image");
-      
-    }
     
   }
 

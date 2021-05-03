@@ -1,6 +1,6 @@
 
-import { MessagesService } from './../../services/messages.service';
-import { UserDataService } from './../../services/userAccount/user-data.service';
+import { MessagesService } from '../messages.service';
+import { UserDataService } from './user-data.service';
 import { ResultModel } from '../../models/resultModel';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
