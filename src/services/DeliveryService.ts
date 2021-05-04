@@ -74,11 +74,15 @@ class DeliveryService extends GenericService<DeliveryEntity>{
     private addTimeZone(delivery: DeliveryEntity): void {
         let { purchaseDate, purchaseTime, receiptDate, receptionTime } = delivery;
 
+        console.log({ purchaseDate, receiptDate });
+
         // Adapta a diferença de retorno entre SQLite e Postgre
         // SQLite armazena e retorna apenas data
         // Postgre aramazena data e retorna datetime completp (data, hora e timezone)
         purchaseDate = (new Date(purchaseDate)).toISOString().replace(/T.*/, "");
-        receiptDate = receiptDate && String(receiptDate).replace(/T.*/, "");
+        receiptDate = receiptDate && (new Date(receiptDate)).toISOString().replace(/T.*/, "");
+
+        console.log({ purchaseDate, receiptDate });
 
         const dateTimePurchase = new Date(`${purchaseDate}T${purchaseTime}.000Z`);
         dateTimePurchase.setHours(dateTimePurchase.getHours() - 3);
