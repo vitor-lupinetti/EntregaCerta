@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useToasts } from 'react-toast-notifications';
 import api from '../../services/api';
 import './EntregaCerta.css'
 
@@ -36,6 +37,8 @@ export function EntregaCerta(){
     const token = localStorage.getItem('token')
     const userId = localStorage.getItem('userId')
     const history = useHistory();
+    const { addToast } = useToasts();
+
 
     const [receivers, setReceivers] = useState<ReceiversResponse[]>([]);
     const [receiver, setReceiver] = useState<ReceiversResponse>();
@@ -58,6 +61,10 @@ export function EntregaCerta(){
 
     async function handleSubmit(event: FormEvent){
         event.preventDefault();
+        if(!receiver){
+            addToast('Selecione um recebedor!',{ appearance: 'error', autoDismiss:true });
+            return;
+        }
         try{
             let postOject = {
                 idBuyer:userId,
@@ -69,7 +76,7 @@ export function EntregaCerta(){
             history.push('/Finish')
         }
         catch(err){
-            console.log(err)
+            addToast('Erro ao completar o pedido, tente mais tarde.',{ appearance: 'error', autoDismiss:true });
         }
     }
 

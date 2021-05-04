@@ -3,6 +3,8 @@ import './Login.css';
 import api from '../../services/api';
 import { useHistory } from 'react-router';
 import { useLocation } from 'react-router-dom';
+import { ToastProvider, useToasts } from 'react-toast-notifications';
+
 
 interface UserResponse{
     token: string,
@@ -30,6 +32,7 @@ export function Login(){
     const [product, setProduct] = useState<Product>();
     const location = useLocation<CheckoutProps>();
     const history = useHistory();
+    const { addToast } = useToasts();
 
 
     useEffect(() => {
@@ -54,6 +57,7 @@ export function Login(){
             });
         }
         catch(err){
+            addToast('Ocorreu um erro ao fazer login, cheque as credenciais',{ appearance: 'error', autoDismiss:true })
             console.log(err);
         }
     }
@@ -76,6 +80,9 @@ export function Login(){
                 <input onChange={handleInputUser} type="text" className="input" placeholder="Usuário"></input>
                 <input onChange={handleInputPass} type="password" className="input" placeholder= "Senha"></input>
                 <input className="btn" type="submit"></input>
+                <p>Não possui cadastro? Clique 
+                    <a href="https://entregacerta-web.herokuapp.com/user-register" target="_blank"> aqui</a>
+                </p>
             </form>
         </div>
 
