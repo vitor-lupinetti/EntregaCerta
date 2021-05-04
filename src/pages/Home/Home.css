@@ -1,0 +1,162 @@
+.product-list{
+    max-width: 700px;
+    margin: 20px auto 0;
+    padding: 0 20px;
+}
+
+.product-list article {
+    background: #FFF;
+    border: 1px solid #DDD;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.product-list p{
+    font-size: 16px;
+    color: #999;
+    margin-top: 5px;
+    line-height: 24px;
+}
+
+.product-list a{
+    height: 42px;
+    border-radius: 5px;
+    border: 2px solid #da552f;
+    background: none;
+    margin-top: 10px;
+    color: #da552f;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s;
+}
+.product-list a:hover{
+    background: #da552f;
+    color: #FFF;
+}
+
+.product-list .actions{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.product-list .actions button{
+    padding: 10px;
+    border-radius: 5px;
+    border: 0;
+    background: #da552f;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.product-list .actions button[disabled]{
+    opacity: 0.5;
+    cursor: default;
+}
+
+.product-list .actions button:hover{
+    opacity: 0.7;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.navbar{
+    display: flex;
+    width: 100vw;
+    height: 10vh;
+    background: lightskyblue;
+    align-items: center;
+}
+
+.navbar p{
+    margin-left: 5%;
+    font-size: 20px;
+}
+
+.container{
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.productsContainer{
+    margin-top: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 90vw;
+}
+
+.product{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: white;
+    box-shadow: 0px 2px 2px 0px lightgray;
+    width: 20vw;
+    height: 30vh;
+    margin:1%;
+}
+
+.product:hover{
+    box-shadow: 0px 8px 8px 0px lightgray;
+}
+
+.main{
+    margin-top: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.product button{
+    background-color: rgb(78, 206, 238);
+    border-radius: 8px;
+    font-weight: bold;
+    border: 0;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    width: 70%;
+    height: 20%;
+}
+
+img{
+    width: 50%;
+    height: 50%;
+} */

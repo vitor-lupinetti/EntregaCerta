@@ -1,0 +1,45 @@
+.login-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    /* background-color: lightcyan; */
+}
+
+.input{
+    border-radius: 8px;
+    font-weight: bold;
+    border: 0;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    width: 40%;
+    height: 15%;
+    margin: 2%;
+    border: 1px solid lightgray;
+    padding-left: 5%;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60%;
+    width: 50%;
+    background-color: white;
+    border-radius: 5%;
+    border: 1px solid lightgray;
+}
+
+.form .btn{
+    border-radius: 8px;
+    font-weight: bold;
+    border: 0;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    width: 40%;
+    height: 15%;
+    margin: 2%;
+    border: 1px solid lightgray;
+}

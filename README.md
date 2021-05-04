@@ -1,38 +1,46 @@
-# 🚚 Entrega Certa ✅
+# Getting Started with Create React App
 
-Projeto desenvolvido para disciplina de Linguagem de Programação 4 em conjunto com Qualidade de Software na Faculdate de Tecnologia Termomecanica.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### 🎯 Objetivo 🎯
+## Available Scripts
 
-Reduzir o número de entregas que retornam por não terem sido recebidas.
+In the project directory, you can run:
 
-Nosso sistema terá diversos usuários cadastrados dos tipos compradores e recebedores. Os recebedores poderão ser escolhidos para receber as compras feitas através de e-commerces que possuem integração com nosso sistema.
+### `yarn start`
 
-Essa integração irá permitir o e-commerce disponibilizar todos os endereços dos recebedores cadastrados conosco no momento da compra, após a finalização da compra, será criado uma entrega no nosso sistema associado ao recebedor que foi escolhido.
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-Atrvés do nosso sistema além de fazer o gerenciamento de seu perfil, será possível gerenciar as entregas que estão cadastradas nele assim como agendamento de entregas entre recebedor e comprador.
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-### Orientações sobre este repositório
+### `yarn test`
 
-Para conseguirmos utilizar apenas um repositório que armazene os códigos que serão publicados nos dois servidores do heroku, foi criado a branch [backend](https://github.com/vitor-lupinetti/EntregaCerta/tree/backend) e a [frontend](https://github.com/vitor-lupinetti/EntregaCerta/tree/frontend), desta forma a branch main tem o papel apenas de recepcionar qualquer pessoa que visite este repositório.
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### Links
+### `yarn build`
 
-- [Front-end publicado](https://entregacerta-web.herokuapp.com)
-- [API publicada](https://entregacerta.herokuapp.com)
-- [Documentação API](https://entregacerta.herokuapp.com/api-docs)
-- [Artefatos de modelagem/documentação para Qualidade de Software](https://cefsaedu-my.sharepoint.com/:f:/g/personal/082170036_ftt_cefsa_edu_br/EtqAGZD1yTZMlVTnTPmyDfUBv4rMyy7VKOl-DJPcSoeXiw?e=8OWDOn)
-- [Gestão no Azure](https://dev.azure.com/082170036/EntregaCerta)
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-### Lembretes
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-- Este projeto tem como objetivo gerar um MVP
-- Deixe uma estrelinha caso goste do que viu
-- Aceitamos sugestões
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### Participantes
+### `yarn eject`
 
-- Nathan Reis [GitHub](https://github.com/NathanReis) [LinkedIn](https://www.linkedin.com/in/nathan-reis-ba2282193)
-- Silas Hiuga [GitHub](https://github.com/SilasHikaru) [LinkedIn](https://www.linkedin.com/in/silas-hiuga-71a761206)
-- Vitor Lupinetti [GitHub](https://github.com/vitor-lupinetti) [LinkedIn](https://www.linkedin.com/in/vitor-lupinetti-a42038150)
-- William OLiveira [GitHub](https://github.com/OliveiraWilliam)
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).

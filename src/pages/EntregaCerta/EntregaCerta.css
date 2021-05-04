@@ -1,0 +1,100 @@
+/* .entrega-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+ .input-text{
+    border-radius: 8px;
+    font-weight: bold;
+    border: 0;
+    transition: background-color 0.2s;
+    height: 100%;
+    margin: 2%;
+    border: 1px solid lightgray;
+    padding-left: 5%;
+}
+
+.select{
+    border-radius: 8px;
+    font-weight: bold;
+    border: 0;
+    transition: background-color 0.2s;
+    height: 20%;
+    width: 40%;
+    margin: 2%;
+    border: 1px solid lightgray;
+    padding-left: 5%;
+}
+
+
+.entrega-container .form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80%;
+    width: 90%;
+    background-color: white;
+    border-radius: 5%;
+    border: 1px solid lightgray;
+}
+
+.btn-entrega{
+    border-radius: 8px;
+    font-weight: bold;
+    border: 0;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    width: 40%;
+    height: 5vh;
+    margin: 2%;
+    border: 1px solid lightgray;
+}
+
+.entrega-form-container{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+.entrega-form-fields{
+    width: 50%;
+}
+
+.entrega-filter-fields{
+    width: 50%;
+}
+
+.row-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.column-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+} */
+
+.column-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.img-container{
+    border: 1px solid #DDD;
+    border-radius: 5px;
+}
+
+.card{
+    /* height: 100%; */
+}
