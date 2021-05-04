@@ -1,6 +1,5 @@
 import react, { useEffect, useState } from 'react';
 import './Home.css';
-import mouse from '../../assets/mouse.png';
 import { useHistory } from 'react-router-dom';
 
 interface Product{

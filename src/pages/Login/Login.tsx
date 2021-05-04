@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 
 interface UserResponse{
     token: string,
-    user: {
+    customer: {
         id:string
     }
 }
@@ -46,7 +46,8 @@ export function Login(){
         try{
             let response = await api.post<UserResponse>('login', login);
             localStorage.setItem('token', response.data.token)
-            localStorage.setItem('userId', response.data.user.id)
+            localStorage.setItem('userId', response.data.customer.id)
+            console.log(response.data)
             history.push({
                 pathname: '/EntregaCerta',
                 state: { product }
