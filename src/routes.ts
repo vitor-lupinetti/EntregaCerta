@@ -7,6 +7,7 @@ import { CustomerController } from "./controllers/CustomerController";
 import DeliveryController from "./controllers/DeliveryController";
 import DeliveryPhotosController from "./controllers/DeliveryPhotosController";
 import { NeighborhoodController } from "./controllers/NeighborhoodController";
+import { ScheduleController } from "./controllers/ScheduleController";
 import UserController from "./controllers/UserController";
 import UserTypeController from "./controllers/UserTypeController";
 import { ensureAuthenticated } from "./middlewares/EnsureAuthenticated";
@@ -24,6 +25,7 @@ const customerController = new CustomerController();
 const userTypeController = new UserTypeController();
 const deliveryController = new DeliveryController();
 const deliveryPhotosController = new DeliveryPhotosController();
+const scheduleController = new ScheduleController();
 
 router.get("/user-types", ensureAuthenticatedAdm, userTypeController.list);
 
@@ -60,5 +62,7 @@ router.get("/delivery-photos/:idDelivery", ensureAuthenticatedCustomer, trimRece
 router.put("/delivery-delivered/:id", ensureAuthenticatedCustomer, trimReceivedValues, deliveryController.markAsDelivered);
 
 router.put("/confirm-delivery-delivered", ensureAuthenticatedCustomer, trimReceivedValues, deliveryController.confirmDeliveryDelivered);
+
+router.post("/schedules", ensureAuthenticatedCustomer, trimReceivedValues, scheduleController.create);
 
 export { router };

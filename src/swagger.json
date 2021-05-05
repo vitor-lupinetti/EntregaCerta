@@ -708,6 +708,48 @@
                     }
                 }
             }
+        },
+        "/schedules": {
+            "post": {
+                "tags": [
+                    "Agendamentos"
+                ],
+                "summary": "Cadastra um agendamento na aplicação",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "idDelivery": {
+                                        "type": "string"
+                                    },
+                                    "date": {
+                                        "type": "string"
+                                    },
+                                    "place": {
+                                        "type": "string"
+                                    },
+                                    "time": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "created"
+                    },
+                    "400": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                }
+            }
         }
     },
     "components": {
