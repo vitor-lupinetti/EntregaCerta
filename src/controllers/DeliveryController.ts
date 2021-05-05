@@ -113,6 +113,16 @@ class DeliveryController {
 
         return response.status(200).json({ currentStatusDelivery: EnumDeliveryStatus.AWAITING_BUYER_CONFIRMATION });
     }
+
+    async confirmDeliveryDelivered(request: Request, response: Response) {
+        const { id, wasDelivered } = request.body;
+
+        const deliveryService = new DeliveryService();
+
+        const deliveryUpdated = await deliveryService.confirmDeliveryDelivered(id, wasDelivered);
+
+        return response.status(200).json({ currentStatusDelivery: deliveryUpdated.status });
+    }
 }
 
 export default DeliveryController;

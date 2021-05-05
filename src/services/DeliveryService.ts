@@ -72,7 +72,7 @@ class DeliveryService extends GenericService<DeliveryEntity>{
         return deliveryFound;
     }
 
-    public async markAsDelivered(id: string) {
+    public async markAsDelivered(id: string): Promise<void> {
         const deliveryFound = await this.findOne({ where: { id } });
 
         (this.validation as DeliveryValidation).verifyIfCanMarkAsDelivered(deliveryFound);
@@ -80,6 +80,20 @@ class DeliveryService extends GenericService<DeliveryEntity>{
         deliveryFound.status = EnumDeliveryStatus.AWAITING_BUYER_CONFIRMATION;
 
         await this.repository.save(deliveryFound);
+    }
+
+    public async confirmDeliveryDelivered(id: string, wasDelivered: number): Promise<DeliveryEntity> {
+        const deliveryFound = await this.findOne({ where: { id } });
+
+        (this.validation as DeliveryValidation).verifyConfirmDeliveryDelivered(deliveryFound, wasDelivered);
+
+        deliveryFound.status = wasDelivered == 1
+            ? EnumDeliveryStatus.FINISHED
+            : EnumDeliveryStatus.RECEIVER_RECEIVED;
+
+        await this.repository.save(deliveryFound);
+
+        return deliveryFound;
     }
 
     private addTimeZone(delivery: DeliveryEntity): void {

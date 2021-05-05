@@ -672,6 +672,42 @@
                     }
                 }
             }
+        },
+        "/confirm-delivery-delivered": {
+            "put": {
+                "tags": [
+                    "Entregas"
+                ],
+                "summary": "Confirma o recebimento de uma entrega na aplicação através de um recebedor",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "wasDelivered": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "400": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                }
+            }
         }
     },
     "components": {

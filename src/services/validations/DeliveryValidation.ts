@@ -91,4 +91,22 @@ export class DeliveryValidation extends Validation<DeliveryEntity> {
             throw new AppError("Status atual não permite marcar a entrega como entregue");
         }
     }
+
+    public verifyConfirmDeliveryDelivered(delivery: DeliveryEntity, wasDelivered: number) {
+        if (!delivery) {
+            throw new AppError("Entrega não encontrada", 404);
+        }
+
+        if (wasDelivered != 0 && wasDelivered != 1) {
+            this.errors.push("0 para não entregue ou 1 para entregue");
+        }
+
+        if (delivery.status !== EnumDeliveryStatus.AWAITING_BUYER_CONFIRMATION) {
+            this.errors.push("Status atual não permite confirmar o recebimento da entrega");
+        }
+
+        if (this.errors.length > 0) {
+            throw new AppError(this.errors);
+        }
+    }
 }

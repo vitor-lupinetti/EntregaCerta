@@ -59,4 +59,6 @@ router.get("/delivery-photos/:idDelivery", ensureAuthenticatedCustomer, trimRece
 
 router.put("/delivery-delivered/:id", ensureAuthenticatedCustomer, trimReceivedValues, deliveryController.markAsDelivered);
 
+router.put("/confirm-delivery-delivered", trimReceivedValues, deliveryController.confirmDeliveryDelivered);
+
 export { router };
