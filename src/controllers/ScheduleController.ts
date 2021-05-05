@@ -41,4 +41,14 @@ export class ScheduleController {
 
         return response.status(201).json(scheduleCreated);
     }
+
+    public async cancel(request: Request, response: Response) {
+        const { id, reason } = request.body;
+
+        const scheduleService = new ScheduleService();
+
+        await scheduleService.cancel(id, reason);
+
+        return response.status(200).json({ message: "Cancelado com sucesso" });
+    }
 }

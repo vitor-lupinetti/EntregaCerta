@@ -9,4 +9,14 @@ export class ScheduleService extends GenericService<ScheduleEntity> {
     constructor() {
         super(getCustomRepository(ScheduleRepository), new ScheduleValidation());
     }
+
+    public async cancel(id: string, reason: string) {
+        const scheduleFound = await this.findOne({ where: { id } });
+
+        (this.validation as ScheduleValidation).validateCancel(scheduleFound, reason);
+
+        scheduleFound.reason = reason;
+
+        await this.repository.save(scheduleFound);
+    }
 }

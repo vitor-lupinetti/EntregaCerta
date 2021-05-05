@@ -749,6 +749,40 @@
                         "description": "server error"
                     }
                 }
+            },
+            "put": {
+                "tags": [
+                    "Agendamentos"
+                ],
+                "summary": "Cancela um agendamento na aplicação",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "string"
+                                    },
+                                    "reason": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "400": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                }
             }
         }
     },

@@ -3,6 +3,7 @@ import * as yup from "yup";
 
 import { ScheduleEntity } from "../../entities/ScheduleEntity";
 import { EnumDeliveryStatus } from "../../enums/EnumDeliveryStatus";
+import { AppError } from "../../errors/AppError";
 import DeliveryService from "../DeliveryService";
 import { ScheduleService } from "../ScheduleService";
 import { Validation } from "./Validation";
@@ -66,5 +67,21 @@ export class ScheduleValidation extends Validation<ScheduleEntity> {
         }
 
         return deliveryFound;
+    }
+
+    public validateCancel(schedule: ScheduleEntity, reason: string) {
+        if (!schedule) {
+            throw new AppError("Agendamento não encontrado", 404);
+        }
+
+        if (!reason) {
+            this.errors.push("Motivo obrigatótio");
+        } else if (reason.length > 50) {
+            this.errors.push("Motivo com mais de 50 caracteres");
+        }
+
+        if (this.errors.length > 0) {
+            throw new AppError(this.errors);
+        }
     }
 }
