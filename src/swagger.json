@@ -645,6 +645,33 @@
                     }
                 }
             }
+        },
+        "/delivery-delivered/{id}": {
+            "put": {
+                "tags": [
+                    "Entregas"
+                ],
+                "summary": "Marca uma entrega na aplicação como entregue pelo recebedor",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "400": {
+                        "description": "error"
+                    },
+                    "500": {
+                        "description": "server error"
+                    }
+                }
+            }
         }
     },
     "components": {

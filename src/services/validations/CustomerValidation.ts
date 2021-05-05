@@ -2,7 +2,7 @@ import { FindConditions, Not } from "typeorm";
 import * as yup from "yup";
 
 import { CustomerEntity } from "../../entities/CustomerEntity";
-import { DeliveryStatusEnum } from "../../enums/DeliveryStatusEnum";
+import { EnumDeliveryStatus } from "../../enums/EnumDeliveryStatus";
 import { AppError } from "../../errors/AppError";
 import { CustomerService } from "../CustomerService";
 import DeliveryService from "../DeliveryService";
@@ -87,11 +87,11 @@ export class CustomerValidation extends Validation<CustomerEntity> {
             where: [
                 {
                     idBuyer: idClient,
-                    status: Not(DeliveryStatusEnum.FINISHED)
+                    status: Not(EnumDeliveryStatus.FINISHED)
                 },
                 {
                     idReceiver: idClient,
-                    status: Not(DeliveryStatusEnum.FINISHED)
+                    status: Not(EnumDeliveryStatus.FINISHED)
                 }
             ]
         });

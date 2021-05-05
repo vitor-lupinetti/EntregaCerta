@@ -57,4 +57,6 @@ router.post("/delivery-photos", ensureAuthenticatedCustomer, multer(multerConfig
 router.delete("/delivery-photos/:id", ensureAuthenticatedCustomer, trimReceivedValues, deliveryPhotosController.delete);
 router.get("/delivery-photos/:idDelivery", ensureAuthenticatedCustomer, trimReceivedValues, deliveryPhotosController.list);
 
+router.put("/delivery-delivered/:id", ensureAuthenticatedCustomer, trimReceivedValues, deliveryController.markAsDelivered);
+
 export { router };

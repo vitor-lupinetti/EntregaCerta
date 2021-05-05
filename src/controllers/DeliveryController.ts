@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import { DeliveryEntity } from "../entities/DeliveryEntity";
+import { EnumDeliveryStatus } from "../enums/EnumDeliveryStatus";
 import { AppError } from "../errors/AppError";
 import { DeliveryPhotoService } from "../services/DeliveryPhotoService";
 import DeliveryService from "../services/DeliveryService";
@@ -101,6 +102,16 @@ class DeliveryController {
         delivery.photos = await deliveryPhotoService.list({ where: { idDelivery: id } });
 
         return response.json({ delivery });
+    }
+
+    async markAsDelivered(request: Request, response: Response) {
+        const { id } = request.params;
+
+        const deliveryService = new DeliveryService();
+
+        await deliveryService.markAsDelivered(id);
+
+        return response.status(200).json({ currentStatusDelivery: EnumDeliveryStatus.AWAITING_BUYER_CONFIRMATION });
     }
 }
 

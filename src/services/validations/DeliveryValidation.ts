@@ -1,6 +1,7 @@
 import * as yup from "yup";
 
 import { DeliveryEntity } from "../../entities/DeliveryEntity";
+import { EnumDeliveryStatus } from "../../enums/EnumDeliveryStatus";
 import { AppError } from "../../errors/AppError";
 import { CustomerService } from "../CustomerService";
 import { DeliveryPhotoService } from "../DeliveryPhotoService";
@@ -78,6 +79,16 @@ export class DeliveryValidation extends Validation<DeliveryEntity> {
 
         if (!photoFound) {
             this.errors.push("Obrigatório pelo menos 1 imagem");
+        }
+    }
+
+    public verifyIfCanMarkAsDelivered(delivery: DeliveryEntity): void {
+        if (!delivery) {
+            throw new AppError("Entrega não encontrada", 404);
+        }
+
+        if (delivery.status !== EnumDeliveryStatus.RECEIVER_RECEIVED) {
+            throw new AppError("Status atual não permite marcar a entrega como entregue");
         }
     }
 }

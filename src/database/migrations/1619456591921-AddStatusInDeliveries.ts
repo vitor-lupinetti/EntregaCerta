@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner, TableColumn } from "typeorm";
-import { DeliveryStatusEnum } from "../../enums/DeliveryStatusEnum";
+import { EnumDeliveryStatus } from "../../enums/EnumDeliveryStatus";
 
 export class AddStatusInDeliveries1619456591921 implements MigrationInterface {
     private tableName = "tbDeliveries";
@@ -9,7 +9,7 @@ export class AddStatusInDeliveries1619456591921 implements MigrationInterface {
         await queryRunner.addColumn(this.tableName, new TableColumn({
             name: this.columnName,
             type: "varchar",
-            default: `'${DeliveryStatusEnum.CREATED}'`
+            default: `'${EnumDeliveryStatus.CREATED}'`
         }));
     }
 

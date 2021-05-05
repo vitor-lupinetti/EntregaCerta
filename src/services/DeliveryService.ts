@@ -1,7 +1,8 @@
 import { FindOneOptions, getCustomRepository } from "typeorm";
 
 import { DeliveryEntity } from "../entities/DeliveryEntity";
-import { DeliveryStatusEnum } from "../enums/DeliveryStatusEnum";
+import { EnumDeliveryStatus } from "../enums/EnumDeliveryStatus";
+import { AppError } from "../errors/AppError";
 import { DeliveryRepository } from "../repositories/DeliveryRepository";
 import { MailService } from "./MailService";
 import { GenericService } from "./Service";
@@ -13,7 +14,7 @@ class DeliveryService extends GenericService<DeliveryEntity>{
     }
 
     public async create(delivery: DeliveryEntity): Promise<DeliveryEntity> {
-        delivery.status = DeliveryStatusEnum.CREATED;
+        delivery.status = EnumDeliveryStatus.CREATED;
 
         let deliveryCreated = await super.create(delivery);
 
@@ -25,7 +26,7 @@ class DeliveryService extends GenericService<DeliveryEntity>{
     }
 
     public async update(delivery: DeliveryEntity): Promise<DeliveryEntity> {
-        delivery.status = DeliveryStatusEnum.RECEIVER_RECEIVED;
+        delivery.status = EnumDeliveryStatus.RECEIVER_RECEIVED;
 
         await super.update(delivery);
 
@@ -71,18 +72,24 @@ class DeliveryService extends GenericService<DeliveryEntity>{
         return deliveryFound;
     }
 
+    public async markAsDelivered(id: string) {
+        const deliveryFound = await this.findOne({ where: { id } });
+
+        (this.validation as DeliveryValidation).verifyIfCanMarkAsDelivered(deliveryFound);
+
+        deliveryFound.status = EnumDeliveryStatus.AWAITING_BUYER_CONFIRMATION;
+
+        await this.repository.save(deliveryFound);
+    }
+
     private addTimeZone(delivery: DeliveryEntity): void {
         let { purchaseDate, purchaseTime, receiptDate, receptionTime } = delivery;
-
-        console.log({ purchaseDate, receiptDate });
 
         // Adapta a diferença de retorno entre SQLite e Postgre
         // SQLite armazena e retorna apenas data
         // Postgre aramazena data e retorna datetime completp (data, hora e timezone)
         purchaseDate = (new Date(purchaseDate)).toISOString().replace(/T.*/, "");
         receiptDate = receiptDate && (new Date(receiptDate)).toISOString().replace(/T.*/, "");
-
-        console.log({ purchaseDate, receiptDate });
 
         const dateTimePurchase = new Date(`${purchaseDate}T${purchaseTime}.000Z`);
         dateTimePurchase.setHours(dateTimePurchase.getHours() - 3);
