@@ -41,6 +41,7 @@ import { PhotosService } from './services/delivery/photos.service';
 import { UserDeleteComponent } from './views/userAccount/user-delete/user-delete.component';
 import { UserDeleteService } from './services/userAccount/user-delete.service';
 import { RouteGuard } from './services/guards/route-guard';
+import { DeliveryBuyerViewComponent } from './views/delivery/delivery-buyer-view/delivery-buyer-view.component';
 
 
 
@@ -60,6 +61,7 @@ import { RouteGuard } from './services/guards/route-guard';
     ListComponent,
     DeliveryUpdateComponent,
     UserDeleteComponent,
+    DeliveryBuyerViewComponent,
     
     
     

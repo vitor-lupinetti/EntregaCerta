@@ -1,0 +1,41 @@
+<mat-card class= "card">
+
+    <mat-card-title>Visualizar detalhes da entrega</mat-card-title>
+
+    <form>
+          
+        <mat-form-field>
+            <input disabled matInput placeholder="Quantidade de pacotes" [(ngModel)]="deliveryModel.amountPackaging" name="amountPackaging" type="number"> 
+        </mat-form-field>
+
+              <mat-form-field >
+                <mat-label>Data recebida</mat-label>
+                <input matInput ng-bind="date|date:'dd/MM/yyyy' " name="date" [matDatepicker]="picker" [(ngModel)]="date" disabled >
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+    
+            <mat-form-field >
+                <mat-label>Horário recebido</mat-label>
+                <input disabled matInput type="time" name="times"[(ngModel)]="times" #time >
+            </mat-form-field>
+            <mat-form-field>
+                <input disabled matInput placeholder="Status atual do pedido" [(ngModel)]="deliveryModel.status" name="status"> 
+            </mat-form-field>
+            <!-- <mat-form-field>
+                <input disabled matInput placeholder="Quantidade de pacotes" [(ngModel)]="deliveryModel.status" name="amountPackaging" type="number"> 
+            </mat-form-field> -->
+    </form>
+
+   
+
+</mat-card>
+
+<div class="photoContainer">
+    <h2>Fotos do pedido</h2>
+    <img *ngFor="let photo of photos" src={{photo.src}}>
+
+    <!-- <div  class="photo">
+        <img *ngFor="let photo of photos" src={{photo.src}}>
+    </div> -->
+</div>

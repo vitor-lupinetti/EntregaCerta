@@ -28,7 +28,7 @@ export class ListComponent implements OnInit {
       this.displayedColumns = ['description', 'purchaseDate', 'action'];
     }
     else {
-      this.displayedColumns = ['description', 'purchaseDate'];
+      this.displayedColumns = ['description', 'purchaseDate', 'view'];
     }
 
     this.deliveryModel = [];

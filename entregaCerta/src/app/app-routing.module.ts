@@ -12,32 +12,39 @@ import { HomeBuyerComponent } from './views/buyer/home-buyer/home-buyer.componen
 import { UserUpdateComponent } from './views/userAccount/user-update/user-update.component';
 import { UserResolve } from './resolver/userResolve.resolver';
 import { RouteGuard } from './services/guards/route-guard';
+import { DeliveryBuyerViewComponent } from './views/delivery/delivery-buyer-view/delivery-buyer-view.component';
 
 const routes: Routes = [
   {
     path: '',
     component: LoginComponent,
   },
-  {path: 'buyer', component: TemplateBuyerComponent , children: [
+  {
+    path: 'buyer', component: TemplateBuyerComponent , children: [
     {path: 'homeBuyer', component: HomeBuyerComponent},
     {path: 'user-update' , component: UserUpdateComponent,
       resolve:{userData : UserResolve}
-  }, 
-  {path: 'delivery-list', component: ListComponent},
- 
-],
+    }, 
+    {path: 'delivery-list', component: ListComponent},
+    {
+      path: 'delivery-list/delivery-view/:id', component: DeliveryBuyerViewComponent
+    }
+  
+  ],
   canActivate:[RouteGuard]},
-
-  {path: 'receiver', component: TemplateReceiverComponent , children: [
-    {path: 'user-update' , component: UserUpdateComponent,
+  {
+    path: 'receiver', component: TemplateReceiverComponent , children: [
+    {
+      path: 'user-update' , component: UserUpdateComponent,
       resolve:{userData : UserResolve}
-  }, 
-  {path: 'delivery-list', component: ListComponent},
-  {path: 'delivery-list/delivery-update/:id', component: DeliveryUpdateComponent},
-],
+    }, 
+    {path: 'delivery-list', component: ListComponent},
+    {path: 'delivery-list/delivery-update/:id', component: DeliveryUpdateComponent},
+  ],
   canActivate:[RouteGuard]},
-{path: 'user-register' , component: UserRegisterComponent,
-},
+  {
+    path: 'user-register' , component: UserRegisterComponent,
+  },
 
 ];
 
