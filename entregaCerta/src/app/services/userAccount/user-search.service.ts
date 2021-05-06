@@ -29,10 +29,11 @@ export class UserSearchService implements OnInit{
   
   url = `${environment.api_url}/customers/`;
   search(id, token): Observable<CustomerModel>{
+
     const header = new HttpHeaders().set('Authorization', `Bearer ${token}`)
     const headers = { headers: header };
  
-   console.log(this.userData);
+   
     return this.http.get<CustomerModel>(this.url +id, headers);     
   }
 }

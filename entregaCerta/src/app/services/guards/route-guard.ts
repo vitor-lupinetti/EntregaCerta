@@ -7,7 +7,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { Observable } from 'rxjs';
 import { ResultModel } from 'src/app/models/resultModel';
 import { StorageModel } from 'src/app/models/storageModel';
-import { constructorParametersDownlevelTransform } from '@angular/compiler-cli';
+
 
 
 @Injectable({
@@ -30,11 +30,7 @@ export class RouteGuard implements CanActivate{
       if(this.validType(state)){     
         return true;
       }
-      
-      
     }
-    
-    
     
     this.router.navigate(['']);
     return false;
@@ -44,30 +40,23 @@ export class RouteGuard implements CanActivate{
   resultModel = <ResultModel>{};
   reload = false;
   loaded = false;
-  load(state):void{
+  load(state){
 
-
-    
     if(localStorage.getItem("data") != undefined && !this.authService.userAuth()){
       
       this.obj = JSON.parse(localStorage.getItem("data"));
         
       
      
-      if(!state.url.includes("update")){
+      if(!state.url.includes("user-update")){
 
-        this.obj = JSON.parse(localStorage.getItem("data"));
-        
         this.userSearchService.search(this.obj.id, this.obj.token)
         .subscribe( result => { 
           console.log("reaload");           
           if(result){
             this.resultModel.customer = result;
-            
             this.resultModel.token = this.obj.token;
-            
-            this.userData.setUserData(this.resultModel);
-            console.log( this.resultModel.customer); 
+            this.userData.setUserData(this.resultModel); 
             this.loaded = true;
           }
          },
@@ -80,16 +69,12 @@ export class RouteGuard implements CanActivate{
            
          }  
        )
-        
       }
       
       this.obj = JSON.parse(localStorage.getItem("data"));
       
-      
-     console.log("set auth guard");
      this.authService.setLog(true);
 
-     
       this.userData.setId(this.obj.id);
       this.userData.setToken(this.obj.token);
       this.userData.setType(this.obj.userType);

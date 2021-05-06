@@ -1,3 +1,5 @@
+import { UserSearchService } from './../../../services/userAccount/user-search.service';
+import { UserDataService } from './../../../services/userAccount/user-data.service';
 import { PhotoDeliveryModel } from './../../../models/photoDeliveryModel';
 import { PhotosService } from './../../../services/delivery/photos.service';
 import { DeliveryUpdateService } from './../../../services/delivery/delivery-update.service';
@@ -50,13 +52,18 @@ export class DeliveryUpdateComponent implements OnInit {
   photo: File;
   photos;
   img;
+  whatsapp = false;
+  numberContact;
+
   constructor(
     private deliverySearch: DeliverySearchService,
     private router: Router,
     private route: ActivatedRoute,
     private deliveryUpdate: DeliveryUpdateService,
     private message: MessagesService,
-    private photosService: PhotosService
+    private photosService: PhotosService,
+    private userData:UserDataService,
+    private userSearchService:UserSearchService,
   ) { }
 
   date ;
@@ -64,17 +71,20 @@ export class DeliveryUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
+    
+
 
     this.deliverySearch.search(this.id).subscribe(
       result => {
         if (result) {
           this.deliveryModel = result.delivery;
-
+          
           this.date = moment(this.deliveryModel.receiptDate + "T00:00:00");
           this.times = this.deliveryModel.receptionTime;
           this.img = document.getElementById("image");
-
+          this.setWhatsApp();
           this.photoList();
+          
         }
       },
 
@@ -148,13 +158,31 @@ export class DeliveryUpdateComponent implements OnInit {
       }
     );
 
-    // photoObject = this.deliveryModel.photos;
-    // for (let { photoMimeType, photo, id } of photoObject) {
-    //   this.photos.push({
-    //     src: `data:${photoMimeType};base64,${photo}`,
-    //     id: id
-    //   });
-    // }
+  }
+
+  setWhatsApp(){
+    
+    if(this.userData.getUserData().customer.hasWhatsApp == "1"){
+      this.userSearchService.search(this.deliveryModel.idBuyer, this.userData.getToken())
+        .subscribe( result => { 
+          console.log("reaload");           
+          if(result){
+            if(result.hasWhatsApp == "1")
+            this.numberContact = "55" + result.contactNumber;
+            this.whatsapp = true;
+          }
+         },
+         error => {
+           if(error !== 500) {
+             console.log(error.error);
+             
+           }
+           console.log(error)
+           
+         }  
+       )
+      
+    }
   }
 
   photoDelete(id: string) {

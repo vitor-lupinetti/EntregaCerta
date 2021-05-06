@@ -63,12 +63,12 @@ export class UserUpdateComponent implements OnInit {
         this.userSearchService.search(obj.id, obj.token).subscribe( result => { 
                      
             if(result){
-                console.log(result);  
+                 
                 this.data.customer = result;
                 this.data.token = obj.token;
           
               this.userData.setUserData(this.data);
-              console.log(this.data);
+             
               this.setInput();
             }
            },
@@ -110,7 +110,6 @@ export class UserUpdateComponent implements OnInit {
   }
 
   setInput() {
-    console.log("input");
     
     this.name = this.data.customer.name;
     this.photo_url = this.data.customer.photo_url;

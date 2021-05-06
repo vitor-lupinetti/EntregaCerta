@@ -15,12 +15,10 @@ export class UserDataService {
   private token:string;
 
   setUserData(data: ResultModel){
-    console.log("set data");
     this.data = data;
   }
 
   getUserData(): ResultModel{
-    console.log("get data");
     return this.data;
     
   }

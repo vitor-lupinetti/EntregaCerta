@@ -1,6 +1,6 @@
 <mat-card class= "card">
 
-    <mat-card-title>Alterar entrega</mat-card-title>
+    <mat-card-title>Atualizar entrega</mat-card-title>
 
     <form>
           
@@ -19,10 +19,10 @@
                 <mat-label>Horário</mat-label>
                 <input matInput type="time" name="times"[(ngModel)]="times" #time >
               </mat-form-field>
-              <!-- <input  type="time" name="time"[(ngModel)]="times" > -->
+              
     </form>
 
-
+    
     <button mat-raised-button (click)="updateDelivery()" color="primary">
         Atualizar
     </button>
@@ -30,8 +30,7 @@
     <button mat-raised-button (click)="cancel()" >
         Cancelar
     </button>
-
-
+    
 </mat-card>
 <mat-card class="photoAdd">
     <mat-card-title class="title">Adicionar foto</mat-card-title>
@@ -43,9 +42,7 @@
                 </div>
                 <input class="input" placeholder="Adicionar Imagem" [(ngModel)]="photo" name="photo"
                     (change)="handleFileInput($event.target.files)" type="file" >
-                    
             </div>
-        
     </form>
 </mat-card>
 <div class="photoContainer">
@@ -57,14 +54,19 @@
     </div>
 </div>
 
-
-<!-- <div class="foto-container">
-    <div class="img-container">
-        <img id="image" alt="Imagem entrega" width="250" height="200">
+<div *ngIf="whatsapp" id="contact-container">
+        <div id="contact" >
+            <a class="whatsapp-link" href="https://web.whatsapp.com/send?phone={{numberContact}}" target="_blank">
+                <i class="fa fa-whatsapp"></i>
+            </a>
+            
+        </div>
+        
     </div>
-    <input matInput class="input" placeholder="Adicionar Imagem" [(ngModel)]="photo" name="photo"
-        (change)="handleFileInput($event.target.files)" type="file" >
-</div> -->
+
+
+
+
 
     
 

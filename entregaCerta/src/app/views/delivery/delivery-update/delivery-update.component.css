@@ -1,9 +1,9 @@
 .card{
     overflow:auto;
     margin: auto;
+    margin-top:1rem;
     text-align: center;
     width: 80vw;
-    /* min-height: 30%; */
 }
 
 form{
@@ -47,16 +47,12 @@ input{
     margin: 0.8rem;
     border: 1px solid #E6E6E6;
     border-radius:0.2rem;
-    /* float: left; */
     width: 20vw;
     
 }
 
 .photoContainer{
-    /* width:100vw;
-    height:30vw;
-    text-align:center;
-    background-color: cadetblue; */
+ 
     margin:auto;
     width:80vw;
     text-align:center;
@@ -68,10 +64,29 @@ input{
     width: 0.2vw;
 }
 
-.cardPhoto{
-    margin-left: 1rem;
-    float: left;
+#whatsApp{
+    float:left;
 }
+
+.whatsapp-link{
+    position:fixed;
+    width:40px;
+    height:40px;
+    bottom: 26.7px;
+    right:13.5px;
+    background-color:#25d366;
+    color: #fff;
+    border-radius:50%;
+    text-align:center;
+    font-size:20px;
+    box-shadow: 1px 2px #888;
+}
+
+.fa-whatsapp{
+    
+    margin-top:10.7px;
+}
+
 
 .foto-container-add{
     display: flex;
@@ -83,8 +98,7 @@ input{
 
 .img-container-add{
     display:inline-block;
-    /* text-align: center; */
-    width: 80%;
+    width: 90%;
     margin: 2%;
     
 }
@@ -93,9 +107,38 @@ img{
     max-width: 300px;
     max-height: 300px;
     width: 100%;
-    /* border-radius: 50%; */
     border: 1px solid rgb(177, 177, 177);
 }
+
+@media (min-width: 700px) {
+    .whatsapp-link{
+        position:fixed;
+        float:left;
+        width:60px;
+        height:60px;
+        bottom: 40px;
+        right:40px;
+        background-color:#25d366;
+        color: #fff;
+        border-radius:50%;
+        text-align:center;
+        font-size:30px;
+        box-shadow: 1px 2px #888;
+    }
+    
+    .fa-whatsapp{
+        
+        margin-top:16px;
+    }
+
+    .img-container-add{
+        display:inline-block;
+        width: 80%;
+        margin: 2%;
+        
+    }
+}
+
 
 
 

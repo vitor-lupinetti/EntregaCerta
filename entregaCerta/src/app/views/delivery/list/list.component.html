@@ -15,7 +15,7 @@
             <td mat-cell *matCellDef="let row">{{row.purchaseDate}}</td>
         </ng-conatiner>
         <ng-conatiner matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef>editar</th>
+            <th mat-header-cell *matHeaderCellDef>Editar entrega</th>
             <td mat-cell *matCellDef="let row">
                 <a routerLink="delivery-update/{{row.id}}" class="edit">
                     <i class="material-icons">
@@ -34,6 +34,8 @@
                 </a>
             </td>
         </ng-conatiner>
+
+        
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
