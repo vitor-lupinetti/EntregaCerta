@@ -26,9 +26,18 @@ class DeliveryService extends GenericService<DeliveryEntity>{
     }
 
     public async update(delivery: DeliveryEntity): Promise<DeliveryEntity> {
-        delivery.status = EnumDeliveryStatus.RECEIVER_RECEIVED;
+        this.validation.ableThrowErrors();
 
-        await super.update(delivery);
+        await this.validation.validateUpdate(this, delivery);
+
+        const deliveryFound = await this.findOne({ where: { id: delivery.id } });
+        const currentStatusDelivery = deliveryFound.status;
+
+        if (currentStatusDelivery === EnumDeliveryStatus.CREATED) {
+            delivery.status = EnumDeliveryStatus.RECEIVER_RECEIVED;
+        }
+
+        await this.repository.save(delivery);
 
         let deliveryUpdated = await this.findOne({ where: { id: delivery.id } });
 
@@ -77,9 +86,11 @@ class DeliveryService extends GenericService<DeliveryEntity>{
 
         (this.validation as DeliveryValidation).verifyIfCanMarkAsDelivered(deliveryFound);
 
-        deliveryFound.status = EnumDeliveryStatus.AWAITING_BUYER_CONFIRMATION;
+        const deliveryToSave = new DeliveryEntity();
+        deliveryToSave.id = id;
+        deliveryToSave.status = EnumDeliveryStatus.AWAITING_BUYER_CONFIRMATION;
 
-        await this.repository.save(deliveryFound);
+        await this.repository.save(deliveryToSave);
     }
 
     public async confirmDeliveryDelivered(id: string, wasDelivered: number): Promise<DeliveryEntity> {
@@ -87,13 +98,15 @@ class DeliveryService extends GenericService<DeliveryEntity>{
 
         (this.validation as DeliveryValidation).verifyConfirmDeliveryDelivered(deliveryFound, wasDelivered);
 
-        deliveryFound.status = wasDelivered == 1
+        const deliveryToSave = new DeliveryEntity();
+        deliveryToSave.id = id;
+        deliveryToSave.status = wasDelivered == 1
             ? EnumDeliveryStatus.FINISHED
             : EnumDeliveryStatus.RECEIVER_RECEIVED;
 
-        await this.repository.save(deliveryFound);
+        await this.repository.save(deliveryToSave);
 
-        return deliveryFound;
+        return deliveryToSave;
     }
 
     private addTimeZone(delivery: DeliveryEntity): void {
