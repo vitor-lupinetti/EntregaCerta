@@ -58,6 +58,7 @@ export class RouteGuard implements CanActivate{
             this.resultModel.token = this.obj.token;
             this.userData.setUserData(this.resultModel); 
             this.loaded = true;
+            console.log(result);
           }
          },
          error => {

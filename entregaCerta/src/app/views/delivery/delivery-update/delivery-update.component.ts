@@ -1,3 +1,4 @@
+import { MarkDeliveryService } from './../../../services/delivery/mark-delivery.service';
 import { UserSearchService } from './../../../services/userAccount/user-search.service';
 import { UserDataService } from './../../../services/userAccount/user-data.service';
 import { PhotoDeliveryModel } from './../../../models/photoDeliveryModel';
@@ -53,7 +54,10 @@ export class DeliveryUpdateComponent implements OnInit {
   photos;
   img;
   whatsapp = false;
+  statusDelivery;
   numberContact;
+  confirmDelivery;
+  checkbox;
 
   constructor(
     private deliverySearch: DeliverySearchService,
@@ -64,6 +68,7 @@ export class DeliveryUpdateComponent implements OnInit {
     private photosService: PhotosService,
     private userData:UserDataService,
     private userSearchService:UserSearchService,
+    private markDeliveryService:MarkDeliveryService,
   ) { }
 
   date ;
@@ -73,18 +78,31 @@ export class DeliveryUpdateComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     
 
-
     this.deliverySearch.search(this.id).subscribe(
       result => {
         if (result) {
           this.deliveryModel = result.delivery;
+          console.log(result); 
+          if(this.deliveryModel.status !== "Criada"){
+            this.date = moment(this.deliveryModel.receiptDate + "T00:00:00");
+            this.times = this.deliveryModel.receptionTime;
+          }else{
+            this.date;
+            this.times;
+          }
           
-          this.date = moment(this.deliveryModel.receiptDate + "T00:00:00");
-          this.times = this.deliveryModel.receptionTime;
           this.img = document.getElementById("image");
           this.setWhatsApp();
           this.photoList();
-          
+          this.statusDelivery = this.deliveryModel.status;
+          if(this.statusDelivery !== "Recebedor recebeu" && this.statusDelivery !== "Criada"){
+            this.checkbox = document.getElementById("markDelivered");
+            this.checkbox.setAttribute("disabled","disabled");
+            this.checkbox.checked = true;
+          }else if (this.statusDelivery =="Criada"){
+            this.checkbox = document.getElementById("markDelivered");
+            this.checkbox.setAttribute("disabled","disabled");
+          }
         }
       },
 
@@ -165,11 +183,14 @@ export class DeliveryUpdateComponent implements OnInit {
     if(this.userData.getUserData().customer.hasWhatsApp == "1"){
       this.userSearchService.search(this.deliveryModel.idBuyer, this.userData.getToken())
         .subscribe( result => { 
-          console.log("reaload");           
+                    
           if(result){
-            if(result.hasWhatsApp == "1")
-            this.numberContact = "55" + result.contactNumber;
-            this.whatsapp = true;
+            
+            if(result.hasWhatsApp == "1"){
+              this.numberContact = "55" + result.contactNumber;
+              this.whatsapp = true;  
+            }
+            
           }
          },
          error => {
@@ -208,6 +229,35 @@ export class DeliveryUpdateComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  delivered(){
+
+    if(this.deliveryModel.status == "Recebedor recebeu"){
+
+      this.markDeliveryService.markDelivered(this.id)
+      .subscribe(
+        result => {
+          if (result) {
+            this.message.showMessage("Entrega ao comprador marcada");
+            console.log(result);
+            this.statusDelivery = result.currentStatusDelivery;
+            this.checkbox = document.getElementById("markDelivered");
+            this.checkbox.setAttribute("disabled","disabled");
+            this.checkbox.checked = true;
+          }
+        },
+
+        error => {
+          if (error !== 500) {
+            this.message.showMessage(error.error.error);
+            console.log(error);
+          } else {
+            console.log(error);
+          }
+        }
+      );
+    }
   }
 
   updateDelivery() {

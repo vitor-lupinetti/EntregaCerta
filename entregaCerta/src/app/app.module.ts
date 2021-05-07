@@ -42,6 +42,7 @@ import { UserDeleteComponent } from './views/userAccount/user-delete/user-delete
 import { UserDeleteService } from './services/userAccount/user-delete.service';
 import { RouteGuard } from './services/guards/route-guard';
 import { DeliveryBuyerViewComponent } from './views/delivery/delivery-buyer-view/delivery-buyer-view.component';
+import { MarkDeliveryService } from './services/delivery/mark-delivery.service';
 
 
 
@@ -112,6 +113,7 @@ import { DeliveryBuyerViewComponent } from './views/delivery/delivery-buyer-view
               DeliverySearchService,
               DeliveryUpdateService,
               PhotosService,
+              MarkDeliveryService,
               UserDeleteService,
               // {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {strict: true}},
               {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},

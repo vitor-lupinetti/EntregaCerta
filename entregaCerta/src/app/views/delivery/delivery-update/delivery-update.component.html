@@ -1,24 +1,46 @@
-<mat-card class= "card">
 
+<mat-card class="card">
+    <mat-card-title class="title">Dados da entrega</mat-card-title>
+    <form>
+        
+        <div class="status-container">
+            <label class="status">status: {{statusDelivery}}</label>
+        </div>
+        
+        <div >
+            <span class="status">
+                <input id="markDelivered" name="status" type="checkbox" (click)="delivered()">
+                <label >encomenda entregue ao comprador</label>
+            </span>
+        </div>
+       
+    </form>
+    
+    
+</mat-card>
+
+<mat-card class= "card">
+    
     <mat-card-title>Atualizar entrega</mat-card-title>
 
     <form>
           
         <mat-form-field>
-            <input matInput placeholder="Quantidade" [(ngModel)]="deliveryModel.amountPackaging" name="amountPackaging" type="number"> 
+            <input class="input" matInput placeholder="Quantidade" [(ngModel)]="deliveryModel.amountPackaging" name="amountPackaging" type="number"> 
         </mat-form-field>
 
               <mat-form-field >
                 <mat-label>Data</mat-label>
-                <input matInput ng-bind="date|date:'dd/MM/yyyy' " name="date" [matDatepicker]="picker" [(ngModel)]="date" >
+                <input class="input" matInput ng-bind="date|date:'dd/MM/yyyy' " name="date" [matDatepicker]="picker" [(ngModel)]="date" >
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
     
             <mat-form-field >
                 <mat-label>Horário</mat-label>
-                <input matInput type="time" name="times"[(ngModel)]="times" #time >
-              </mat-form-field>
+                <input class="input" matInput type="time" name="times"[(ngModel)]="times" #time >
+            </mat-form-field>
+            
               
     </form>
 
@@ -30,6 +52,8 @@
     <button mat-raised-button (click)="cancel()" >
         Cancelar
     </button>
+    
+    
     
 </mat-card>
 <mat-card class="photoAdd">

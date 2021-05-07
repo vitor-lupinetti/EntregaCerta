@@ -25,10 +25,10 @@ export class ListComponent implements OnInit {
     this.obj = JSON.parse(localStorage.getItem("data"));
 
     if (this.obj.userType.toLowerCase() == "receiver") {
-      this.displayedColumns = ['description', 'purchaseDate', 'action'];
+      this.displayedColumns = ['description', 'purchaseDate','status', 'action'];
     }
     else {
-      this.displayedColumns = ['description', 'purchaseDate', 'view'];
+      this.displayedColumns = ['description', 'purchaseDate','status', 'view'];
     }
 
     this.deliveryModel = [];

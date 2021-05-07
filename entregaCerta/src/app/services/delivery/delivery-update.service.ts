@@ -13,6 +13,8 @@ export class DeliveryUpdateService {
 
   constructor(private http:HttpClient, private userData:UserDataService) { }
 
+  token;
+
   update(delivery:DeliveryModel): Observable<DeliveryModel>{
   
     let token = this.userData.getToken();
@@ -21,8 +23,9 @@ export class DeliveryUpdateService {
    
     const header = new HttpHeaders().set('Authorization', `Bearer ${token}`)
     const headers = { headers: header };
-
+    console.log(headers);
 
     return this.http.put<DeliveryModel>(url, delivery, headers);
   }
+
 }

@@ -30,9 +30,24 @@ button{
 }
 
 
-input{
+.input{
     width:30vw;
 }
+
+hr{
+    margin-top:2rem;
+    margin-bottom:1rem;
+}
+
+.status-container{
+    width:60vw;
+    margin-bottom: 1rem;
+}
+
+.status{
+    float:left;
+}
+
 
 .photoAdd{
     margin:auto;

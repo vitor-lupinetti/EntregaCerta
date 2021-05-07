@@ -14,6 +14,10 @@
             <th mat-header-cell *matHeaderCellDef>Data de compra</th>
             <td mat-cell *matCellDef="let row">{{row.purchaseDate}}</td>
         </ng-conatiner>
+        <ng-conatiner matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let row">{{row.status}}</td>
+        </ng-conatiner>
         <ng-conatiner matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef>Editar entrega</th>
             <td mat-cell *matCellDef="let row">

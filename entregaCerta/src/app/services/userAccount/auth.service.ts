@@ -42,7 +42,7 @@ export class AuthService {
                     this.setLog(true);
                     this.data.setUserData(this.customer);
                     this.setLocalStorage();
-                  
+                    console.log(result);
                     this.router.navigate(['buyer/user-update']);
                     
                   }
