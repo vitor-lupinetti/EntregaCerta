@@ -11,6 +11,7 @@
             <span class="status">
                 <input id="markDelivered" name="status" type="checkbox" (click)="delivered()">
                 <label >encomenda entregue ao comprador</label>
+                
             </span>
         </div>
        
@@ -72,7 +73,7 @@
 <div class="photoContainer">
     <div *ngFor="let photo of photos" class="photo">
         <img src={{photo.src}}>
-        <button class="buton" (click)="photoDelete(photo.id)"> 
+        <button  (click)="photoDelete(photo.id)"> 
             Excluir imagem
         </button>
     </div>

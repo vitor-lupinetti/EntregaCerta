@@ -1,4 +1,4 @@
-import { MarkDeliveryService } from './../../../services/delivery/mark-delivery.service';
+
 import { UserSearchService } from './../../../services/userAccount/user-search.service';
 import { UserDataService } from './../../../services/userAccount/user-data.service';
 import { PhotoDeliveryModel } from './../../../models/photoDeliveryModel';
@@ -14,6 +14,7 @@ import {MomentDateAdapter,MAT_MOMENT_DATE_ADAPTER_OPTIONS} from "@angular/materi
 import {DateAdapter,MAT_DATE_FORMATS,MAT_DATE_LOCALE} from "@angular/material/core";
 import * as _moment from "moment";
 import { DeliveryObjectModel } from 'src/app/models/deliveryObjectModel';
+import { DeliveredStatusService } from 'src/app/services/delivery/delivered-status';
 // import { default as _rollupMoment } from "moment";
 
 // const moment = _rollupMoment || _moment;
@@ -68,7 +69,7 @@ export class DeliveryUpdateComponent implements OnInit {
     private photosService: PhotosService,
     private userData:UserDataService,
     private userSearchService:UserSearchService,
-    private markDeliveryService:MarkDeliveryService,
+    private markDeliveryService:DeliveredStatusService,
   ) { }
 
   date ;

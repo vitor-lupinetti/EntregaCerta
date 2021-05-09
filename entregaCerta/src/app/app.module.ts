@@ -42,8 +42,9 @@ import { UserDeleteComponent } from './views/userAccount/user-delete/user-delete
 import { UserDeleteService } from './services/userAccount/user-delete.service';
 import { RouteGuard } from './services/guards/route-guard';
 import { DeliveryBuyerViewComponent } from './views/delivery/delivery-buyer-view/delivery-buyer-view.component';
-import { MarkDeliveryService } from './services/delivery/mark-delivery.service';
-
+import { DeliveryConfirmComponent } from './views/delivery/delivery-confirm/delivery-confirm.component';
+import { DeliveredStatusService } from './services/delivery/delivered-status';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 
@@ -64,6 +65,7 @@ import { MarkDeliveryService } from './services/delivery/mark-delivery.service';
     DeliveryUpdateComponent,
     UserDeleteComponent,
     DeliveryBuyerViewComponent,
+    DeliveryConfirmComponent,
     
     
     
@@ -89,6 +91,7 @@ import { MarkDeliveryService } from './services/delivery/mark-delivery.service';
     MatDialogModule,
     MatDatepickerModule,
     NativeDateModule,
+    MatCheckboxModule,
     // MatMomentDateModule
     
     // MatToolbarModule,
@@ -113,7 +116,7 @@ import { MarkDeliveryService } from './services/delivery/mark-delivery.service';
               DeliverySearchService,
               DeliveryUpdateService,
               PhotosService,
-              MarkDeliveryService,
+              DeliveredStatusService,
               UserDeleteService,
               // {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {strict: true}},
               {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
@@ -121,4 +124,4 @@ import { MarkDeliveryService } from './services/delivery/mark-delivery.service';
 
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { } 

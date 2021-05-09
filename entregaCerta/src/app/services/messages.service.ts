@@ -2,6 +2,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserDeleteComponent } from '../views/userAccount/user-delete/user-delete.component';
+import { DeliveryConfirmComponent } from '../views/delivery/delivery-confirm/delivery-confirm.component';
 
 
 @Injectable({
@@ -34,20 +35,36 @@ export class MessagesService {
       verticalPosition: "top"
     })
   }
-
-  dialogConfirm(): any{
+  typeMessage;
+  dialogConfirm(type): any{
+    
     return new Promise((resolve,reject) =>{
-      const confirm = this.dialog.open(UserDeleteComponent);
+      
+      if(type == "delete"){
+        this.typeMessage = UserDeleteComponent;
+      }else if(type = "status"){
+        this.typeMessage = DeliveryConfirmComponent;
+      }
+      const confirm = this.dialog.open(this.typeMessage);
+      
       confirm.afterClosed().subscribe(result =>{
+        console.log(result);
         if(result){
+          
           resolve({
-            success:true
+            response:1,
+            success:true,
+          });
+        }else if (result == false){
+          resolve({
+            response:3,
+            success:true,
           });
         }
         // else{
         //   reject({
         //     success:false,
-        //     msg:'error delete'
+        //     msg:'error'
         //   });
         // }
       

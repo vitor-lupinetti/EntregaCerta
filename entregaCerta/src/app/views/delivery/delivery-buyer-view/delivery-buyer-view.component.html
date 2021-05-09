@@ -5,23 +5,29 @@
     <form>
           
         <mat-form-field>
-            <input disabled matInput placeholder="Quantidade de pacotes" [(ngModel)]="deliveryModel.amountPackaging" name="amountPackaging" type="number"> 
+            <input class="input"disabled matInput placeholder="Quantidade de pacotes" [(ngModel)]="deliveryModel.amountPackaging" name="amountPackaging" type="number"> 
         </mat-form-field>
 
               <mat-form-field >
                 <mat-label>Data recebida</mat-label>
-                <input matInput ng-bind="date|date:'dd/MM/yyyy' " name="date" [matDatepicker]="picker" [(ngModel)]="date" disabled >
+                <input class="input" matInput ng-bind="date|date:'dd/MM/yyyy' " name="date" [matDatepicker]="picker" [(ngModel)]="date" disabled >
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
     
             <mat-form-field >
                 <mat-label>Horário recebido</mat-label>
-                <input disabled matInput type="time" name="times"[(ngModel)]="times" #time >
+                <input class="input" disabled matInput type="time" name="times"[(ngModel)]="times" #time >
             </mat-form-field>
+
             <mat-form-field>
-                <input disabled matInput placeholder="Status atual do pedido" [(ngModel)]="deliveryModel.status" name="status"> 
+                <input class="input" disabled matInput placeholder="Status atual do pedido" value={{deliveryStatus}} name="status"> 
             </mat-form-field>
+    
+            <div id="button-container" *ngIf="showConfirm">
+                <button mat-stroked-button color="warn" id="button" (click)="statusConfirm()">confirmar recebimento</button>
+            </div>
+            
             <!-- <mat-form-field>
                 <input disabled matInput placeholder="Quantidade de pacotes" [(ngModel)]="deliveryModel.status" name="amountPackaging" type="number"> 
             </mat-form-field> -->
@@ -38,4 +44,12 @@
     <!-- <div  class="photo">
         <img *ngFor="let photo of photos" src={{photo.src}}>
     </div> -->
+</div>
+
+<div *ngIf="whatsapp" id="contact-container">
+    <div id="contact" >
+        <a class="whatsapp-link" href="https://api.whatsapp.com/send?1=pt_BR&phone={{numberContact}}" target="_blank">
+            <i class="fa fa-whatsapp"></i>
+        </a>
+    </div>
 </div>

@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Deseja exculir usuário</h1>
 <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button [mat-dialog-close]="false">Cancelar</button>
     <button mat-button [mat-dialog-close]="true"
     cdkFocusInitial>Confirmar</button>
 </mat-dialog-actions>

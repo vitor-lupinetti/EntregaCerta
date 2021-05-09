@@ -7,7 +7,7 @@ import { UserDataService } from '../userAccount/user-data.service';
 @Injectable({
   providedIn: 'root'
 })
-export class MarkDeliveryService {
+export class DeliveredStatusService {
 
   constructor(private http:HttpClient, private userData:UserDataService) { }
 
@@ -23,5 +23,16 @@ export class MarkDeliveryService {
     console.log(headers);
 
     return this.http.put<any>(url, {}, headers);
+  }
+  confirmDelivered(id, response){
+
+    let url = `${environment.api_url}/confirm-delivery-delivered`;
+    let token = this.userData.getToken();
+
+    const header = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const headers = { headers: header };
+    console.log(headers);
+
+    return this.http.put<any>(url, {id: id, wasDelivered: response}, headers);
   }
 }

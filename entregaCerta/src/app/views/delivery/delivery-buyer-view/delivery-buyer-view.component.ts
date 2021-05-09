@@ -1,3 +1,6 @@
+import { UserSearchService } from './../../../services/userAccount/user-search.service';
+import { UserDataService } from './../../../services/userAccount/user-data.service';
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeliveryModel } from 'src/app/models/deliveryModel';
@@ -8,6 +11,7 @@ import {DateAdapter,MAT_DATE_FORMATS,MAT_DATE_LOCALE} from "@angular/material/co
 import { PhotoDeliveryModel } from 'src/app/models/photoDeliveryModel';
 import { PhotosService } from 'src/app/services/delivery/photos.service';
 import { MessagesService } from 'src/app/services/messages.service';
+import { DeliveredStatusService } from 'src/app/services/delivery/delivered-status';
 
 const moment = _moment;
 export  const MY_FORMATS = {
@@ -44,7 +48,9 @@ export class DeliveryBuyerViewComponent implements OnInit {
     private route: ActivatedRoute,
     private photosService: PhotosService,
     private message: MessagesService,
-    
+    private markDeliveryService:DeliveredStatusService,
+    private userData:UserDataService,
+    private userSearchService: UserSearchService,
   ) { }
   id = '';
   deliveryModel = <DeliveryModel>{};
@@ -52,6 +58,11 @@ export class DeliveryBuyerViewComponent implements OnInit {
   times = '';
   img;
   photos;
+  buttonConfirm;
+  whatsapp = false;
+  showConfirm =false;
+  numberContact;
+  deliveryStatus;
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -61,11 +72,23 @@ export class DeliveryBuyerViewComponent implements OnInit {
         if (result) {
           this.deliveryModel = result.delivery;
 
-          this.date = moment(this.deliveryModel.receiptDate + "T00:00:00");
-          this.times = this.deliveryModel.receptionTime;
+          if(this.deliveryModel.status !== "Criada"){
+            this.date = moment(this.deliveryModel.receiptDate + "T00:00:00");
+            this.times = this.deliveryModel.receptionTime;
+          }else{
+            this.date;
+            this.times;
+          }
           this.img = document.getElementById("image");
-
+          this.deliveryStatus = this.deliveryModel.status;
+          this.setWhatsApp();
           this.photoList();
+
+          if(this.deliveryModel.status !== "Aguardando confirmação do comprador"){
+            this.showConfirm = false;
+          }else if(this.deliveryModel.status =="Aguardando confirmação do comprador"){
+            this.showConfirm = true;
+          }
         }
       },
 
@@ -106,6 +129,58 @@ export class DeliveryBuyerViewComponent implements OnInit {
       }
     );
 
+  }
+
+  async statusConfirm(){
+
+    let confirm = await this.message.dialogConfirm("status");
+    console.log(confirm.response);
+    this.markDeliveryService.confirmDelivered(this.id, confirm.response).subscribe(
+      result => {
+        
+        if (result) {
+          this.deliveryStatus = result.currentStatusDelivery;
+          this.showConfirm = false;
+        }
+      },
+
+      error => {
+        
+        if (error !== 500) {
+          this.message.showMessage(error.error.error);
+        } else {
+          console.log(error);
+        }
+      }
+    );
+  }
+
+  setWhatsApp(){
+    
+    if(this.userData.getUserData().customer.hasWhatsApp == "1"){
+      this.userSearchService.search(this.deliveryModel.idBuyer, this.userData.getToken())
+        .subscribe( result => { 
+                    
+          if(result){
+            
+            if(result.hasWhatsApp == "1"){
+              this.numberContact = "55" + result.contactNumber;
+              this.whatsapp = true;  
+            }
+            
+          }
+         },
+         error => {
+           if(error !== 500) {
+             console.log(error.error);
+             
+           }
+           console.log(error)
+           
+         }  
+       )
+      
+    }
   }
 
 }
