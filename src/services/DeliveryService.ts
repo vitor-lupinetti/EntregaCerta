@@ -2,7 +2,6 @@ import { FindOneOptions, getCustomRepository } from "typeorm";
 
 import { DeliveryEntity } from "../entities/DeliveryEntity";
 import { EnumDeliveryStatus } from "../enums/EnumDeliveryStatus";
-import { AppError } from "../errors/AppError";
 import { DeliveryRepository } from "../repositories/DeliveryRepository";
 import { MailService } from "./MailService";
 import { GenericService } from "./Service";

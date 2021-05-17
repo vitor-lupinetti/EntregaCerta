@@ -1,5 +1,4 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
-import { v4 as uuid } from "uuid";
 
 export class CreateUsers1616039746168 implements MigrationInterface {
     private tableName = "tbUsers";
