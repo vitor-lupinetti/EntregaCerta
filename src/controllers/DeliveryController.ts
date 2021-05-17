@@ -5,6 +5,7 @@ import { EnumDeliveryStatus } from "../enums/EnumDeliveryStatus";
 import { AppError } from "../errors/AppError";
 import { DeliveryPhotoService } from "../services/DeliveryPhotoService";
 import DeliveryService from "../services/DeliveryService";
+import { DateTimeValidation } from "../services/validations/DateTimeValidation";
 
 class DeliveryController {
     async create(request: Request, response: Response) {
@@ -34,24 +35,11 @@ class DeliveryController {
 
         const deliveryToUpdate = new DeliveryEntity();
         deliveryToUpdate.id = id;
-        deliveryToUpdate.amountPackaging = amountPackaging;
+        deliveryToUpdate.amountPackaging = Number(amountPackaging);
 
-        /**
-         * \d{4} >> 0000 até 9999
-         * -
-         * (0[1-9])|(1[0-2]) >> 01 até 09 ou 10 até 12
-         * -
-         * (0[1-9])|([1-3]\d) >> 01 até 09 ou 10 até 39
-         * T
-         * (0\d)|([1-2]\d) >> 00 até 09 ou 10 até 29
-         * :
-         * (0\d)|([1-5]\d) >> 00 até 09 ou 10 até 59
-         * 
-         * Impedir de criar um objeto Date com o valor Invalid Date
-         */
-        const regexDateTime = /^\d{4}-(0[1-9])|(1[0-2])-(0[1-9])|([1-3]\d)T(0\d)|([1-2]\d):(0\d)|([1-5]\d)$/;
+        const dateTimeValidation = new DateTimeValidation();
 
-        if (regexDateTime.test(date)) {
+        if (dateTimeValidation.validateDateTime(date)) {
             let dateObj = new Date(date);
             let dateISO = dateObj.toISOString();
 

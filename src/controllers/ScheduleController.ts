@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { ScheduleEntity } from '../entities/ScheduleEntity';
 import { ScheduleService } from '../services/ScheduleService';
+import { DateTimeValidation } from '../services/validations/DateTimeValidation';
 
 export class ScheduleController {
     public async create(request: Request, response: Response) {
@@ -13,25 +14,12 @@ export class ScheduleController {
         scheduleToCreate.place = place;
         scheduleToCreate.time = time;
 
-        /**
-         * REGEX DATE
-         * \d{4} >> 0000 até 9999
-         * -
-         * (0[1-9])|(1[0-2]) >> 01 até 09 ou 10 até 12
-         * -
-         * (0[1-9])|([1-3]\d) >> 01 até 09 ou 10 até 39
-         * 
-         * REGEX TIME
-         * (0\d)|([1-2]\d) >> 00 até 09 ou 10 até 29
-         * :
-         * (0\d)|([1-5]\d) >> 00 até 09 ou 10 até 59
-         * 
-         * Impedir de criar um objeto Date com o valor Invalid Date
-         */
-        const regexDate = /^\d{4}-(0[1-9])|(1[0-2])-(0[1-9])|([1-3]\d)$/;
-        const regexTime = /^(0\d)|([1-2]\d):(0\d)|([1-5]\d)$/;
+        const dateTimeValidation = new DateTimeValidation();
 
-        if (regexDate.test(date) && regexTime.test(time)) {
+        if (
+            dateTimeValidation.validateDate(date)
+            && dateTimeValidation.validateTime(time)
+        ) {
             scheduleToCreate.dateTimeObj = new Date(`${date}T${time}`);
         }
 
