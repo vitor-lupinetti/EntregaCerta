@@ -7,7 +7,9 @@ export interface DeliveryModel {
     purchaseDate?: string;
     receiptDate?: string;
     receptionTime?: string;
+    purchaseTime?:string;
     status?: string;
     date?: string;
     photos?;
+   
 }

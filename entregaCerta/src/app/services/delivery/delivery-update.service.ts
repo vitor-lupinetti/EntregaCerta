@@ -23,7 +23,6 @@ export class DeliveryUpdateService {
    
     const header = new HttpHeaders().set('Authorization', `Bearer ${token}`)
     const headers = { headers: header };
-    console.log(headers);
 
     return this.http.put<DeliveryModel>(url, delivery, headers);
   }

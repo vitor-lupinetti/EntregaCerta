@@ -42,7 +42,6 @@ export class AuthService {
                     this.setLog(true);
                     this.data.setUserData(this.customer);
                     this.setLocalStorage();
-                    console.log(result);
                     this.router.navigate(['buyer/user-update']);
                     
                   }
@@ -54,7 +53,7 @@ export class AuthService {
                     this.router.navigate(['receiver/user-update']);
                   }
                   else{
-                    console.log("Rota não encontrada")
+                    console.log("Rota não encontrada");
                   }
                 },
                 error => {
@@ -78,9 +77,6 @@ export class AuthService {
   
   setLocalStorage(){
       
-    // let objJson = JSON.stringify(this.customer)
-    // localStorage.setItem("data", objJson);
-    
     let objJson = JSON.stringify({ token: this.customer.token,
                                    id: this.customer.customer.id,
                                    userType: this.userType });

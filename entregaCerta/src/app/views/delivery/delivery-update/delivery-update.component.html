@@ -3,18 +3,37 @@
     <mat-card-title class="title">Dados da entrega</mat-card-title>
     <form>
         
-        <div class="status-container">
-            <label class="status">status: {{statusDelivery}}</label>
+        <div class="info-user">
+            <label class="status">Status: {{statusDelivery}}</label>
         </div>
         
-        <div >
+        <div class="info-user">
             <span class="status">
                 <input id="markDelivered" name="status" type="checkbox" (click)="delivered()">
-                <label >encomenda entregue ao comprador</label>
+                <label >Encomenda entregue ao comprador</label>
                 
             </span>
         </div>
-       
+        
+        <div class="info-user">
+            <label class="status">Nome comprador: {{buyer}}</label>
+        </div>
+        <div class="info-user">
+            <label class="status">Rua: {{street}}</label>
+        </div>
+        <div class="info-user">
+            <label class="status">Bairro: {{neighborhood}}</label>
+        </div>
+        <div class="info-user">
+            <label class="status">Número da residência: {{number}}</label>
+        </div>
+        <div class="info-user">
+            <label class="status">CEP: {{cep}}</label>
+        </div>
+        <div class="info-user">
+            <label class="status">Complemento: {{complement}}</label>
+        </div>
+        
     </form>
     
     

@@ -1,9 +1,6 @@
 .card{
-    
     margin: auto;
     width: 70vw;
-    /* height: 80%; */
-    /* overflow:auto; */
 }
 
 .title{
@@ -41,12 +38,6 @@ button{
     width: 100%;
 }
 
-/* .image{
-    
-    margin-left: 20%;
-    margin-bottom: 5px;
-} */
-
  .whatsApp{
     margin-left: 0px;
     float:left;
@@ -74,7 +65,6 @@ img{
     max-width: 300px;
     max-height: 300px;
     width: 100%;
-    /* border-radius: 50%; */
     border: 1px solid rgb(177, 177, 177);
 }
 
@@ -85,12 +75,9 @@ img{
 }
 
 @media (min-width: 700px) {
-    .card{
-        
+    .card{     
         margin: auto;
         width: 70vw;
-        /* height: 80%; */
-        /* overflow:auto; */
     }
     
     .title{
@@ -160,7 +147,6 @@ img{
         max-width: 300px;
         max-height: 300px;
         width: 100%;
-        /* border-radius: 50%; */
         border: 1px solid rgb(177, 177, 177);
     }
     

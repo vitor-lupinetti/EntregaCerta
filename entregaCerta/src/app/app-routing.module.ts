@@ -2,13 +2,10 @@ import { DeliveryUpdateComponent } from './views/delivery/delivery-update/delive
 import { ListComponent } from './views/delivery/list/list.component';
 import { TemplateReceiverComponent } from './views/receiver/template-receiver/template-receiver.component';
 import { UserRegisterComponent } from './views/userAccount/user-register/user-register.component';
-
-// import { RouteGuard } from './services/guards/route-guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './views/userAccount/login/login.component';
 import { TemplateBuyerComponent } from './views/buyer/template-buyer/template-buyer.component';
-import { HomeBuyerComponent } from './views/buyer/home-buyer/home-buyer.component';
 import { UserUpdateComponent } from './views/userAccount/user-update/user-update.component';
 import { UserResolve } from './resolver/userResolve.resolver';
 import { RouteGuard } from './services/guards/route-guard';
@@ -21,7 +18,6 @@ const routes: Routes = [
   },
   {
     path: 'buyer', component: TemplateBuyerComponent , children: [
-    {path: 'homeBuyer', component: HomeBuyerComponent},
     {path: 'user-update' , component: UserUpdateComponent,
       resolve:{userData : UserResolve}
     }, 

@@ -43,8 +43,8 @@ export class TemplateBuyerComponent implements  OnDestroy {
   }
 
   async delete(){
+    
     let confirm = await this.message.dialogConfirm("delete");
-    console.log(confirm.response);
     if(confirm.response == 1){
       
       this.userDelete.delete().subscribe(

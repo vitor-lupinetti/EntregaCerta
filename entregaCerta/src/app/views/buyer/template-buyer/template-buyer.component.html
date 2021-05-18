@@ -7,32 +7,25 @@
         
         <span class="title">Entrega Certa</span>
         
-        <!-- <span class="spacer"></span> -->
     </mat-toolbar>
 
 <mat-sidenav-container  class="sidenavContainer" [style.marginTop.px]="mediaQuery.matches ? 56 : 0">
     <mat-sidenav class="sidenav" #sidenav mode="over" [(opened)]="opened" [fixedInViewport]="mediaQuery.matches"
     fixedTopGap="56">
         <mat-nav-list class="nav-list" >
-            <a mat-list-item  routerLink="homeBuyer" (click)="sidenav.toggle()">
-                <i class="material-icons">
-                    home
-                </i>
-                Início
-            </a>
-
-            <!-- <a mat-list-item  routerLink="update-delivery" (click)="sidenav.toggle()">
-                <i class="material-icons">
-                    
-                </i>
-                Início
-            </a> -->
-
+        
             <a mat-list-item  routerLink="user-update" (click)="sidenav.toggle()">
                 <i class="material-icons">
-                    update
+                    person
                 </i>
-                atualizar 
+                Perfil
+            </a>
+
+            <a mat-list-item (click)="delete()" >
+                <i class="material-icons"> 
+                    delete
+                </i>
+                Excluir
             </a>
 
             <a mat-list-item  routerLink="delivery-list" (click)="sidenav.toggle()">
@@ -49,12 +42,6 @@
                 Sair
             </a>
 
-            <a mat-list-item (click)="delete()" >
-                <i class="material-icons"> 
-                    delete
-                </i>
-                Excluir
-            </a>
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content class="content">

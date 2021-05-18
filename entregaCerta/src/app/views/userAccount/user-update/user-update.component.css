@@ -3,7 +3,6 @@
     margin: auto;
     text-align: center;
     width: 80vw;
-    /* min-height: 30%; */
 }
 
 .title{
@@ -17,7 +16,6 @@ form{
     flex-direction:column;
     margin-top: 64px;;
     margin-top: 3rem; 
-    /* max-height: 30%; */
     justify-content: center;
     align-items: center;
 }
@@ -68,7 +66,6 @@ img{
     max-width: 300px;
     max-height: 300px;
     width: 100%;
-    /* border-radius: 50%; */
     border: 1px solid rgb(177, 177, 177);
 }
 
@@ -103,7 +100,6 @@ img{
         display:flex;
         flex-direction:column;
         margin-top: 3rem;
-        /* max-height: 100vh;  */
         justify-content: center;
         align-items: center;
     }
@@ -120,7 +116,6 @@ img{
     .input{
         margin: auto;
         margin-bottom: 1rem;
-        /* width:60%; */
         width:39.5vw; 
     }
     

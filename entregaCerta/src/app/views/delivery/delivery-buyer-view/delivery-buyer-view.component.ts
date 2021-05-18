@@ -12,6 +12,7 @@ import { PhotoDeliveryModel } from 'src/app/models/photoDeliveryModel';
 import { PhotosService } from 'src/app/services/delivery/photos.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { DeliveredStatusService } from 'src/app/services/delivery/delivered-status';
+import { StorageModel } from 'src/app/models/storageModel';
 
 const moment = _moment;
 export  const MY_FORMATS = {
@@ -51,11 +52,15 @@ export class DeliveryBuyerViewComponent implements OnInit {
     private markDeliveryService:DeliveredStatusService,
     private userData:UserDataService,
     private userSearchService: UserSearchService,
+    private userSearch: UserSearchService,
   ) { }
   id = '';
   deliveryModel = <DeliveryModel>{};
-  date ;
-  times = '';
+  obj: StorageModel;
+  receiptDate ;
+  receptionTime = '';
+  purchaseDate;
+  purchaseTime;
   img;
   photos;
   buttonConfirm;
@@ -63,6 +68,7 @@ export class DeliveryBuyerViewComponent implements OnInit {
   showConfirm =false;
   numberContact;
   deliveryStatus;
+  receiver;
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -71,16 +77,16 @@ export class DeliveryBuyerViewComponent implements OnInit {
       result => {
         if (result) {
           this.deliveryModel = result.delivery;
-
           if(this.deliveryModel.status !== "Criada"){
-            this.date = moment(this.deliveryModel.receiptDate + "T00:00:00");
-            this.times = this.deliveryModel.receptionTime;
+            this.receiptDate = moment(this.deliveryModel.receiptDate + "T00:00:00");
+            this.receptionTime = this.deliveryModel.receptionTime;
           }else{
-            this.date;
-            this.times;
+            this.receiptDate;
+            this.receptionTime;
           }
           this.img = document.getElementById("image");
           this.deliveryStatus = this.deliveryModel.status;
+          this.setDataPurchase(this.deliveryModel.idReceiver);
           this.setWhatsApp();
           this.photoList();
 
@@ -100,6 +106,26 @@ export class DeliveryBuyerViewComponent implements OnInit {
         }
       }
     );
+  }
+
+  setDataPurchase(id){
+    this.obj = JSON.parse(localStorage.getItem("data"));
+   
+    this.userSearch.search(id,this.obj.token).subscribe(
+      result =>{
+        if(result){
+          this.receiver = result.name;
+            this.purchaseDate = moment(this.deliveryModel.purchaseDate + "T00:00:00");     
+        }
+      },
+      error=>{
+        if(error.status == 400) {
+          console.log(error.error);
+          
+        }
+        console.log(error)
+      }
+    )
   }
 
   photoList() {
@@ -134,7 +160,6 @@ export class DeliveryBuyerViewComponent implements OnInit {
   async statusConfirm(){
 
     let confirm = await this.message.dialogConfirm("status");
-    console.log(confirm.response);
     this.markDeliveryService.confirmDelivered(this.id, confirm.response).subscribe(
       result => {
         
@@ -175,8 +200,6 @@ export class DeliveryBuyerViewComponent implements OnInit {
              console.log(error.error);
              
            }
-           console.log(error)
-           
          }  
        )
       

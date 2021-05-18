@@ -20,8 +20,6 @@ import { LoginComponent } from './views/userAccount/login/login.component';
 import {FormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { TemplateBuyerComponent } from './views/buyer/template-buyer/template-buyer.component';
-import { HomeBuyerComponent } from './views/buyer/home-buyer/home-buyer.component';
-
 import { UserUpdateComponent } from './views/userAccount/user-update/user-update.component';
 import { UserRegisterComponent } from './views/userAccount/user-register/user-register.component';
 import { UserUpdateService } from './services/userAccount/user-update.service';
@@ -47,17 +45,11 @@ import { DeliveredStatusService } from './services/delivery/delivered-status';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
-
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent, 
     TemplateBuyerComponent, 
-    HomeBuyerComponent,  
     UserUpdateComponent,
     UserRegisterComponent,
     TemplateReceiverComponent,
@@ -65,10 +57,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     DeliveryUpdateComponent,
     UserDeleteComponent,
     DeliveryBuyerViewComponent,
-    DeliveryConfirmComponent,
-    
-    
-    
+    DeliveryConfirmComponent,  
   ],
   imports: [
     BrowserModule,
@@ -92,18 +81,6 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatDatepickerModule,
     NativeDateModule,
     MatCheckboxModule,
-    // MatMomentDateModule
-    
-    // MatToolbarModule,
-    //     MatIconModule,
-    //     MatSidenavModule,
-    //     MatListModule,
-    //     MatCardModule,
-    //     MatButtonModule,
-    //     MatFormFieldModule,
-    //     MatInputModule,
-    //     FormsModule,
-  
   ],
   providers: [AuthService,
               UserRegisterService, 
@@ -118,7 +95,6 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
               PhotosService,
               DeliveredStatusService,
               UserDeleteService,
-              // {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {strict: true}},
               {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
             ],
 

@@ -3,7 +3,6 @@
     margin: auto;
     text-align: center;
     width: 80vw;
-    /* min-height: 30%; */
 }
 
 form{
@@ -64,14 +63,9 @@ form{
 
 
 .photoContainer{
-    /* width:100vw;
-    height:30vw;
-    text-align:center;
-    background-color: cadetblue; */
     margin:auto;
     width:60vw;
     text-align:center;
-  
 }
 
 
@@ -91,7 +85,6 @@ form{
 
 .img-container-add{
     display:inline-block;
-    /* text-align: center; */
     width: 80%;
     margin: 2%;
     
@@ -101,7 +94,6 @@ img{
     max-width: 300px;
     max-height: 300px;
     width: 100%;
-    /* border-radius: 50%; */
     border: 1px solid rgb(177, 177, 177);
     margin: 1%;
 }

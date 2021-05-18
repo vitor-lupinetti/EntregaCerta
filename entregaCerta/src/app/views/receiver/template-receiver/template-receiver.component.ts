@@ -29,7 +29,7 @@ export class TemplateReceiverComponent implements OnDestroy {
   opened = false;
  
   exit(){
-    console.log("logout");
+   
     this.authService.setLog(false);
     localStorage.removeItem("data");
     this.routes.navigate(['']);

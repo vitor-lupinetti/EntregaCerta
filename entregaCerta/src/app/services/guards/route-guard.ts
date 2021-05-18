@@ -1,4 +1,4 @@
-import { UserUpdateComponent } from '../../views/userAccount/user-update/user-update.component';
+
 import { UserSearchService } from '../userAccount/user-search.service';
 import { UserDataService } from '../userAccount/user-data.service';
 import { AuthService } from '../userAccount/auth.service';
@@ -51,14 +51,12 @@ export class RouteGuard implements CanActivate{
       if(!state.url.includes("user-update")){
 
         this.userSearchService.search(this.obj.id, this.obj.token)
-        .subscribe( result => { 
-          console.log("reaload");           
+        .subscribe( result => {           
           if(result){
             this.resultModel.customer = result;
             this.resultModel.token = this.obj.token;
             this.userData.setUserData(this.resultModel); 
             this.loaded = true;
-            console.log(result);
           }
          },
          error => {

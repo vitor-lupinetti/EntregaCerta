@@ -31,25 +31,6 @@ export class UserUpdateComponent implements OnInit {
 
   ngOnInit(): void {
      
-    //  if (this.userData.reload){
-    //   console.log("update 1");
-    //   this.subscription = this.route.data.subscribe(
-    //     (info: { userData: ResultModel }) => {
-    //       this.data = info.userData;
-    //     }
-    //   );
-      
-    //   this.img = document.getElementById("image");
-    //   this.setInput();
-    // }
-    // else{
-
-    //   console.log("update 2");
-    //   this.reload();
-    //   this.img = document.getElementById("image");
-      
-    // }
-
       this.reload();
       this.img = document.getElementById("image");
     
@@ -82,7 +63,6 @@ export class UserUpdateComponent implements OnInit {
            }  
            
          )
-        //  return this.data;
   }
 
   id: string;
@@ -100,7 +80,6 @@ export class UserUpdateComponent implements OnInit {
   photo: File;
 
   handleFileInput(files: FileList) {
-    // this.photo = files.item(0);
     this.photo = files.item(0);
     let reader = new FileReader();
     reader.readAsDataURL(this.photo);

@@ -19,11 +19,9 @@ export class DeliveryListService {
     let token = this.userData.getToken();
 
    let url = `${environment.api_url}/delivery/${type}/${id}`;
-    console.log(url);
+ 
     const header = new HttpHeaders().set('Authorization', `Bearer ${token}`)
     const headers = { headers: header };
-
-    
 
     return this.http.get<DeliveryModel[]>(url, headers);
   }

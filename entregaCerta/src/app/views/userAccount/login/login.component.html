@@ -1,7 +1,7 @@
 <div class="container">
     <h1 class="title">Login</h1>
     <form>
-        <!-- <span> -->
+    
         <mat-form-field class="input">
 
             <input matInput placeholder="Nome" [(ngModel)]="user" name="name" />
@@ -14,14 +14,13 @@
 
         </mat-form-field>
 
-
         <button mat-raised-button (click)="login()" color="primary">
             Entrar
         </button>
 
         <a (click)="create()">
-            Novo Usuário
+            Novo usuário
         </a>
-        <!-- </span> -->
+ 
     </form>
 </div>

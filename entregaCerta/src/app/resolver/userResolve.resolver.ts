@@ -16,7 +16,7 @@ export class UserResolve implements Resolve<ResultModel>{
     obj: StorageModel ;
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): ResultModel|Observable<ResultModel> | Promise<ResultModel> {
-        console.log("resolver");
+       
 
         // this.obj = JSON.parse(localStorage.getItem("data"));
 

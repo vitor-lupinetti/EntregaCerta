@@ -34,7 +34,6 @@ export class UserRegisterService implements OnInit {
       formData.append('password', customerToCreate.password);
       formData.append('user', customerToCreate.user);
       if(customerToCreate.photo){
-        console.log(customerToCreate.photo);
         formData.append('photo', customerToCreate.photo, customerToCreate.photo.name);
       }
       
@@ -43,12 +42,8 @@ export class UserRegisterService implements OnInit {
               .subscribe(
                 result => { 
                  if(result){
-                   console.log(result + "1");
                    this.message.showMessage("Usuário criado");
-                  
                    this.authService.sendLogin({user: customerToCreate.user , password: customerToCreate.password});
-                 
-
                  }
                 },
                 error => {

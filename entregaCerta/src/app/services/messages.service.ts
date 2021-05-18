@@ -57,17 +57,10 @@ export class MessagesService {
           });
         }else if (result == false){
           resolve({
-            response:3,
+            response:0,
             success:true,
           });
         }
-        // else{
-        //   reject({
-        //     success:false,
-        //     msg:'error'
-        //   });
-        // }
-      
     })
     })
     

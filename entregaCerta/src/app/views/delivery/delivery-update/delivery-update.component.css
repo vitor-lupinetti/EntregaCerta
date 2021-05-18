@@ -39,7 +39,7 @@ hr{
     margin-bottom:1rem;
 }
 
-.status-container{
+.info-user{
     width:60vw;
     margin-bottom: 1rem;
 }
@@ -63,7 +63,6 @@ hr{
     border: 1px solid #E6E6E6;
     border-radius:0.2rem;
     width: 20vw;
-    
 }
 
 .photoContainer{
@@ -71,7 +70,6 @@ hr{
     margin:auto;
     width:80vw;
     text-align:center;
-  
 }
 
 .button{
@@ -113,7 +111,6 @@ hr{
     display:inline-block;
     width: 90%;
     margin: 2%;
-    
 }
 
 img{
@@ -148,7 +145,6 @@ img{
         display:inline-block;
         width: 80%;
         margin: 2%;
-        
     }
 }
 

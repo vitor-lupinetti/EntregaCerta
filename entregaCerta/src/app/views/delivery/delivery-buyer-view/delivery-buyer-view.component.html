@@ -1,49 +1,61 @@
 <mat-card class= "card">
 
-    <mat-card-title>Visualizar detalhes da entrega</mat-card-title>
+    <mat-card-title class="title">Visualizar detalhes da entrega</mat-card-title>
 
     <form>
-          
+
+        <mat-form-field>
+            <input class="input"disabled matInput placeholder="Nome do recebedor" [(ngModel)]="receiver" name="receiver"> 
+        </mat-form-field>
+
         <mat-form-field>
             <input class="input"disabled matInput placeholder="Quantidade de pacotes" [(ngModel)]="deliveryModel.amountPackaging" name="amountPackaging" type="number"> 
         </mat-form-field>
 
-              <mat-form-field >
-                <mat-label>Data recebida</mat-label>
-                <input class="input" matInput ng-bind="date|date:'dd/MM/yyyy' " name="date" [matDatepicker]="picker" [(ngModel)]="date" disabled >
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-    
-            <mat-form-field >
-                <mat-label>Horário recebido</mat-label>
-                <input class="input" disabled matInput type="time" name="times"[(ngModel)]="times" #time >
-            </mat-form-field>
+        <mat-form-field >
+            <mat-label>Data da compra</mat-label>
+            <input class="input" matInput ng-bind="date|date:'dd/MM/yyyy' " name="purchaseDate" [matDatepicker]="picker1" [(ngModel)]="purchaseDate" disabled >
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
 
-            <mat-form-field>
-                <input class="input" disabled matInput placeholder="Status atual do pedido" value={{deliveryStatus}} name="status"> 
-            </mat-form-field>
+        <mat-form-field >
+            <mat-label>Horário da compra</mat-label>
+            <input class="input" disabled matInput type="time" name="purchaseTime"[(ngModel)]="deliveryModel.purchaseTime" #time >
+        </mat-form-field>
+
+        <mat-form-field >
+            <mat-label>Data recebida</mat-label>
+            <input class="input" matInput ng-bind="date|date:'dd/MM/yyyy' " name="receiptDate" [matDatepicker]="picker" [(ngModel)]="receiptDate" disabled >
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
     
-            <div id="button-container" *ngIf="showConfirm">
-                <button mat-stroked-button color="warn" id="button" (click)="statusConfirm()">confirmar recebimento</button>
-            </div>
+        <mat-form-field >
+            <mat-label>Horário recebido</mat-label>
+            <input class="input" disabled matInput type="time" name="receptionTime"[(ngModel)]="receptionTime" #time >
+        </mat-form-field>
+
+        <mat-form-field>
+            <input class="input" disabled matInput placeholder="Status atual do pedido" value={{deliveryStatus}} name="status"> 
+        </mat-form-field>
+
+        <mat-form-field>
+            <input class="input" disabled matInput placeholder="Descrição" [(ngModel)]="deliveryModel.description" name="status"> 
+        </mat-form-field>
+    
+        <div id="button-container" *ngIf="showConfirm">
+            <button mat-stroked-button color="warn" id="button" (click)="statusConfirm()">Confirmar recebimento</button>
+        </div>
             
-            <!-- <mat-form-field>
-                <input disabled matInput placeholder="Quantidade de pacotes" [(ngModel)]="deliveryModel.status" name="amountPackaging" type="number"> 
-            </mat-form-field> -->
     </form>
 
-   
 
 </mat-card>
 
 <div class="photoContainer">
     <h2>Fotos do pedido</h2>
     <img *ngFor="let photo of photos" src={{photo.src}}>
-
-    <!-- <div  class="photo">
-        <img *ngFor="let photo of photos" src={{photo.src}}>
-    </div> -->
 </div>
 
 <div *ngIf="whatsapp" id="contact-container">

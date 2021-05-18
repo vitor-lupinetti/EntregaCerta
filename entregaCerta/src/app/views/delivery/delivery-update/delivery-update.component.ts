@@ -9,15 +9,13 @@ import { DeliverySearchService } from './../../../services/delivery/delivery-sea
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessagesService } from 'src/app/services/messages.service';
-// import * as moment from 'moment';
 import {MomentDateAdapter,MAT_MOMENT_DATE_ADAPTER_OPTIONS} from "@angular/material-moment-adapter";
 import {DateAdapter,MAT_DATE_FORMATS,MAT_DATE_LOCALE} from "@angular/material/core";
 import * as _moment from "moment";
 import { DeliveryObjectModel } from 'src/app/models/deliveryObjectModel';
 import { DeliveredStatusService } from 'src/app/services/delivery/delivered-status';
-// import { default as _rollupMoment } from "moment";
+import { StorageModel } from 'src/app/models/storageModel';
 
-// const moment = _rollupMoment || _moment;
 const moment = _moment;
 export  const MY_FORMATS = {
   parse : {
@@ -50,6 +48,7 @@ export class DeliveryUpdateComponent implements OnInit {
 
   id = '';
   deliveryObjectModel = <DeliveryObjectModel>{};
+  obj: StorageModel;
   deliveryModel = <DeliveryModel>{};
   photo: File;
   photos;
@@ -59,6 +58,12 @@ export class DeliveryUpdateComponent implements OnInit {
   numberContact;
   confirmDelivery;
   checkbox;
+  buyer;
+  street;
+  number;
+  cep;
+  complement;
+  neighborhood;
 
   constructor(
     private deliverySearch: DeliverySearchService,
@@ -70,6 +75,7 @@ export class DeliveryUpdateComponent implements OnInit {
     private userData:UserDataService,
     private userSearchService:UserSearchService,
     private markDeliveryService:DeliveredStatusService,
+    private userSearch: UserSearchService,
   ) { }
 
   date ;
@@ -83,7 +89,7 @@ export class DeliveryUpdateComponent implements OnInit {
       result => {
         if (result) {
           this.deliveryModel = result.delivery;
-          console.log(result); 
+        
           if(this.deliveryModel.status !== "Criada"){
             this.date = moment(this.deliveryModel.receiptDate + "T00:00:00");
             this.times = this.deliveryModel.receptionTime;
@@ -91,7 +97,7 @@ export class DeliveryUpdateComponent implements OnInit {
             this.date;
             this.times;
           }
-          
+          this.searchBuyer(this.deliveryModel.idBuyer);
           this.img = document.getElementById("image");
           this.setWhatsApp();
           this.photoList();
@@ -115,6 +121,32 @@ export class DeliveryUpdateComponent implements OnInit {
         }
       }
     );
+    
+  }
+
+  searchBuyer(id){
+    this.obj = JSON.parse(localStorage.getItem("data"));
+   
+    this.userSearch.search(id,this.obj.token).subscribe(
+      result =>{
+        if(result){
+       
+          this.buyer = result.name;
+          this.street = result.addressEntity.street;
+          this.neighborhood = result.addressEntity.neighborhoodEntity.name;
+          this.number = result.homeNumber;
+          this.cep = result.addressEntity.cep;
+          this.complement = result.complement;
+        }
+      },
+      error=>{
+        if(error.status == 400) {
+          console.log(error.error);
+          
+        }
+        console.log(error)
+      }
+    )
   }
 
   handleFileInput(files: FileList) {
@@ -241,7 +273,6 @@ export class DeliveryUpdateComponent implements OnInit {
         result => {
           if (result) {
             this.message.showMessage("Entrega ao comprador marcada");
-            console.log(result);
             this.statusDelivery = result.currentStatusDelivery;
             this.checkbox = document.getElementById("markDelivered");
             this.checkbox.setAttribute("disabled","disabled");
