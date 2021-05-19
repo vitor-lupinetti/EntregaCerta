@@ -32,7 +32,8 @@ export class UserUpdateComponent implements OnInit {
   ngOnInit(): void {
      
       this.reload();
-      this.img = document.getElementById("image");
+      
+      
     
   }
 
@@ -44,13 +45,13 @@ export class UserUpdateComponent implements OnInit {
         this.userSearchService.search(obj.id, obj.token).subscribe( result => { 
                      
             if(result){
-                 
+              
                 this.data.customer = result;
                 this.data.token = obj.token;
-          
-              this.userData.setUserData(this.data);
+                this.img = document.getElementById("image");
+                this.userData.setUserData(this.data);
              
-              this.setInput();
+                this.setInput(this.img);
             }
            },
            error => {
@@ -88,11 +89,11 @@ export class UserUpdateComponent implements OnInit {
     };
   }
 
-  setInput() {
+  setInput(image) {
     
     this.name = this.data.customer.name;
     this.photo_url = this.data.customer.photo_url;
-    this.img.setAttribute("src", `data:${this.data.customer.photoMimeType};base64,${this.data.customer.photo}`);
+    image.setAttribute("src", `data:${this.data.customer.photoMimeType};base64,${this.data.customer.photo}`);
     this.email = this.data.customer.email;
     this.contactNumber = this.data.customer.contactNumber;
     this.setHasWhatsAppBoolean();

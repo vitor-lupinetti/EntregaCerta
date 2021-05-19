@@ -20,7 +20,6 @@ export class LoginComponent implements OnInit {
   }
 
   login():void{
-    
     this.authService.sendLogin({user:this.user, password: this.password});
     
   }
