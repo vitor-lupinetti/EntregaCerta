@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
+
 import { DeliveryEntity } from "../entities/DeliveryEntity";
 import { CustomerService } from "./CustomerService";
 
@@ -54,7 +55,29 @@ export class MailService {
         let receiver = await customerService.findOne({ where: { id: delivery.idReceiver } });
 
         let subject = "Entrega atualizada";
-        let mainContentMessage = `A entrega ${delivery.description} foi atualizada`;
+        let mainContentMessage = `A entrega ${delivery.description} foi atualizada, seu status atual é ${delivery.status}.`;
+
+        if (buyer.email) {
+            let completeMessage = `Olá ${buyer.name},\n\n${mainContentMessage}`;
+
+            this.send(buyer.email, subject, completeMessage);
+        }
+
+        if (receiver.email) {
+            let completeMessage = `Olá ${receiver.name},\n\n${mainContentMessage}`;
+
+            this.send(receiver.email, subject, completeMessage);
+        }
+    }
+
+    public async noticeNewStatusDelivery(delivery: DeliveryEntity) {
+        let customerService = new CustomerService();
+
+        let buyer = await customerService.findOne({ where: { id: delivery.idBuyer } });
+        let receiver = await customerService.findOne({ where: { id: delivery.idReceiver } });
+
+        let subject = "Entrega com novo status";
+        let mainContentMessage = `A entrega ${delivery.description} esta atualmente com o status ${delivery.status}.`;
 
         if (buyer.email) {
             let completeMessage = `Olá ${buyer.name},\n\n${mainContentMessage}`;

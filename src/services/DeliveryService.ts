@@ -90,6 +90,12 @@ class DeliveryService extends GenericService<DeliveryEntity>{
         deliveryToSave.status = EnumDeliveryStatus.AWAITING_BUYER_CONFIRMATION;
 
         await this.repository.save(deliveryToSave);
+
+        let deliveryUpdated = await this.findOne({ where: { id: id } });
+
+        let mailService = new MailService();
+
+        mailService.noticeNewStatusDelivery(deliveryUpdated);
     }
 
     public async confirmDeliveryDelivered(id: string, wasDelivered: number): Promise<DeliveryEntity> {
@@ -105,7 +111,13 @@ class DeliveryService extends GenericService<DeliveryEntity>{
 
         await this.repository.save(deliveryToSave);
 
-        return deliveryToSave;
+        let deliveryUpdated = await this.findOne({ where: { id: id } });
+
+        let mailService = new MailService();
+
+        mailService.noticeNewStatusDelivery(deliveryUpdated);
+
+        return deliveryUpdated;
     }
 
     private addTimeZone(delivery: DeliveryEntity): void {
