@@ -48,7 +48,7 @@ export class MessagesService {
       const confirm = this.dialog.open(this.typeMessage);
       
       confirm.afterClosed().subscribe(result =>{
-        console.log(result);
+        
         if(result){
           
           resolve({

@@ -1,3 +1,5 @@
+import { UserDeleteService } from './../../../services/userAccount/user-delete.service';
+import { MessagesService } from './../../../services/messages.service';
 
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/userAccount/auth.service';
@@ -15,7 +17,13 @@ export class TemplateReceiverComponent implements OnDestroy {
 
   private _mobileQueryListener: () => void;
 
-  constructor(private authService:AuthService, private routes:Router, changeDetectorRef:ChangeDetectorRef, media:MediaMatcher) { 
+  constructor(
+              private authService:AuthService,
+              private routes:Router,
+              private message:MessagesService,
+              private userDelete: UserDeleteService,
+              changeDetectorRef:ChangeDetectorRef, media:MediaMatcher) { 
+                
     this.mediaQuery = media.matchMedia('(max-width:500px)');
     this._mobileQueryListener = () =>
     changeDetectorRef.detectChanges();
@@ -34,5 +42,31 @@ export class TemplateReceiverComponent implements OnDestroy {
     localStorage.removeItem("data");
     this.routes.navigate(['']);
   
+  }
+
+  async delete(){
+    
+    let confirm = await this.message.dialogConfirm("delete");
+    if(confirm.response == 1){
+      
+      this.userDelete.delete().subscribe(
+        result => {
+          
+          if (result) {
+            
+            this.exit();
+          }
+        },
+  
+        error => {
+          
+          if (error !== 500) {
+            this.message.showMessage(error.error.error);
+          } else {
+            console.log(error);
+          }
+        }
+      );
+    }
   }
 }

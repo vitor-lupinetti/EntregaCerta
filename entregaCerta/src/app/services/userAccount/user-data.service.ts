@@ -9,7 +9,7 @@ export class UserDataService {
   constructor() { }
 
    data: ResultModel;
-   reload;
+  
   private type: string;
   private id: string;
   private token:string;

@@ -101,7 +101,9 @@ export class DeliveryUpdateComponent implements OnInit {
           this.img = document.getElementById("image");
           this.setWhatsApp();
           this.photoList();
+          
           this.statusDelivery = this.deliveryModel.status;
+          
           if(this.statusDelivery !== "Recebedor recebeu" && this.statusDelivery !== "Criada"){
             this.checkbox = document.getElementById("markDelivered");
             this.checkbox.setAttribute("disabled","disabled");
@@ -294,10 +296,10 @@ export class DeliveryUpdateComponent implements OnInit {
 
   updateDelivery() {
     let dateTimeToSend = this.date;
-
+    
     dateTimeToSend = moment.utc(dateTimeToSend).local(true).toISOString();
     dateTimeToSend = dateTimeToSend.replace(/T.*/, `T${this.times}`);
-    console.log(dateTimeToSend);
+  
     this.deliveryUpdate
       .update({
         id: this.deliveryModel.id,

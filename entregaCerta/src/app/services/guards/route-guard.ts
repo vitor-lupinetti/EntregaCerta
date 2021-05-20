@@ -23,7 +23,7 @@ export class RouteGuard implements CanActivate{
 
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
-    this.userData.reload = false;
+   
     this.load(state);
     if(this.authService.userAuth()){
 
@@ -38,25 +38,24 @@ export class RouteGuard implements CanActivate{
   }
   obj: StorageModel ;
   resultModel = <ResultModel>{};
-  reload = false;
-  loaded = false;
+  
   load(state){
 
     if(localStorage.getItem("data") != undefined && !this.authService.userAuth()){
       
       this.obj = JSON.parse(localStorage.getItem("data"));
         
-      
+      let id = this.obj.id;
+      let token = this.obj.token;
      
       if(!state.url.includes("user-update")){
 
-        this.userSearchService.search(this.obj.id, this.obj.token)
+        this.userSearchService.search(id, token)
         .subscribe( result => {           
           if(result){
             this.resultModel.customer = result;
             this.resultModel.token = this.obj.token;
             this.userData.setUserData(this.resultModel); 
-            this.loaded = true;
           }
          },
          error => {
@@ -69,13 +68,11 @@ export class RouteGuard implements CanActivate{
          }  
        )
       }
-      
-      this.obj = JSON.parse(localStorage.getItem("data"));
-      
+        
      this.authService.setLog(true);
 
-      this.userData.setId(this.obj.id);
-      this.userData.setToken(this.obj.token);
+      this.userData.setId(id);
+      this.userData.setToken(token);
       this.userData.setType(this.obj.userType);
     }
     
@@ -87,13 +84,13 @@ export class RouteGuard implements CanActivate{
     
     this.obj = JSON.parse(localStorage.getItem("data"));
     
-    
-    let userType = this.obj.userType.toUpperCase();
+    let userType = this.obj.userType.toLowerCase();
+
     if(userType == undefined){
       return false;
     }
-
-     let routerUrl = state.url.toUpperCase();
+    
+    let routerUrl = state.url;
      
     let routerType = routerUrl.includes(userType);
     
