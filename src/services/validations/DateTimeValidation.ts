@@ -25,9 +25,9 @@ export class DateTimeValidation {
     public validateTime(timeStr: string): boolean {
         let isValid = false;
 
-        if (this.REGEX_DATE.test(timeStr)) {
-            let hours = Number(timeStr.replace(this.REGEX_DATE, "$1"));
-            let minutes = Number(timeStr.replace(this.REGEX_DATE, "$2"));
+        if (this.REGEX_TIME.test(timeStr)) {
+            let hours = Number(timeStr.replace(this.REGEX_TIME, "$1"));
+            let minutes = Number(timeStr.replace(this.REGEX_TIME, "$2"));
 
             isValid = hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59;
         }
