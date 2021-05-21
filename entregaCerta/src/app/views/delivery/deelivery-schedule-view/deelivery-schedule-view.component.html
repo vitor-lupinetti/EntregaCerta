@@ -1,0 +1,59 @@
+<mat-card class= "card">
+    
+    <mat-card-title>Entrega Agendada</mat-card-title>
+
+    <form>
+          
+        <mat-form-field>
+            <input class="input" matInput placeholder="Lugar" [(ngModel)]="scheduleModel.place" name="place" disabled > 
+        </mat-form-field>
+
+        <mat-form-field >
+            <mat-label>Data</mat-label>
+            <input disabled class="input" matInput ng-bind="date|date:'dd/MM/yyyy' " name="date" [matDatepicker]="picker" [(ngModel)]="scheduleModel.date" >
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field >
+            <mat-label>Horário</mat-label>
+            <input disabled class="input" matInput type="time" name="times"[(ngModel)]="scheduleModel.time" #time >
+        </mat-form-field>
+            
+        <h2>Esses são os detalhes do agendamento de sua entrega </h2>
+        <h2>você pode cancelar esse agendamento caso queira remarcar</h2>
+        
+
+        <mat-form-field >
+            <mat-label>Motivo do cancelamento</mat-label>
+            <input class="input" matInput [(ngModel)]="scheduleModel.reason" name="reason">
+        </mat-form-field>
+
+        <button mat-raised-button (click)="cancel()" >
+            Cancelar
+        </button>
+        
+              
+    </form>
+
+   <!-- <form>
+    <h2>Esses são os detalhes do agendamento de sua entrega </h2>
+        <h2>você pode cancelar esse agendamento caso queira remarcar</h2>
+        
+        <button mat-raised-button (click)="cancel()" >
+            Cancelar
+        </button>
+
+        <mat-form-field >
+            <mat-label>Motivo do cancelamento</mat-label>
+            <input class="input" matInput [(ngModel)]="reason" >
+        </mat-form-field>
+
+        <button mat-raised-button (click)="cancel()" >
+            Cancelar
+        </button>
+   </form> -->
+    
+    
+    
+</mat-card>

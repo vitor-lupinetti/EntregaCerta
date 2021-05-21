@@ -42,6 +42,8 @@ import { DeliveryBuyerViewComponent } from './views/delivery/delivery-buyer-view
 import { DeliveryConfirmComponent } from './views/delivery/delivery-confirm/delivery-confirm.component';
 import { DeliveredStatusService } from './services/delivery/delivered-status';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { DeliveryScheduleComponent } from './views/delivery/delivery-schedule/delivery-schedule.component';
+import { DeeliveryScheduleViewComponent } from './views/delivery/deelivery-schedule-view/deelivery-schedule-view.component';
 
 
 @NgModule({
@@ -56,7 +58,11 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     DeliveryUpdateComponent,
     UserDeleteComponent,
     DeliveryBuyerViewComponent,
-    DeliveryConfirmComponent,  
+
+    DeliveryConfirmComponent,
+    DeliveryScheduleComponent,
+    DeeliveryScheduleViewComponent,
+
   ],
   imports: [
     BrowserModule,

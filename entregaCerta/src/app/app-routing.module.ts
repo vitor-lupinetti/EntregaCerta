@@ -9,6 +9,8 @@ import { TemplateBuyerComponent } from './views/buyer/template-buyer/template-bu
 import { UserUpdateComponent } from './views/userAccount/user-update/user-update.component';
 import { RouteGuard } from './services/guards/route-guard';
 import { DeliveryBuyerViewComponent } from './views/delivery/delivery-buyer-view/delivery-buyer-view.component';
+import { DeliveryScheduleComponent } from './views/delivery/delivery-schedule/delivery-schedule.component';
+import { DeeliveryScheduleViewComponent } from './views/delivery/deelivery-schedule-view/deelivery-schedule-view.component';
 
 const routes: Routes = [
   {
@@ -22,6 +24,9 @@ const routes: Routes = [
     {path: 'delivery-list', component: ListComponent},
     {
       path: 'delivery-list/delivery-view/:id', component: DeliveryBuyerViewComponent
+    },
+    {
+      path: 'delivery-list/delivery-view/delivery-schedule/:id', component: DeeliveryScheduleViewComponent
     }
   
   ],
@@ -33,6 +38,7 @@ const routes: Routes = [
     }, 
     {path: 'delivery-list', component: ListComponent},
     {path: 'delivery-list/delivery-update/:id', component: DeliveryUpdateComponent},
+    {path: 'delivery-list/delivery-update/delivery-schedule/:id', component: DeliveryScheduleComponent},
   ],
   canActivate:[RouteGuard]},
   {

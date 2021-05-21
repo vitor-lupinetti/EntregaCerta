@@ -44,9 +44,17 @@
             <input class="input" disabled matInput placeholder="Descrição" [(ngModel)]="deliveryModel.description" name="status"> 
         </mat-form-field>
     
+
         <div id="button-container" *ngIf="showConfirm">
             <button mat-stroked-button color="warn" id="button" (click)="statusConfirm()">Confirmar recebimento</button>
         </div>
+
+
+            <div id="button-container" *ngIf="hasScheduled">
+                <h2>Seu recebedor gostaria de agendar uma entrega</h2>
+                <a mat-stroked-button color="warn" routerLink="../delivery-schedule/{{id}}" id="button">Ver agendamento</a>
+            </div>
+
             
     </form>
 

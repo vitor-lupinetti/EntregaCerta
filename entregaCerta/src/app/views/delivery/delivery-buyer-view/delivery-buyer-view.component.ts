@@ -13,6 +13,8 @@ import { PhotosService } from 'src/app/services/delivery/photos.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { DeliveredStatusService } from 'src/app/services/delivery/delivered-status';
 import { StorageModel } from 'src/app/models/storageModel';
+import { DeliveryScheduleService } from 'src/app/services/delivery/delivery-schedule.service';
+
 
 const moment = _moment;
 export  const MY_FORMATS = {
@@ -45,6 +47,7 @@ export class DeliveryBuyerViewComponent implements OnInit {
 
   constructor(
     private deliverySearch: DeliverySearchService,
+    private scheduleService: DeliveryScheduleService,
     private router: Router,
     private route: ActivatedRoute,
     private photosService: PhotosService,
@@ -69,6 +72,7 @@ export class DeliveryBuyerViewComponent implements OnInit {
   numberContact;
   deliveryStatus;
   receiver;
+  hasScheduled = false;
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
@@ -106,6 +110,13 @@ export class DeliveryBuyerViewComponent implements OnInit {
         }
       }
     );
+
+    this.scheduleService.findOne(this.id).subscribe(
+      result =>{
+        this.hasScheduled = true;
+      },
+     
+    )
   }
 
   setDataPurchase(id){

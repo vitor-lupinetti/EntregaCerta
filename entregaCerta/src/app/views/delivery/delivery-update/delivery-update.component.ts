@@ -15,6 +15,7 @@ import * as _moment from "moment";
 import { DeliveryObjectModel } from 'src/app/models/deliveryObjectModel';
 import { DeliveredStatusService } from 'src/app/services/delivery/delivered-status';
 import { StorageModel } from 'src/app/models/storageModel';
+import { DeliveryScheduleService } from 'src/app/services/delivery/delivery-schedule.service';
 
 const moment = _moment;
 export  const MY_FORMATS = {
@@ -64,6 +65,7 @@ export class DeliveryUpdateComponent implements OnInit {
   cep;
   complement;
   neighborhood;
+  hasScheduled = false;
 
   constructor(
     private deliverySearch: DeliverySearchService,
@@ -75,6 +77,7 @@ export class DeliveryUpdateComponent implements OnInit {
     private userData:UserDataService,
     private userSearchService:UserSearchService,
     private markDeliveryService:DeliveredStatusService,
+    private scheduleService: DeliveryScheduleService,
     private userSearch: UserSearchService,
   ) { }
 
@@ -83,7 +86,7 @@ export class DeliveryUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
-    
+    this.findSchedule();
 
     this.deliverySearch.search(this.id).subscribe(
       result => {
@@ -124,6 +127,17 @@ export class DeliveryUpdateComponent implements OnInit {
       }
     );
     
+  }
+
+  findSchedule(){
+    this.scheduleService.findOne(this.id).subscribe(
+      result =>{
+        if(result){
+          this.hasScheduled = true;
+        }
+      },
+     
+    )
   }
 
   searchBuyer(id){
@@ -299,7 +313,6 @@ export class DeliveryUpdateComponent implements OnInit {
     
     dateTimeToSend = moment.utc(dateTimeToSend).local(true).toISOString();
     dateTimeToSend = dateTimeToSend.replace(/T.*/, `T${this.times}`);
-  
     this.deliveryUpdate
       .update({
         id: this.deliveryModel.id,

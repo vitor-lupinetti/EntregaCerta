@@ -1,0 +1,157 @@
+.card{
+    overflow:auto;
+    margin: auto;
+    margin-top:1rem;
+    text-align: center;
+    width: 80vw;
+}
+
+form{
+    display:flex;
+    flex-direction:column;
+    width: 60vw;
+    margin: auto;
+}
+
+
+
+button{
+    margin: 20px 15px 0px 0px;
+}
+
+.container{
+    margin:auto;
+    width:90vw;
+}
+
+.title{
+    margin-top:1rem;
+    margin-bottom:1.5rem;
+}
+
+
+.input{
+    width:30vw;
+}
+
+hr{
+    margin-top:2rem;
+    margin-bottom:1rem;
+}
+
+.status-container{
+    width:60vw;
+    margin-bottom: 1rem;
+}
+
+.status{
+    float:left;
+}
+
+
+.photoAdd{
+    margin:auto;
+    text-align:center;
+    margin-top:1rem;
+    width:60vw;
+}
+
+.photo{
+    display:inline-block;
+    padding:0.5rem;
+    margin: 0.8rem;
+    border: 1px solid #E6E6E6;
+    border-radius:0.2rem;
+    width: 20vw;
+    
+}
+
+.photoContainer{
+ 
+    margin:auto;
+    width:80vw;
+    text-align:center;
+  
+}
+
+.button{
+    text-align:center;
+    width: 0.2vw;
+}
+
+
+
+.whatsapp-link{
+    position:fixed;
+    width:40px;
+    height:40px;
+    bottom: 26.7px;
+    right:13.5px;
+    background-color:#25d366;
+    color: #fff;
+    border-radius:50%;
+    text-align:center;
+    font-size:20px;
+    box-shadow: 1px 2px #888;
+}
+
+.fa-whatsapp{
+    
+    margin-top:10.7px;
+}
+
+
+.foto-container-add{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.img-container-add{
+    display:inline-block;
+    width: 90%;
+    margin: 2%;
+    
+}
+
+img{
+    max-width: 300px;
+    max-height: 300px;
+    width: 100%;
+    border: 1px solid rgb(177, 177, 177);
+}
+
+@media (min-width: 700px) {
+    .whatsapp-link{
+        position:fixed;
+        float:left;
+        width:60px;
+        height:60px;
+        bottom: 40px;
+        right:40px;
+        background-color:#25d366;
+        color: #fff;
+        border-radius:50%;
+        text-align:center;
+        font-size:30px;
+        box-shadow: 1px 2px #888;
+    }
+    
+    .fa-whatsapp{
+        
+        margin-top:16px;
+    }
+
+    .img-container-add{
+        display:inline-block;
+        width: 80%;
+        margin: 2%;
+        
+    }
+}
+
+
+
+

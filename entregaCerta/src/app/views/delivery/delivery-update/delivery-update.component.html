@@ -14,6 +14,7 @@
                 
             </span>
         </div>
+
         
         <div class="info-user">
             <label class="status">Nome comprador: {{buyer}}</label>
@@ -33,7 +34,16 @@
         <div class="info-user">
             <label class="status">Complemento: {{complement}}</label>
         </div>
-        
+
+
+        <div *ngIf="!hasScheduled" >
+            <a mat-raised-button color="primary" routerLink="../delivery-schedule/{{id}}">Agendar entrega</a>
+        </div>
+
+        <div *ngIf="hasScheduled" >
+           <h2>Sua entrega ja foi agendada.</h2>
+        </div>
+
     </form>
     
     
@@ -49,17 +59,17 @@
             <input class="input" matInput placeholder="Quantidade" [(ngModel)]="deliveryModel.amountPackaging" name="amountPackaging" type="number"> 
         </mat-form-field>
 
-              <mat-form-field >
-                <mat-label>Data</mat-label>
-                <input class="input" matInput ng-bind="date|date:'dd/MM/yyyy' " name="date" [matDatepicker]="picker" [(ngModel)]="date" >
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-    
-            <mat-form-field >
-                <mat-label>Horário</mat-label>
-                <input class="input" matInput type="time" name="times"[(ngModel)]="times" #time >
-            </mat-form-field>
+        <mat-form-field >
+            <mat-label>Data</mat-label>
+            <input class="input" matInput ng-bind="date|date:'dd/MM/yyyy' " name="date" [matDatepicker]="picker" [(ngModel)]="date" >
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field >
+            <mat-label>Horário</mat-label>
+            <input class="input" matInput type="time" name="times"[(ngModel)]="times" #time >
+        </mat-form-field>
             
               
     </form>
