@@ -30,6 +30,19 @@ export class ScheduleController {
         return response.status(201).json(scheduleCreated);
     }
 
+    public async findOne(request: Request, response: Response){
+        const { id } = request.params;
+        const scheduleService = new ScheduleService();
+
+        let scheduleFound = await scheduleService.findOne({where: {idDelivery:id, reason: null}})
+
+        if(!scheduleFound){
+            return response.status(404).json({ message: "Agendamento não encontrado!" });
+        }
+
+        return response.status(200).json(scheduleFound);
+    }
+
     public async cancel(request: Request, response: Response) {
         const { id, reason } = request.body;
 

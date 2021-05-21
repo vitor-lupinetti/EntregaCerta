@@ -64,6 +64,7 @@ router.put("/delivery-delivered/:id", ensureAuthenticatedCustomer, trimReceivedV
 router.put("/confirm-delivery-delivered", ensureAuthenticatedCustomer, trimReceivedValues, deliveryController.confirmDeliveryDelivered);
 
 router.post("/schedules", ensureAuthenticatedCustomer, trimReceivedValues, scheduleController.create);
+router.get("/schedules/:id", ensureAuthenticatedCustomer, trimReceivedValues, scheduleController.findOne);
 router.put("/schedules", ensureAuthenticatedCustomer, trimReceivedValues, scheduleController.cancel);
 
 export { router };
