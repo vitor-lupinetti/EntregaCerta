@@ -34,6 +34,10 @@ class DeliveryService extends GenericService<DeliveryEntity>{
 
         if (currentStatusDelivery === EnumDeliveryStatus.CREATED) {
             delivery.status = EnumDeliveryStatus.RECEIVER_RECEIVED;
+
+            if(deliveryFound.idBuyer === deliveryFound.idReceiver){
+                delivery.status = EnumDeliveryStatus.FINISHED;
+            }
         }
 
         await this.repository.save(delivery);
