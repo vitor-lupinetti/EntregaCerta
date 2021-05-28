@@ -5,7 +5,7 @@ import "reflect-metadata";
 import swaggerUi from 'swagger-ui-express';
 require('dotenv/config');
 
-import "./database";
+import createConnection from "./database";
 import { catchErrors } from './middlewares/CatchErrors';
 import { router } from './routes';
 import swaggerFile from './swagger.json';
@@ -27,13 +27,14 @@ var options = {
     }
 };
 
+createConnection();
+
 const app = express();
+
 app.use(cors());
 app.use(express.json());
-
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile, options));
 app.use(router);
-
 app.use(catchErrors);
 
 export default app;

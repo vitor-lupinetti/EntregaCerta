@@ -22,9 +22,15 @@ if (process.env.ENV === "prod") {
         }
     });
 } else {
+    let databaseFileName = "database";
+
+    if (process.env.ENV === "test") {
+        databaseFileName += ".test";
+    }
+
     ormConfig = Object.assign(ormConfig, {
         type: "sqlite",
-        database: "./src/database/database.sqlite"
+        database: `./src/database/${databaseFileName}.sqlite`
     });
 }
 
